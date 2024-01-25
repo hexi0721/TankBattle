@@ -14,6 +14,6 @@ public class SKYPRO_Sun_Rotator : MonoBehaviour
     void Rotate()
     {
         //transform.localEulerAngles.x + ((rotationSpeed / 10) * Time.deltaTime)
-        transform.localEulerAngles = new Vector3(Time.time * rotationSpeed, 20, 0);
+        transform.localEulerAngles = new Vector3(Time.time * rotationSpeed, 0, 0);
     }
 }
