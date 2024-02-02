@@ -4,19 +4,39 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public AudioClip sExplosion;
-    public GameObject Explosion;
-    public Material material;
+    public AudioClip sExplosion; // Ãz¬µ­µ®Ä
+    public GameObject Explosion; // Ãz¬µ²É¤l
+    public GameObject Flame; // ¿U¿N²É¤l
+    public Material material; // ªo±í³QÃz¬µ¯À§÷
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnTriggerEnter(Collider other)
     {
+        Destroy(gameObject);
         
+
+
+        Instantiate(Explosion , transform.position , Quaternion.identity);
+        
+
+        switch (other.transform.tag)
+        {
+            case "barrel":
+
+                other.GetComponent<Renderer>().material = material;
+
+
+                GameObject go = Instantiate(Flame, other.transform.position, Quaternion.identity) as GameObject;
+
+                
+
+
+
+                break;
+
+            
+
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
