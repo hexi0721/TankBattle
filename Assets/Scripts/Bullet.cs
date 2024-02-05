@@ -9,11 +9,28 @@ public class Bullet : MonoBehaviour
     public GameObject Flame; // ¿U¿N²É¤l
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
+    Rigidbody _rb; // ¥»¨­­èÅé
+
+
+    private void Start()
+    {
+        _rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        _rb.AddRelativeForce(new Vector3(0, 0, 5.0f), ForceMode.Impulse);
+
+        
+    }
+
+
+
+
     private void OnTriggerEnter(Collider other)
     {
         Destroy(gameObject);
         
-
 
         Instantiate(Explosion , transform.position , Quaternion.identity);
         
@@ -23,7 +40,13 @@ public class Bullet : MonoBehaviour
             case "barrel":
 
                 other.GetComponent<Renderer>().material = material;
+                
+                if(other.transform.childCount != 0)
+                {
+                    Destroy(other.transform.GetChild(0).gameObject);
+                }
 
+                
 
                 GameObject go = Instantiate(Flame, other.transform.position, Quaternion.identity) as GameObject;
 
