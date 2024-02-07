@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-
+    //public int tmp;
 
     public GameObject bullet; // ¤l¼uª«¥ó
 
@@ -32,9 +32,10 @@ public class Shoot : MonoBehaviour
         {
             GameObject go = Instantiate(bullet) as GameObject;
 
-            go.transform.SetParent(transform);
-            go.transform.localPosition = new Vector3(0.053f, -0.046f, 5.05f);
-            go.transform.localRotation = Quaternion.Euler(Vector3.zero);
+            go.transform.position = transform.position + transform.forward * 5;
+            go.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+            go.transform.rotation = transform.rotation;
+            
 
             _ReloadTime = 2.5f;
         }

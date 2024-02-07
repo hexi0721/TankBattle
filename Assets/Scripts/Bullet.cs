@@ -14,12 +14,12 @@ public class Bullet : MonoBehaviour
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        //_rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
-        _rb.AddRelativeForce(new Vector3(0, 0, 5.0f), ForceMode.Impulse);
+        //_rb.AddRelativeForce(new Vector3(0, 0, 5.0f), ForceMode.Impulse);
 
         
     }
@@ -44,11 +44,12 @@ public class Bullet : MonoBehaviour
                 if(other.transform.childCount != 0)
                 {
                     Destroy(other.transform.GetChild(0).gameObject);
+                    Instantiate(Flame, other.transform.position, Quaternion.identity);
                 }
 
                 
 
-                GameObject go = Instantiate(Flame, other.transform.position, Quaternion.identity) as GameObject;
+                
 
                 
 
