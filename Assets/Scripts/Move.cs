@@ -9,11 +9,6 @@ public class Move : MonoBehaviour
     [SerializeField] float ph;
 
 
-    void Start()
-    {
-        
-    }
-
     
     void Update()
     {

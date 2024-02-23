@@ -33,7 +33,7 @@ public class Shoot : MonoBehaviour
             GameObject go = Instantiate(bullet) as GameObject;
 
             go.transform.position = transform.position + transform.forward * 5;
-            go.GetComponent<Rigidbody>().AddForce(transform.forward * 1000);
+            go.GetComponent<Rigidbody>().AddForce(transform.forward * 4000);
             go.transform.rotation = transform.rotation;
             
 
