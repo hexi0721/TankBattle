@@ -8,17 +8,29 @@ public class Move : MonoBehaviour
     [SerializeField] float pv;
     [SerializeField] float ph;
 
-
+    
     
     void Update()
     {
 
         float v = Input.GetAxis("Vertical");
         float h = Input.GetAxis("Horizontal");
+        //»Ý­×§ïmove
+        if(Input.GetKey(KeyCode.W))
+        {
+            transform.position += transform.GetChild(0).gameObject.transform.forward * Time.deltaTime * pv;
+        }
 
-        transform.Translate(new Vector3(0 , 0 , v) * pv * Time.deltaTime );
-        transform.RotateAround(transform.position , Vector3.up , h * ph * Time.deltaTime);
 
+        if (Input.GetKey(KeyCode.S))
+        {
+            transform.position += -transform.GetChild(0).gameObject.transform.forward * Time.deltaTime * pv;
+        }
+
+        transform.GetChild(0).gameObject.transform.RotateAround(transform.position , Vector3.up , h * ph * Time.deltaTime);
+
+
+        
 
     }
 }

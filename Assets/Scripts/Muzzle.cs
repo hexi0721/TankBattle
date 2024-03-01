@@ -20,13 +20,6 @@ public class Muzzle : MonoBehaviour
         //調整上下限制
         v.y = Mathf.Clamp(v.y, -0.05f, 0.1f);
         transform.forward = new Vector3(transform.forward.x, Mathf.Lerp(transform.forward.y, v.y, Time.deltaTime * 2), transform.forward.z);
-        
-
-        /*
-        Debug.DrawRay(transform.position,transform.forward*20.0f , Color.red  );
-        Debug.DrawRay(MainCamera.transform.position, MainCamera.transform.forward * 20.0f, Color.black);
-        */
-
 
         // 世界座標轉換螢幕座標
         Vector2 ScreenPos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * 19.0f);
