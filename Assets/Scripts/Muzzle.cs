@@ -9,6 +9,7 @@ public class Muzzle : MonoBehaviour
     // ºË·Ç¹Ï¤ù
     public GameObject MuzzleAimImage;
 
+    public float tmp;
 
     private void Update()
     {
@@ -26,6 +27,14 @@ public class Muzzle : MonoBehaviour
         MuzzleAimImage.transform.position = ScreenPos;
 
 
+        RaycastHit hit;
+
+        Physics.Raycast(transform.position , Vector3.forward * tmp, out hit);
+
+        if(hit.collider)
+        {
+            Debug.Log(hit.transform.name + " " + hit.point);
+        }
 
     }
 

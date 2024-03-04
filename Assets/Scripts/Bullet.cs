@@ -9,22 +9,12 @@ public class Bullet : MonoBehaviour
     public GameObject Flame; // ¿U¿N²É¤l
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
-    Rigidbody _rb; // ¥»¨­­èÅé
-
-
-    private void Start()
-    {
-        //_rb = GetComponent<Rigidbody>();
-    }
+    public float tmp;
 
     private void Update()
     {
-        //_rb.AddRelativeForce(new Vector3(0, 0, 5.0f), ForceMode.Impulse);
-
-        
+        GetComponent<Rigidbody>().AddForce(transform.forward * tmp);
     }
-
-
 
 
     private void OnTriggerEnter(Collider other)

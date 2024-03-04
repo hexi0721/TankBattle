@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    //public int tmp;
+    
 
     public GameObject bullet; // 子彈物件
 
@@ -13,7 +13,7 @@ public class Shoot : MonoBehaviour
 
     private void Start()
     {
-        _ReloadTime = 0f;
+        _ReloadTime = 2.5f;
     }
 
     void Update()
@@ -28,16 +28,20 @@ public class Shoot : MonoBehaviour
 
     private void Shooting()
     {
-        if (_ReloadTime < 0 && Input.GetMouseButtonDown(0))
+        if (PlayerSetting.Instance.BulletEnegy >= _ReloadTime && Input.GetMouseButtonDown(0))
         {
-            GameObject go = Instantiate(bullet) as GameObject;
+            Instantiate(bullet, transform.position + transform.forward * 10, Quaternion.Euler(transform.rotation.eulerAngles.x , transform.rotation.eulerAngles.y , transform.rotation.eulerAngles.z));
 
-            go.transform.position = transform.position + transform.forward * 5;
-            go.GetComponent<Rigidbody>().AddForce(transform.forward * 4000);
-            go.transform.rotation = transform.rotation;
+
+
+
+
+            PlayerSetting.Instance.BulletEnegy = 0; // 裝填
+
             
 
-            _ReloadTime = 2.5f;
+
+
         }
 
         Reloading(); 
@@ -45,6 +49,12 @@ public class Shoot : MonoBehaviour
 
     private void Reloading()
     {
-        _ReloadTime -= Time.deltaTime;
+
+        if(PlayerSetting.Instance.BulletEnegy < _ReloadTime)
+        {
+            PlayerSetting.Instance.BulletEnegy += Time.deltaTime;
+        }
+        
+        
     }
 }
