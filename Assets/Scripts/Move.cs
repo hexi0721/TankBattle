@@ -27,10 +27,20 @@ public class Move : MonoBehaviour
             transform.position += -transform.GetChild(0).gameObject.transform.forward * Time.deltaTime * pv;
         }
 
-        transform.GetChild(0).gameObject.transform.RotateAround(transform.position , Vector3.up , h * ph * Time.deltaTime);
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.RotateAround(transform.position, Vector3.up, -ph * Time.deltaTime);
+        }
+
+        if (Input.GetKey(KeyCode.D))
+        {
+            transform.RotateAround(transform.position, Vector3.up, ph * Time.deltaTime);
+        }
 
 
-        
+
+
 
     }
 }

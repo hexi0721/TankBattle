@@ -30,10 +30,9 @@ public class Shoot : MonoBehaviour
     {
         if (PlayerSetting.Instance.BulletEnegy >= _ReloadTime && Input.GetMouseButtonDown(0))
         {
-            Instantiate(bullet, transform.position + transform.forward * 10, Quaternion.Euler(transform.rotation.eulerAngles.x , transform.rotation.eulerAngles.y , transform.rotation.eulerAngles.z));
+            Instantiate(bullet, transform.position + transform.forward * 10 , Quaternion.Euler(transform.eulerAngles.x , transform.eulerAngles.y , transform.eulerAngles.z));
 
-
-
+            
 
 
             PlayerSetting.Instance.BulletEnegy = 0; // ¸Ë¶ñ

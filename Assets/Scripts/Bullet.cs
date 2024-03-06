@@ -17,40 +17,43 @@ public class Bullet : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
-        
 
-        Instantiate(Explosion , transform.position , Quaternion.identity);
-        
 
-        switch (other.transform.tag)
+        Instantiate(Explosion, transform.position, Quaternion.identity);
+
+
+        switch (collision.transform.tag)
         {
             case "barrel":
 
-                other.GetComponent<Renderer>().material = material;
-                
-                if(other.transform.childCount != 0)
+                collision.gameObject.GetComponent<Renderer>().material = material;
+
+                if (collision.transform.childCount != 0)
                 {
-                    Destroy(other.transform.GetChild(0).gameObject);
-                    Instantiate(Flame, other.transform.position, Quaternion.identity);
+                    Destroy(collision.transform.GetChild(0).gameObject);
+                    Instantiate(Flame, collision.transform.position, Quaternion.identity);
                 }
 
-                
 
-                
 
-                
+
+
+
 
 
 
                 break;
 
-            
+
 
         }
     }
+
+    
 
 
 }
