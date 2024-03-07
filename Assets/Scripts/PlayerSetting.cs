@@ -27,18 +27,12 @@ public class PlayerSetting : MonoBehaviour
     {
         _instance = this;
     }
+    
 
-    private void Start()
-    {
-        //MaxHp = 100;
-        //MaxBulletEnegy = 2.5f;
-
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
+
+
         HpImage.fillAmount = Hp / 100;
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
     }

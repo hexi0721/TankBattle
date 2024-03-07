@@ -11,10 +11,12 @@ public class Bullet : MonoBehaviour
 
     public float tmp;
 
-    private void Update()
+    private void FixedUpdate()
     {
         GetComponent<Rigidbody>().AddForce(transform.forward * tmp);
     }
+
+    
 
 
 

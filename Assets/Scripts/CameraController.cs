@@ -31,15 +31,17 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
+
         Obj.transform.forward.Normalize();
-        
+
         transform.position = Obj.transform.position + Obj.transform.forward * -0.6f + Vector3.up;
-        
 
     }
 
     private void Update()
     {
+        
+
         EscEnable();
 
         SetO();

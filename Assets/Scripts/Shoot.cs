@@ -32,13 +32,7 @@ public class Shoot : MonoBehaviour
         {
             Instantiate(bullet, transform.position + transform.forward * 10 , Quaternion.Euler(transform.eulerAngles.x , transform.eulerAngles.y , transform.eulerAngles.z));
 
-            
-
-
             PlayerSetting.Instance.BulletEnegy = 0; // ¸Ë¶ñ
-
-            
-
 
 
         }
