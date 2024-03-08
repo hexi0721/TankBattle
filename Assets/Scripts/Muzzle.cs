@@ -11,7 +11,7 @@ public class Muzzle : MonoBehaviour
     // 瞄準圖片
     public GameObject MuzzleAimImage;
 
-    float clamp;
+    float _clamp;
 
 
     private void Update()
@@ -26,18 +26,18 @@ public class Muzzle : MonoBehaviour
         
         if (targetRotation.eulerAngles.x > 3.0f && targetRotation.eulerAngles.x < 180f)
         {
-            clamp = 3.0f;
+            _clamp = 3.0f;
         }
         else if (targetRotation.eulerAngles.x > 180f && targetRotation.eulerAngles.x < 352f)
         {
-            clamp = -8.0f;
+            _clamp = -8.0f;
         }
         else
         {
-            clamp = targetRotation.eulerAngles.x;
+            _clamp = targetRotation.eulerAngles.x;
         }
 
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(clamp , transform.rotation.eulerAngles.y , transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(_clamp , transform.rotation.eulerAngles.y , transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
 
 
         // 世界座標轉換螢幕座標
