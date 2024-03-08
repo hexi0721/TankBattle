@@ -8,6 +8,8 @@ public class Move : MonoBehaviour
     [SerializeField] float pv;
     [SerializeField] float ph;
 
+    float v , h;
+
     Rigidbody rb;
 
     void Start()
@@ -15,17 +17,12 @@ public class Move : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update()
+    private void FixedUpdate()
     {
-        
-        float v = Input.GetAxis("Vertical");
-        float h = Input.GetAxis("Horizontal");
-        
-
         if (Input.GetKey(KeyCode.W))
         {
             transform.parent.GetComponent<Rigidbody>().MovePosition(transform.parent.position + transform.forward * v * pv * Time.deltaTime);
-            //transform.position += transform.forward * Time.deltaTime * pv;
+            
         }
 
 
@@ -33,6 +30,16 @@ public class Move : MonoBehaviour
         {
             transform.parent.GetComponent<Rigidbody>().MovePosition(transform.parent.position + transform.forward * v * pv * Time.deltaTime);
         }
+    }
+
+    void Update()
+    {
+        
+        v = Input.GetAxis("Vertical");
+        h = Input.GetAxis("Horizontal");
+        
+
+        
 
 
         if (Input.GetKey(KeyCode.A))

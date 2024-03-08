@@ -10,7 +10,7 @@ using static UnityEngine.GraphicsBuffer;
 public class CameraController : MonoBehaviour
 {
 
-    public GameObject Obj; // player
+    public GameObject Obj; // player turret
     
     Vector2 O; // 螢幕中央
     bool _IsOpenMenu; // 是否開啟菜單
@@ -34,7 +34,8 @@ public class CameraController : MonoBehaviour
 
         Obj.transform.forward.Normalize();
 
-        transform.position = Obj.transform.position + Obj.transform.forward * -0.6f + Vector3.up;
+        transform.position = Obj.transform.position + Obj.transform.forward * -0.6f + transform.up;
+        
 
     }
 

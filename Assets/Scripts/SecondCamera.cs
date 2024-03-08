@@ -13,7 +13,7 @@ public class SecondCamera : MonoBehaviour
         _offset = transform.position - Obj.transform.position;
     }
 
-    private void FixedUpdate()
+    private void LateUpdate()
     {
         transform.position = Obj.transform.position + _offset;
         transform.localEulerAngles = new Vector3(90, 0, -turret.transform.eulerAngles.y);

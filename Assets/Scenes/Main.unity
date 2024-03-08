@@ -305,25 +305,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 262115728}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &398302972 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2569014630977227009, guid: 083ce82620057294697b86342088cebd, type: 3}
-  m_PrefabInstance: {fileID: 5478970095844640159}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &398302977
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398302972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7845ab175409704eabfcc6c3b587e8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pv: 15
-  ph: 15
 --- !u!1 &402892330
 GameObject:
   m_ObjectHideFlags: 0
@@ -6938,7 +6919,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4434484243550678015, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 40.59661
+      value: 44.02
       objectReference: {fileID: 0}
     - target: {fileID: 4434484243550678015, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: m_LocalPosition.z
@@ -6976,10 +6957,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerTank
       objectReference: {fileID: 0}
-    - target: {fileID: 6954519979478413188, guid: 083ce82620057294697b86342088cebd, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7812460549970746669, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: MainCamera
       value: 
@@ -6987,10 +6964,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2569014630977227009, guid: 083ce82620057294697b86342088cebd, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 398302977}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 083ce82620057294697b86342088cebd, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
