@@ -11,13 +11,10 @@ public class Bullet : MonoBehaviour
 
     public float tmp;
 
-    private void FixedUpdate()
+    private void Start()
     {
-        GetComponent<Rigidbody>().AddForce(transform.forward * tmp);
+        GetComponent<Rigidbody>().AddForce(transform.forward * tmp , ForceMode.Impulse);
     }
-
-    
-
 
 
     private void OnCollisionEnter(Collision collision)

@@ -307,7 +307,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2569014630977227009}
-  m_Material: {fileID: 13400000, guid: 8aec14731ed6c7c49b75980cd9d69d2f, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -336,6 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pv: 15
   ph: 15
+  speed: 750000
 --- !u!1 &3679154673662322920
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,7 +538,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 2
+  m_CollisionDetection: 1
 --- !u!1 &7250823975182527810
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,7 +632,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7250823975182527810}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8aec14731ed6c7c49b75980cd9d69d2f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -660,9 +661,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MainCamera: {fileID: 0}
   MuzzleAimImage: {fileID: 0}
-  tmp: 20
-  tmp2: 20
-  tmp3: 30
 --- !u!114 &3132953355748065123
 MonoBehaviour:
   m_ObjectHideFlags: 0

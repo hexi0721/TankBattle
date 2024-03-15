@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -32,9 +33,9 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
 
-        Obj.transform.forward.Normalize();
-
         transform.position = Obj.transform.position + Obj.transform.forward * -0.6f + transform.up;
+
+        MouseMove();
         
 
     }
@@ -49,12 +50,14 @@ public class CameraController : MonoBehaviour
 
         IsMouseCenter();
 
-        MouseMove();
+        //MouseMove();
 
         
 
 
     }
+
+    
 
     private void IsMouseCenter()
     {

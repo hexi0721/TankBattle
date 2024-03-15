@@ -8,58 +8,57 @@ public class Move : MonoBehaviour
     [SerializeField] float pv;
     [SerializeField] float ph;
 
-    float v , h;
-
-    Rigidbody rb;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody>();
-    }
+    public float speed;
 
     private void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.W))
+        
+        if (transform.parent.GetComponent<Rigidbody>().velocity.magnitude < 10.0f)
         {
-            transform.parent.GetComponent<Rigidbody>().MovePosition(transform.parent.position + transform.forward * v * pv * Time.deltaTime);
-            
+            if (Input.GetKey(KeyCode.W))
+            {
+                transform.parent.GetComponent<Rigidbody>().AddForce(transform.forward * speed * Time.fixedDeltaTime);
+            }
+
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                transform.parent.GetComponent<Rigidbody>().AddForce(-transform.forward * speed * Time.fixedDeltaTime);
+            }
         }
-
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.parent.GetComponent<Rigidbody>().MovePosition(transform.parent.position + transform.forward * v * pv * Time.deltaTime);
-        }
-    }
-
-    void Update()
-    {
-        
-        v = Input.GetAxis("Vertical");
-        h = Input.GetAxis("Horizontal");
-        
-
-        
 
 
         if (Input.GetKey(KeyCode.A))
         {
-            
-            //rb.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, ph, 0) * h * Time.deltaTime));
-
             transform.RotateAround(transform.position, Vector3.up, -ph * Time.deltaTime);
         }
-        
+
         if (Input.GetKey(KeyCode.D))
         {
-
-            //rb.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, ph, 0) * h * Time.deltaTime));
             transform.RotateAround(transform.position, Vector3.up, ph * Time.deltaTime);
         }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        switch (collision.gameObject.transform.tag)
+        {
+
+            case "Terrain":
+
+                transform.parent.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                break;
+
+
+        }
+
+
 
         
-
-
-
     }
+
+
+
 }

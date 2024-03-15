@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2919987416683246573}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1232763213054978880
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: ca22de239a421c147b432dd31dbe4ba7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2919987416683246573}
-  m_Material: {fileID: 13400000, guid: 11940662cff7f1542b539d3c2bc733dc, type: 2}
+  m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -150,4 +150,4 @@ MonoBehaviour:
   Explosion: {fileID: 5322160268999957822, guid: 4f2631a28097e1a4e8c82d5109be61ae, type: 3}
   Flame: {fileID: 2982222064502167191, guid: e4f8ca100ecbc914cbc407ca923379bd, type: 3}
   material: {fileID: 2100000, guid: 279117a27b1f70d4d94ce02c15667ad8, type: 2}
-  tmp: 1000
+  tmp: 450

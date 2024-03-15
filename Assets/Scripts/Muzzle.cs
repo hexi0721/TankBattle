@@ -14,7 +14,7 @@ public class Muzzle : MonoBehaviour
     float clamp;
 
 
-    private void Update()
+    private void FixedUpdate()
     {
         // 左右保持不變 只改變高度 y
         
@@ -39,14 +39,13 @@ public class Muzzle : MonoBehaviour
 
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(clamp , transform.rotation.eulerAngles.y , transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
 
+    }
 
+    private void LateUpdate()
+    {
         // 世界座標轉換螢幕座標
         Vector2 ScreenPos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * 30);
         MuzzleAimImage.transform.position = ScreenPos;
-
-
-        
-
     }
 
 }
