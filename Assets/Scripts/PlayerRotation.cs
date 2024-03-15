@@ -20,7 +20,9 @@ public class PlayerRotation : MonoBehaviour
     private void FixedUpdate()
     {
         // ¸j©w¼Æ­È
-        transform.position = body.transform.position + body.transform.up * 1.1f;
+        transform.localPosition = body.transform.localPosition + body.transform.up * 1.1f;
+        transform.localPosition = new Vector3(0 , transform.localPosition.y , 0);
+
         transform.eulerAngles = new Vector3(body.transform.eulerAngles.x, transform.eulerAngles.y, body.transform.eulerAngles.z);
 
 
