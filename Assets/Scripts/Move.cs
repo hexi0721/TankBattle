@@ -26,7 +26,9 @@ public class Move : MonoBehaviour
                 transform.parent.GetComponent<Rigidbody>().AddForce(-transform.forward * speed * Time.fixedDeltaTime);
             }
         }
+        
 
+        
 
         if (Input.GetKey(KeyCode.A))
         {

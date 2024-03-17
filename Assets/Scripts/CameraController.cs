@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
 
     public GameObject Obj; // player turret
     
+    
     Vector2 O; // 螢幕中央
     bool _IsOpenMenu; // 是否開啟菜單
     bool _IsCenter;  // 是否在中央
@@ -30,13 +31,10 @@ public class CameraController : MonoBehaviour
         _IsCenter = false;
     }
 
-    private void LateUpdate()
+    private void FixedUpdate() // 用Fixed 應該是因為Move的移動在Fixed 為了同步不抖動 所以這裡也要在Fixed (?
     {
 
         transform.position = Obj.transform.position + Obj.transform.forward * -0.6f + transform.up;
-
-        MouseMove();
-        
 
     }
 
@@ -50,7 +48,7 @@ public class CameraController : MonoBehaviour
 
         IsMouseCenter();
 
-        //MouseMove();
+        MouseMove();
 
         
 
