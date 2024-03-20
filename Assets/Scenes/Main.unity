@@ -270,6 +270,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cbeacdb0361e8e644a930326617c6343, type: 3}
       insertIndex: -1
       addedObject: {fileID: 74476722}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cbeacdb0361e8e644a930326617c6343, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 74476726}
   m_SourcePrefab: {fileID: 100100000, guid: cbeacdb0361e8e644a930326617c6343, type: 3}
 --- !u!1 &74476721 stripped
 GameObject:
@@ -298,6 +301,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2352272465676470988, guid: cbeacdb0361e8e644a930326617c6343, type: 3}
+--- !u!114 &74476726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74476721}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77865af37ca76b348a92753495a743b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 5
 --- !u!1 &402892330
 GameObject:
   m_ObjectHideFlags: 0
@@ -6094,7 +6110,7 @@ Camera:
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0.75
-    y: 0
+    y: 0.75
     width: 1
     height: 0.25
   near clip plane: 0.3
@@ -6261,8 +6277,8 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: -0.05
-    y: -0.01
+    x: -0.03
+    y: 0
     width: 0.2
     height: 0.2
   near clip plane: 0.3
