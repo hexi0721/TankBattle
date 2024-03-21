@@ -36,4 +36,9 @@ public class PlayerSetting : MonoBehaviour
         HpImage.fillAmount = Hp / 100;
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+    }
 }

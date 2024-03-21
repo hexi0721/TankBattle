@@ -11,9 +11,21 @@ public class RadarPoing : MonoBehaviour
     private void Update()
     {
 
-        Vector3 v = MapCamera.WorldToViewportPoint(Obj.transform.position);
+        if(Obj != null)
+        {
+            Vector3 v = MapCamera.WorldToViewportPoint(Obj.transform.position);
+            transform.localPosition = new Vector3((v.x * Map.rect.width) - Map.rect.width / 2, (v.y * Map.rect.height) - Map.rect.height / 2 , -2);
+
+
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         
-        transform.localPosition = new Vector2((v.x * Map.rect.width) - Map.rect.width / 2, (v.y * Map.rect.height) - Map.rect.height / 2);
+        
+        
 
 
 

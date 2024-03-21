@@ -10,10 +10,28 @@ public class Bullet : MonoBehaviour
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
     public float tmp;
+    float _time;
+
 
     private void Start()
     {
+        _time = 0f;
         GetComponent<Rigidbody>().AddForce(transform.forward * tmp , ForceMode.Impulse);
+    }
+
+    private void Update()
+    {
+
+        _time += Time.deltaTime;
+
+        if(_time > 5.0f)
+        {
+            Destroy(this.gameObject);
+        }
+
+
+
+
     }
 
 
