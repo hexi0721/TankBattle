@@ -30,7 +30,8 @@ public class Shoot : MonoBehaviour
     {
         if (PlayerSetting.Instance.BulletEnegy >= _ReloadTime && Input.GetMouseButtonDown(0))
         {
-            Instantiate(bullet, transform.position + transform.forward * 10 , Quaternion.Euler(transform.eulerAngles.x , transform.eulerAngles.y , transform.eulerAngles.z));
+            GameObject go = Instantiate(bullet, transform.position + transform.forward * 10 , Quaternion.Euler(transform.eulerAngles.x , transform.eulerAngles.y , transform.eulerAngles.z)) as GameObject;
+            go.transform.LookAt(Muzzle.targetPoint); // 動用到 Muzzle 變數
 
             PlayerSetting.Instance.BulletEnegy = 0; // 裝填
 

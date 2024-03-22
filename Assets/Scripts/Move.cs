@@ -17,13 +17,13 @@ public class Move : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.W))
             {
-                transform.parent.GetComponent<Rigidbody>().AddForce(transform.forward * speed * Time.fixedDeltaTime);
+                transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * transform.forward);
             }
 
 
             if (Input.GetKey(KeyCode.S))
             {
-                transform.parent.GetComponent<Rigidbody>().AddForce(-transform.forward * speed * Time.fixedDeltaTime);
+                transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * -transform.forward);
             }
         }
         

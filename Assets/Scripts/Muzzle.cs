@@ -14,8 +14,7 @@ public class Muzzle : MonoBehaviour
     float _clamp;
     Vector2 ScreenPos;
 
-    public float tmp; // AIM 距離 待修改
-
+    public static Vector3 targetPoint; // Aim 中心點
     private void Update()
     {
         // 左右保持不變 只改變高度 y
@@ -39,31 +38,40 @@ public class Muzzle : MonoBehaviour
         
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(_clamp, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
 
+        
+        // 世界座標轉換螢幕座標
+        ScreenPos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * 1000);
+        MuzzleAimImage.transform.position = ScreenPos;
 
-        RaycastHit hit;
 
-        // 修改layer 
-        if(Physics.Raycast(transform.position , transform.forward , out hit))
+        RaycastHit hit = Raycast();
+        
+        if (hit.collider != null)
         {
-            if (hit.collider != null) 
-            {
-                Debug.Log(hit.point);
-            
-            }
+            //Debug.Log(hit.point);
+            targetPoint = hit.point;
+        }
+        else
+        {
+            targetPoint = transform.position + transform.forward * 1000;
         }
 
-
-        // 世界座標轉換螢幕座標
-        ScreenPos = Camera.main.WorldToScreenPoint(hit.point);
-        MuzzleAimImage.transform.position = ScreenPos;
-
-        /*
-        // 世界座標轉換螢幕座標
-        ScreenPos = Camera.main.WorldToScreenPoint(transform.position + transform.forward * tmp);
-        MuzzleAimImage.transform.position = ScreenPos;
-        */
+        
     }
 
-    
 
+    private RaycastHit Raycast()
+    {
+        RaycastHit hit;
+
+        Vector3 ScreenPosNear = new Vector3(MuzzleAimImage.transform.position.x, MuzzleAimImage.transform.position.y, Camera.main.nearClipPlane);
+        Vector3 ScreenPosFar = new Vector3(MuzzleAimImage.transform.position.x, MuzzleAimImage.transform.position.y, Camera.main.farClipPlane);
+
+        Vector3 WorldPosNear = Camera.main.ScreenToWorldPoint(ScreenPosNear);
+        Vector3 WorldPosFar = Camera.main.ScreenToWorldPoint(ScreenPosFar);
+
+        Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
+
+        return hit;
+    }
 }
