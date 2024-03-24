@@ -16,9 +16,6 @@ public class EnemyFactory : MonoBehaviour
             
 
 
-
-
-
             if (Hp < 0)
             {
                 Destroy(this.gameObject);

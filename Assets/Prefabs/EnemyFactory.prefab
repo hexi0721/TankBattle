@@ -134,6 +134,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bae53036942140345b1997664421b878, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EnemyTankPrefab: {fileID: 1788451793792189928, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
+  EnemyPoingPrefab: {fileID: 1882248986637690587, guid: 4f22a1600b440254dbb0a21026795959, type: 3}
+  MapCamera: {fileID: 0}
+  Map: {fileID: 0}
 --- !u!205 &3268694675673277901
 LODGroup:
   m_ObjectHideFlags: 0

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04432384, g: 0.04324826, b: 0.041284505, a: 1}
+  m_IndirectSpecularColor: {r: 0.04424096, g: 0.043166738, b: 0.04119394, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6977,10 +6977,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1704218271996657802, guid: 083ce82620057294697b86342088cebd, type: 3}
-      propertyPath: tmp
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1704218271996657802, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: MainCamera
       value: 
       objectReference: {fileID: 1156052415}
@@ -7039,6 +7035,10 @@ PrefabInstance:
     - target: {fileID: 4897572938967204257, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: m_Name
       value: PlayerTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897572938967204257, guid: 083ce82620057294697b86342088cebd, type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7812460549970746669, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: MainCamera
@@ -7171,18 +7171,6 @@ PrefabInstance:
       propertyPath: MapCamera
       value: 
       objectReference: {fileID: 1187714629}
-    - target: {fileID: 1270103318320422217, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
-      propertyPath: EnemyTankPrefab
-      value: 
-      objectReference: {fileID: 1788451793792189928, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
-    - target: {fileID: 1270103318320422217, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
-      propertyPath: EnemyPoingPrefab
-      value: 
-      objectReference: {fileID: 1882248986637690587, guid: 4f22a1600b440254dbb0a21026795959, type: 3}
-    - target: {fileID: 1270103318320422217, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
-      propertyPath: EnemyRadarPoingPrefab
-      value: 
-      objectReference: {fileID: 1882248986637690587, guid: 4f22a1600b440254dbb0a21026795959, type: 3}
     - target: {fileID: 1636605323399177254, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 169.74

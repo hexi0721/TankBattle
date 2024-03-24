@@ -8,6 +8,7 @@ TagManager:
   - Terrain
   - PlayerBullet
   - EnemyBullet
+  - EnemyTank
   layers:
   - Default
   - TransparentFX
