@@ -20,9 +20,9 @@ TagManager:
   - EnemyFactory
   - PlayerBullet
   - EnemyBullet
-  - Muzzle
+  - PlayerMuzzle
   - EnemyTank
-  - 
+  - EnemyMuzzle
   - 
   - 
   - 

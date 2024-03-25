@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 3
     agentTypeID: 0
-    agentRadius: 0.5
-    agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentRadius: 4
+    agentHeight: 5
+    agentSlope: 0
+    agentClimb: 0
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
-    minRegionArea: 2
+    minRegionArea: 1
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 1.3333334
     manualTileSize: 0
     tileSize: 256
     buildHeightMesh: 0
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 1a1ea868afc728449b8092a1f6bab74d, type: 2}
 --- !u!1 &56960452
 GameObject:
   m_ObjectHideFlags: 0
@@ -5739,7 +5739,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4031
+    m_Bits: 8127
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5868,7 +5868,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1690446495}
+  - {fileID: 1820946804}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1187714627
@@ -6292,7 +6294,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1690446495
 Transform:
@@ -6302,7 +6304,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1690446494}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 111.99293, y: 155.39746, z: 162.5057}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6310,7 +6312,7 @@ Transform:
   - {fileID: 3316349000837644647}
   - {fileID: 5880444209841282593}
   - {fileID: 7810883873405464414}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1175903821}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1749472977
 GameObject:
@@ -6405,7 +6407,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!64 &1820946801
 MeshCollider:
@@ -6488,11 +6490,11 @@ Transform:
   m_GameObject: {fileID: 1820946800}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 93.4, y: 39.998775, z: 93.6}
-  m_LocalScale: {x: 19.78, y: 19.78, z: 19.78}
+  m_LocalPosition: {x: 99.2876, y: 39.998775, z: 100.2332}
+  m_LocalScale: {x: 18.60309, y: 19.78, z: 18.452763}
   m_ConstrainProportionsScale: 1
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1175903821}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1912086196
 GameObject:
@@ -6732,8 +6734,8 @@ GameObject:
   m_Name: house
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &3316349000837644647
 Transform:
@@ -7036,10 +7038,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerTank
       objectReference: {fileID: 0}
-    - target: {fileID: 4897572938967204257, guid: 083ce82620057294697b86342088cebd, type: 3}
-      propertyPath: m_TagString
-      value: Player
-      objectReference: {fileID: 0}
     - target: {fileID: 7812460549970746669, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: MainCamera
       value: 
@@ -7080,8 +7078,8 @@ GameObject:
   m_Name: ruin1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!33 &6614115403182891259
 MeshFilter:
@@ -7137,8 +7135,8 @@ GameObject:
   m_Name: ruin2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7810883873405464414
 Transform:
@@ -7214,6 +7212,14 @@ PrefabInstance:
     - target: {fileID: 3188745278086102344, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
       propertyPath: m_Name
       value: EnemyFactory
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188745278086102344, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3188745278086102344, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7292,8 +7298,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 628339922}
   - {fileID: 1175903821}
-  - {fileID: 1820946804}
-  - {fileID: 1690446495}
   - {fileID: 8304006613442715577}
   - {fileID: 1156052418}
   - {fileID: 1246377848}
