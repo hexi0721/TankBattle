@@ -21,6 +21,8 @@ public class InstantiateTank : MonoBehaviour
 
     private void Start()
     {
+
+        
         _Pos = new List<Vector3>() { new Vector3(180.74f, 40.59657f, 104.9098f) , new Vector3(108f, 40.59657f, 170.5f), new Vector3(35f, 40.59657f, 142.8f) , new Vector3(47.03f , 40.59657f , 113.69f) ,
                                     new Vector3(43.41f , 40.59657f , 80.57f) , new Vector3(43.05f , 40.59657f, 57.57f) , new Vector3(16.6f , 40.59657f , 16.6f) , new Vector3(81.06f , 40.59657f , 127.9f) ,
                                     new Vector3(103.16f, 40.59657f , 89.44f) , new Vector3(121.5f , 40.59657f , 33.75f) };
@@ -28,7 +30,7 @@ public class InstantiateTank : MonoBehaviour
         _Rot = new List<Vector3>() { new Vector3(0f, 0f, 0f) , new Vector3(0f, 140.446f, 0f), new Vector3(0f, 0f, 0f) , new Vector3(0f , 270f , 0f) ,
                                     new Vector3(0f , 270f , 0f) , new Vector3(0f , 270f , 0f) , new Vector3(0f , 0f , 0f) , new Vector3(0f , 180f , 0f) ,
                                     new Vector3(0f, -135f , 0f) , new Vector3(0f , 270f , 0f) };
-
+        
         _InitPoint = new Vector3(172.07f, 40.59658f, 36.92f);
         _InitCooldown = 8f;
         BuildTank(_Pos, _Rot); // GameInit

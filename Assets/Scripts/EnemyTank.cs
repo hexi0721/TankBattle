@@ -14,48 +14,105 @@ public class EnemyTank : MonoBehaviour
     GameObject _Player;
     NavMeshAgent _Agent;
 
-    Vector3 _TargetPos; // 存放前往的目標位置
+    public int tmp;
 
+    [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
+    [SerializeField] Vector3 _LastUpdatePos;
+    [SerializeField] bool _EnemyFound;
+    [SerializeField] float _StandbyTime;
 
     private void Start()
     {
-        Hp = 4.0f;
-
         _Player = GameObject.FindWithTag("Player");
         _Agent = GetComponent<NavMeshAgent>();
 
+        _TargetPos = transform.position;
+        _EnemyFound = false;
+        _StandbyTime = 2f;
     }
 
     private void Update()
     {
-
-        //DistanceCheck();
-
+        
+        
 
         RaycastHit hit;
 
-        if(Physics.Raycast(transform.position , _Player.transform.position - transform.position , out hit , 50 , ~(1 << 11  | 1 << 12)) )
+        if(_Player != null)
         {
-
-            if (hit.collider.CompareTag("Player"))
+            if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 50, ~(1 << 11 | 1 << 12)))
             {
-                _Agent.enabled = true;
-                _Agent.stoppingDistance = 50f;
-                // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
-                _TargetPos = _Player.transform.position; 
+
+                //if(hit.collider != null) { Debug.Log(hit.collider.name); }
+
+                if (hit.collider.CompareTag("Player"))
+                {
+                    //_Agent.enabled = true;
+                    _Agent.stoppingDistance = 50f;
+                    // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
+                    _TargetPos = _Player.transform.position;
+                    _EnemyFound = true;
+                    
+                    if (true)
+                    {
+                        // 距離多近 開火
+                    }
+                }
+                else if (_EnemyFound == true)  // 到達玩家消失地點 如果沒發現玩家 standby結束完 進入巡邏狀態
+                {
+                    
+                    _Agent.stoppingDistance = 0f;
+
+                    if (_LastUpdatePos == transform.position)
+                    {
+                        _StandbyTime -= Time.deltaTime;
+
+                        if (_StandbyTime < 0f)
+                        {
+                            _StandbyTime = 2f;
+                            _EnemyFound = false;
+                        }
+                    }
+
+                }
+
             }
             else
             {
-                Debug.Log(2);
-                _Agent.stoppingDistance = 0f;
+                _EnemyFound = false; // 防止碰撞出現BUG
             }
-        }
+            
+            if (!_EnemyFound) // 巡邏
+            {
+                _Agent.stoppingDistance = 0f;
+
+                if (_LastUpdatePos == transform.position)
+                {
+                    _StandbyTime -= Time.deltaTime;
+
+                    if (_StandbyTime < 0f)
+                    {
+                        _StandbyTime = 2f;
+                        Vector3 _MVRAND = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+
+                        _TargetPos += _MVRAND;
+                    }
+                }
+
+            }
 
 
-        if (_Agent.isActiveAndEnabled)
-        {
-            _Agent.SetDestination(_TargetPos);
+
         }
+
+        _LastUpdatePos = transform.position; // 紀錄上一幀位置
+
+        
+        _Agent.SetDestination(_TargetPos);
+        
+       
+
+        
 
     }
 
