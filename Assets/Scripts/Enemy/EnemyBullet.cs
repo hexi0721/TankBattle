@@ -2,21 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class EnemyBullet : MonoBehaviour
 {
     public AudioClip sExplosion; // 脄
     public GameObject Explosion; // 脄采
-    public GameObject Flame; // 縐縉采
-    public Material material; // 猳表砆脄
+    //public GameObject Flame; // 縐縉采
+    //public Material material; // 猳表砆脄
 
-    public float tmp;
+    public float speed;
     float _time;
 
 
     private void Start()
     {
         _time = 0f;
-        GetComponent<Rigidbody>().AddForce(transform.forward * tmp , ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(transform.forward * speed, ForceMode.Impulse);
     }
 
     private void Update()
@@ -24,7 +24,7 @@ public class Bullet : MonoBehaviour
 
         _time += Time.deltaTime;
 
-        if(_time > 5.0f)
+        if (_time > 5.0f)
         {
             Destroy(this.gameObject);
         }
@@ -42,9 +42,10 @@ public class Bullet : MonoBehaviour
 
         Instantiate(Explosion, transform.position, Quaternion.identity);
 
-
+        /*
         switch (collision.transform.tag)
         {
+            
             case "barrel":
 
                 collision.gameObject.GetComponent<Renderer>().material = material;
@@ -55,22 +56,18 @@ public class Bullet : MonoBehaviour
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
                 }
 
-
-
-
-
-
-
-
-
                 break;
-
-
-
         }
+        */
+
+
+
+
     }
-
-    
-
-
 }
+
+
+
+
+
+

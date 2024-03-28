@@ -32,13 +32,26 @@ public class PlayerSetting : MonoBehaviour
     void Update()
     {
 
-
-        HpImage.fillAmount = Hp / 100;
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
+
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.CompareTag("EnemyBullet"))
+        {
+
+            Hp -= Random.Range(5, 10);
+            HpImage.fillAmount = Hp / 100;
+
+
+            if (Hp < 0)
+            {
+                Destroy(this.gameObject);
+            }
+        }
     }
+
+    // 需新增補血功能
+
 }

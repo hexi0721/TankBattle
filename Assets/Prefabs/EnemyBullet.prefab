@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 1232763213054978880}
   - component: {fileID: 6788769440586758824}
   - component: {fileID: -8714445637096641336}
-  - component: {fileID: -803108461591168852}
+  - component: {fileID: 5816452806308861793}
   m_Layer: 9
   m_Name: EnemyBullet
-  m_TagString: Untagged
+  m_TagString: EnemyBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,7 +134,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &-803108461591168852
+--- !u!114 &5816452806308861793
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,11 +143,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2919987416683246573}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9f714e688fc4a7449b7db6f4b5ba1ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 99e94a3c2b944e84fb2fb2c8a26cdb74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sExplosion: {fileID: 8300000, guid: 9a2c3d60d5ec23144992e48b926fb7a7, type: 3}
   Explosion: {fileID: 5322160268999957822, guid: 4f2631a28097e1a4e8c82d5109be61ae, type: 3}
-  Flame: {fileID: 2982222064502167191, guid: e4f8ca100ecbc914cbc407ca923379bd, type: 3}
-  material: {fileID: 2100000, guid: 279117a27b1f70d4d94ce02c15667ad8, type: 2}
-  tmp: 1000
+  speed: 450
