@@ -23,6 +23,7 @@ public class EnemyTank : MonoBehaviour
     public EnemyShoot EnemyShootScript;
 
     GameObject _Player;
+    GameObject _Turret;
     NavMeshAgent _Agent;
 
     
@@ -46,7 +47,7 @@ public class EnemyTank : MonoBehaviour
         _StandbyTime = 2f;
     }
 
-    private void Update()
+    private void LateUpdate()
     {
         
 
@@ -77,8 +78,6 @@ public class EnemyTank : MonoBehaviour
                     {
                         EnemyTurretRotationScript.LookPlayer();
 
-                        // 需新增瞄準後開火 誤差多少也開火
-                        EnemyShootScript.Shooting();
                     }
 
                     

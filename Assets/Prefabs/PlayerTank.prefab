@@ -460,6 +460,7 @@ MonoBehaviour:
   MainCamera: {fileID: 0}
   speed: 2
   body: {fileID: 2569014630977227009}
+  MuzzleAimImage: {fileID: 0}
 --- !u!1 &4897572938967204257
 GameObject:
   m_ObjectHideFlags: 0
@@ -550,7 +551,6 @@ GameObject:
   - component: {fileID: 3920610161862372441}
   - component: {fileID: 4328550950771507164}
   - component: {fileID: 289267199439896321}
-  - component: {fileID: 1704218271996657802}
   - component: {fileID: 3132953355748065123}
   m_Layer: 10
   m_Name: muzzle
@@ -646,20 +646,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7266025145253213696, guid: 38548c4351fb4d644a50593317179b23, type: 3}
---- !u!114 &1704218271996657802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7250823975182527810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57f13f2cc07c054b886d0148c25d637, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MainCamera: {fileID: 0}
-  MuzzleAimImage: {fileID: 0}
 --- !u!114 &3132953355748065123
 MonoBehaviour:
   m_ObjectHideFlags: 0

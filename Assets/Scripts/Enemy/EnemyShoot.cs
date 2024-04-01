@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class EnemyShoot : MonoBehaviour
 {
@@ -17,9 +18,21 @@ public class EnemyShoot : MonoBehaviour
     void Update()
     {
         Debug.Log(EnemyTank.Instance.BulletEnegy);
-        
+
+        RaycastHit hit;
+
+        if(Physics.Raycast(transform.position , transform.forward , out hit , 80f , ~(1 << 11 | 1 << 12)))
+        {
+
+            if (hit.collider.CompareTag("Player"))
+            {
+                Shooting();
+            }
+
+        }
+
         Reloading();
-        
+
     }
 
     public void Shooting()
@@ -37,7 +50,7 @@ public class EnemyShoot : MonoBehaviour
         
     }
 
-    private void Reloading()
+    public void Reloading()
     {
 
         if (EnemyTank.Instance.BulletEnegy < _ReloadTime)

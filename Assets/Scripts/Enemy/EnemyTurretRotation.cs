@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public class EnemyTurretRotation : MonoBehaviour
 {
     public GameObject body;
     GameObject Player;
+
+    float _clamp;
 
     private void Start()
     {
@@ -25,12 +28,31 @@ public class EnemyTurretRotation : MonoBehaviour
     public void LookPlayer()
     {
 
-        Vector3 relativePos = Player.transform.position - transform.position;
+        Vector3 v = Player.transform.position - transform.position;
+        v.Normalize();
 
-        Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-        transform.rotation = Quaternion.Lerp(transform.rotation , rotation , Time.deltaTime);
-            
-        
+        Quaternion rotation = Quaternion.LookRotation(v);
+
+        // Turret ¥ª¥k
+        transform.rotation = Quaternion.Lerp(transform.rotation , Quaternion.Euler(transform.rotation.eulerAngles.x , rotation.eulerAngles.y , transform.rotation.eulerAngles.z) , Time.deltaTime);
+
+
+        // Muzzle ¤W¤U
+        if (rotation.eulerAngles.x > 3.0f && rotation.eulerAngles.x < 180f)
+        {
+            _clamp = 3.0f;
+        }
+        else if (rotation.eulerAngles.x > 180f && rotation.eulerAngles.x < 352f)
+        {
+            _clamp = -8.0f;
+        }
+        else
+        {
+            _clamp = rotation.eulerAngles.x;
+        }
+
+        transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
+
     }
 
     public void PatrolStat()
