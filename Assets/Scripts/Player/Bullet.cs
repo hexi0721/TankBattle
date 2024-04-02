@@ -12,12 +12,17 @@ public class Bullet : MonoBehaviour
     public float speed;
     float _time;
 
-
     private void Start()
     {
         _time = 0f;
+    }
+
+    private void FixedUpdate()
+    {
         GetComponent<Rigidbody>().AddForce(transform.forward * speed, ForceMode.Impulse);
     }
+
+    
 
     private void Update()
     {

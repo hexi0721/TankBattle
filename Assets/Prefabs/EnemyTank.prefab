@@ -121,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 7628208035224881041}
+  _clamp: 0
 --- !u!1 &1788451793792189928
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,6 +133,7 @@ GameObject:
   - component: {fileID: 3353636593502140411}
   - component: {fileID: 7420528195481554126}
   - component: {fileID: 7916899886477022834}
+  - component: {fileID: 3887599674973282398}
   - component: {fileID: -7559986053583295581}
   m_Layer: 11
   m_Name: EnemyTank
@@ -199,11 +201,24 @@ MonoBehaviour:
   Hp: 4
   BulletEnegy: 5
   EnemyTurretRotationScript: {fileID: 6395096611061684916}
-  EnemyShootScript: {fileID: 7866869793240551886}
+  Muzzle: {fileID: 9001248144386161083}
   _TargetPos: {x: 0, y: 0, z: 0}
   _LastUpdatePos: {x: 0, y: 0, z: 0}
   _EnemyFound: 0
   _StandbyTime: 0
+--- !u!114 &3887599674973282398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788451793792189928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db3df7bf5ec4b84fbb42d65e608a79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnemyBullet: {fileID: 2919987416683246573, guid: 3345924a02c1a974dbcbbbfee011b019, type: 3}
 --- !u!195 &-7559986053583295581
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -665,7 +680,6 @@ GameObject:
   - component: {fileID: 946349861167268208}
   - component: {fileID: 8843640473830648536}
   - component: {fileID: 7777776446112242943}
-  - component: {fileID: 7866869793240551886}
   m_Layer: 12
   m_Name: muzzle
   m_TagString: EnemyTank
@@ -760,16 +774,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 7266025145253213696, guid: 38548c4351fb4d644a50593317179b23, type: 3}
---- !u!114 &7866869793240551886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9001248144386161083}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2db3df7bf5ec4b84fbb42d65e608a79b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EnemyBullet: {fileID: 2919987416683246573, guid: 3345924a02c1a974dbcbbbfee011b019, type: 3}

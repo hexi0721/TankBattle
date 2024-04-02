@@ -7,61 +7,40 @@ public class EnemyShoot : MonoBehaviour
 {
 
     public GameObject EnemyBullet; // 子彈物件
+    EnemyTank _EnemyTankScript;
 
     float _ReloadTime;
 
     private void Start()
     {
         _ReloadTime = 5f;
+
+        _EnemyTankScript = GetComponent<EnemyTank>();
     }
 
-    void Update()
+    public void Shooting(float BulletEnegy , Vector3 TargetPoint)
     {
-        Debug.Log(EnemyTank.Instance.BulletEnegy);
-
-        RaycastHit hit;
-
-        if(Physics.Raycast(transform.position , transform.forward , out hit , 80f , ~(1 << 11 | 1 << 12)))
+        if (BulletEnegy >= _ReloadTime)
         {
+            GameObject go = Instantiate(EnemyBullet, 
+                _EnemyTankScript.Muzzle.transform.position + _EnemyTankScript.Muzzle.transform.forward * 5, 
+                Quaternion.Euler(_EnemyTankScript.Muzzle.transform.eulerAngles.x, _EnemyTankScript.Muzzle.transform.eulerAngles.y, _EnemyTankScript.Muzzle.transform.eulerAngles.z)) as GameObject;
+            go.transform.LookAt(TargetPoint);
 
-            if (hit.collider.CompareTag("Player"))
-            {
-                Shooting();
-            }
+            _EnemyTankScript.BulletEnegy = 0; // 裝填
 
         }
-
-        Reloading();
-
     }
 
-    public void Shooting()
-    {
-        if (EnemyTank.Instance.BulletEnegy >= _ReloadTime)
-        {
-            GameObject go = Instantiate(EnemyBullet, transform.position + transform.forward * 10, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z)) as GameObject;
-
-
-            EnemyTank.Instance.BulletEnegy = 0; // 裝填
-
-
-        }
-
-        
-    }
-
-    public void Reloading()
+    public void Reloading(float BulletEnegy)
     {
 
-        if (EnemyTank.Instance.BulletEnegy < _ReloadTime)
+        if (BulletEnegy < _ReloadTime)
         {
-            EnemyTank.Instance.BulletEnegy += Time.deltaTime;
+            _EnemyTankScript.BulletEnegy += Time.deltaTime;
         }
 
-
     }
-
-
 
 
 }

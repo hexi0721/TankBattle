@@ -9,7 +9,7 @@ public class EnemyTurretRotation : MonoBehaviour
     public GameObject body;
     GameObject Player;
 
-    float _clamp;
+    [SerializeField]float _clamp;
 
     private void Start()
     {
@@ -50,7 +50,7 @@ public class EnemyTurretRotation : MonoBehaviour
         {
             _clamp = rotation.eulerAngles.x;
         }
-
+        
         transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
 
     }

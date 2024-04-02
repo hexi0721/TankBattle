@@ -8,22 +8,13 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class EnemyTank : MonoBehaviour
 {
 
-    private static EnemyTank _instance;
-
-    public static EnemyTank Instance
-    {
-        get { return _instance; }
-    }
-
-
-
     public float Hp;
     public float BulletEnegy;
     public EnemyTurretRotation EnemyTurretRotationScript;
-    public EnemyShoot EnemyShootScript;
+    public GameObject Muzzle;
 
+    EnemyShoot _EnemyShootScript;
     GameObject _Player;
-    GameObject _Turret;
     NavMeshAgent _Agent;
 
     
@@ -32,15 +23,12 @@ public class EnemyTank : MonoBehaviour
     [SerializeField] bool _EnemyFound; // 是否找到玩家
     [SerializeField] float _StandbyTime; // 待命時間
 
-    private void Awake()
-    {
-        _instance = this;
-    }
 
     private void Start()
     {
         _Player = GameObject.FindWithTag("Player");
         _Agent = GetComponent<NavMeshAgent>();
+        _EnemyShootScript = GetComponent<EnemyShoot>();
 
         _TargetPos = transform.position;
         _EnemyFound = false;
@@ -77,6 +65,24 @@ public class EnemyTank : MonoBehaviour
                     if (_Distance <= _Agent.stoppingDistance)
                     {
                         EnemyTurretRotationScript.LookPlayer();
+
+
+                        RaycastHit hit2;
+
+                        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 50f, ~(1 << 11 | 1 << 12)))
+                        {
+
+                            if (hit2.collider.CompareTag("Player"))
+                            {
+                                _EnemyShootScript.Shooting(BulletEnegy , hit2.point);
+                            }
+
+                        }
+
+                        _EnemyShootScript.Reloading(BulletEnegy);
+
+
+
 
                     }
 
@@ -138,7 +144,7 @@ public class EnemyTank : MonoBehaviour
 
 
     }
-
+        
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
