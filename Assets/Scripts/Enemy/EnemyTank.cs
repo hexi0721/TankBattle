@@ -17,7 +17,8 @@ public class EnemyTank : MonoBehaviour
     GameObject _Player;
     NavMeshAgent _Agent;
 
-    
+    [SerializeField] string _State;
+
     [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
     [SerializeField] Vector3 _LastUpdatePos; // 上一幀位置
     [SerializeField] bool _EnemyFound; // 是否找到玩家
@@ -30,9 +31,11 @@ public class EnemyTank : MonoBehaviour
         _Agent = GetComponent<NavMeshAgent>();
         _EnemyShootScript = GetComponent<EnemyShoot>();
 
+        _State = "Patrol";
         _TargetPos = transform.position;
         _EnemyFound = false;
         _StandbyTime = 2f;
+        
     }
 
     private void LateUpdate()
@@ -44,7 +47,110 @@ public class EnemyTank : MonoBehaviour
 
         if(_Player != null)
         {
-            if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 80f, ~(1 << 11 | 1 << 12)))
+
+            if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 100f, ~(1 << 8 | 1 << 9 | 1 << 11 | 1 << 12)))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+
+                    _Agent.stoppingDistance = 70f;
+                    // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
+                    _TargetPos = _Player.transform.position;
+                    _State = "EnemyFound";
+                }
+            }
+            else
+            {
+                _State = "Patrol"; // 防止碰撞偵測的距離不夠 出現BUG
+            }
+
+            switch (_State)
+            {
+                case "Patrol":
+
+                    
+                    EnemyTurretRotationScript.PatrolStat();
+                    _Agent.stoppingDistance = 0f;
+
+                    if (_LastUpdatePos == transform.position)
+                    {
+                        _StandbyTime -= Time.deltaTime;
+
+                        if (_StandbyTime < 0f)
+                        {
+                            _StandbyTime = 2f;
+                            Vector3 _MVRAND = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+
+                            _TargetPos += _MVRAND;
+                        }
+                    }
+
+                    break;
+
+                case "EnemyFound":
+
+                    // 距離多近 開火
+                    float _Distance = Vector3.Distance(_Player.transform.position, transform.position);
+
+                    if (_Distance <= _Agent.stoppingDistance)
+                    {
+                        EnemyTurretRotationScript.LookPlayer();
+
+
+                        RaycastHit hit2;
+
+                        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 70f, ~(1 << 8 | 1 << 9 | 1 << 11 | 1 << 12)))
+                        {
+
+                            Debug.Log(hit2.collider.name);
+                            Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward * 100, Color.blue);
+
+                            if (hit2.collider.CompareTag("Player"))
+                            {
+                                _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
+                            }
+
+                        }
+
+                        _EnemyShootScript.Reloading(BulletEnegy);
+
+                    }
+
+                    if (!hit.collider.CompareTag("Player"))
+                    {
+
+                        EnemyTurretRotationScript.PatrolStat();
+                        _Agent.stoppingDistance = 0f;
+
+                        if (_LastUpdatePos == transform.position)
+                        {
+                            _StandbyTime -= Time.deltaTime;
+
+                            if (_StandbyTime < 0f)
+                            {
+                                _StandbyTime = 2f;
+                                _State = "Patrol";
+                            }
+                        }
+                    }
+
+                    
+
+                    break;
+
+                case "UnderAttack":
+
+                    _TargetPos = _Player.transform.position;
+                    
+
+                    break;
+
+                
+
+                
+            }
+            /*
+            if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 100f, ~(1 << 8 | 1 << 9 | 1 << 11 | 1 << 12)))
             {
 
                 //if(hit.collider != null) { Debug.Log(hit.collider.name); }
@@ -52,7 +158,7 @@ public class EnemyTank : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     
-                    _Agent.stoppingDistance = 50f;
+                    _Agent.stoppingDistance = 70f;
                     // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
                     _TargetPos = _Player.transform.position;
                     _EnemyFound = true;
@@ -69,9 +175,12 @@ public class EnemyTank : MonoBehaviour
 
                         RaycastHit hit2;
 
-                        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 50f, ~(1 << 11 | 1 << 12)))
+                        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 70f, ~(1 << 8 | 1 << 9 | 1 << 11 | 1 << 12)))
                         {
-
+                            
+                            Debug.Log(hit2.collider.name);
+                            Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward * 100, Color.blue) ;
+                            
                             if (hit2.collider.CompareTag("Player"))
                             {
                                 _EnemyShootScript.Shooting(BulletEnegy , hit2.point);
@@ -111,7 +220,8 @@ public class EnemyTank : MonoBehaviour
             {
                 _EnemyFound = false; // 防止碰撞偵測的距離不夠 出現BUG
             }
-            
+            */
+            /*
             if (!_EnemyFound) // 巡邏
             {
                 EnemyTurretRotationScript.PatrolStat();
@@ -131,7 +241,7 @@ public class EnemyTank : MonoBehaviour
                 }
 
             }
-
+            */
 
 
         }
@@ -149,7 +259,7 @@ public class EnemyTank : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
         {
-
+            _State = "UnderAttack";
             Hp -= Random.Range(1, 4);
 
 

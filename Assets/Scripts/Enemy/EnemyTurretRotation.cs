@@ -6,6 +6,7 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public class EnemyTurretRotation : MonoBehaviour
 {
+    public float tmp;
     public GameObject body;
     GameObject Player;
 
@@ -48,7 +49,7 @@ public class EnemyTurretRotation : MonoBehaviour
         }
         else
         {
-            _clamp = rotation.eulerAngles.x;
+            _clamp = rotation.eulerAngles.x+1f;
         }
         
         transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 2 * Time.deltaTime);

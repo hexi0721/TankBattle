@@ -23,7 +23,7 @@ public class EnemyShoot : MonoBehaviour
         if (BulletEnegy >= _ReloadTime)
         {
             GameObject go = Instantiate(EnemyBullet, 
-                _EnemyTankScript.Muzzle.transform.position + _EnemyTankScript.Muzzle.transform.forward * 5, 
+                _EnemyTankScript.Muzzle.transform.position + _EnemyTankScript.Muzzle.transform.forward * 10, 
                 Quaternion.Euler(_EnemyTankScript.Muzzle.transform.eulerAngles.x, _EnemyTankScript.Muzzle.transform.eulerAngles.y, _EnemyTankScript.Muzzle.transform.eulerAngles.z)) as GameObject;
             go.transform.LookAt(TargetPoint);
 

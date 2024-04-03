@@ -93,7 +93,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2919987416683246573}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 71910bd5660d195479cae61ffeb5c938, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -150,4 +150,4 @@ MonoBehaviour:
   Explosion: {fileID: 5322160268999957822, guid: 4f2631a28097e1a4e8c82d5109be61ae, type: 3}
   Flame: {fileID: 2982222064502167191, guid: e4f8ca100ecbc914cbc407ca923379bd, type: 3}
   material: {fileID: 2100000, guid: 279117a27b1f70d4d94ce02c15667ad8, type: 2}
-  speed: 450
+  speed: 50
