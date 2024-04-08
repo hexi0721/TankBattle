@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour
 {
-   
 
-    public static int MaxHp = 50;
-    public static int Hp = 50;
+    int MaxHp = 50;
+    public int Hp = 50;
 
-
+    public int GetMaxHp()
+    {
+        return MaxHp;
+    }
 
 }

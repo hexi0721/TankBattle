@@ -57,9 +57,6 @@ public class InstantiateTank : MonoBehaviour
             
         }
 
-
-        
-
     }
 
     private void BuildTank(List<Vector3> Pos , List<Vector3> Rot)

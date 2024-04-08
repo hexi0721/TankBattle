@@ -12,6 +12,7 @@ public class EnemyTank : MonoBehaviour
     public EnemyTurretRotation EnemyTurretRotationScript;
     public GameObject Muzzle;
 
+    EnemyFactory _EnemyFactoryScript;
     EnemyShoot _EnemyShootScript;
     GameObject _Player;
     NavMeshAgent _Agent;
@@ -28,40 +29,36 @@ public class EnemyTank : MonoBehaviour
         _Player = GameObject.FindWithTag("Player");
         _Agent = GetComponent<NavMeshAgent>();
         _EnemyShootScript = GetComponent<EnemyShoot>();
+        _EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
 
         _State = "Patrol";
         _TargetPos = transform.position;
         _StandbyTime = 2f;
         
     }
-
+    private void Update()
+    {
+        if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
+        {
+            _State = "FacUnderAttack";
+        }
+    }
     private void LateUpdate()
     {
 
-        if (EnemyFactory.Hp < EnemyFactory.MaxHp)
+        if (_Player != null)
         {
-            FacUnderAttack();
-        }
-
-        
-
-        if(_Player != null)
-        {
-            if (_State != "UnderAttack")
+            if (_State != "FacUnderAttack")
             {
                 if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                 {
-                    if (hit.collider.CompareTag("Player"))
+                    if (hit.collider != null && hit.collider.CompareTag("Player"))
                     {
                         _Agent.stoppingDistance = 70f;
                         // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
                         _TargetPos = _Player.transform.position;
                         _State = "EnemyFound";
                     }
-                }
-                else
-                {
-                    _State = "Patrol"; // 防止碰撞偵測的距離不夠 出現BUG
                 }
             }
 
@@ -84,104 +81,30 @@ public class EnemyTank : MonoBehaviour
                             _TargetPos += _MVRAND;
                         }
                     }
+                    else // 修改停頓機制
+                    {
+
+                    }
 
                     break;
 
                 case "EnemyFound":
 
-                    // 距離多近 開火
-                    float _Distance = Vector3.Distance(_Player.transform.position, transform.position);
+                    AttackAction();
 
-                    if (_Distance <= _Agent.stoppingDistance)
-                    {
-                        EnemyTurretRotationScript.LookPlayer();
-
-                        RaycastHit hit2;
-
-                        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
-                        {
-
-                            Debug.Log(hit2.collider.name);
-                            Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward * 100, Color.blue);
-
-                            if (hit2.collider.CompareTag("Player"))
-                            {
-                                _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
-                            }
-                            
-                            
-
-                        }
-
-                        _EnemyShootScript.Reloading(BulletEnegy);
-
-                    }
-
-                    
-                    if (!hit.collider.CompareTag("Player"))
-                    {
-                        EnemyTurretRotationScript.PatrolStat();
-                        _Agent.stoppingDistance = 0f;
-
-                        if (_LastUpdatePos == transform.position)
-                        {
-                            _StandbyTime -= Time.deltaTime;
-
-                            if (_StandbyTime < 0f)
-                            {
-                                _StandbyTime = 2f;
-                                _State = "Patrol";
-                            }
-                        }
-                    }
-                    
                     break;
 
                 case "UnderAttack":
+                    _TargetPos = _Player.transform.position;
+
+                    break;
+
+                case "FacUnderAttack":
                     _Agent.stoppingDistance = 70f;
                     _TargetPos = _Player.transform.position;
 
-                    _Distance = Vector3.Distance(_Player.transform.position, transform.position);
-
-                    if (_Distance <= _Agent.stoppingDistance)
-                    {
-                        EnemyTurretRotationScript.LookPlayer();
-
-                        RaycastHit hit2;
-
-                        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
-                        {
-
-                            //Debug.Log(hit2.collider.name);
-                            Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward * 100, Color.blue);
-
-                            if (hit2.collider.CompareTag("Player"))
-                            {
-                                _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
-                            }
-
-                        }
-
-                        _EnemyShootScript.Reloading(BulletEnegy);
-
-                    }
-
-                    if (!hit.collider.CompareTag("Player"))
-                    {
-                        EnemyTurretRotationScript.PatrolStat();
-                        _Agent.stoppingDistance = 0f;
-
-                        if (_LastUpdatePos == transform.position)
-                        {
-                            _StandbyTime -= Time.deltaTime;
-
-                            if (_StandbyTime < 0f)
-                            {
-                                _StandbyTime = 2f;
-                                _State = "Patrol";
-                            }
-                        }
-                    }
+                    AttackAction();
+                    
 
 
                     break;
@@ -194,7 +117,51 @@ public class EnemyTank : MonoBehaviour
         _Agent.SetDestination(_TargetPos);
         
     }
-        
+
+    private void AttackAction()
+    {
+        // 距離多近 開火
+        float _Distance = Vector3.Distance(_Player.transform.position, transform.position);
+
+        if (_Distance <= _Agent.stoppingDistance)
+        {
+            EnemyTurretRotationScript.LookPlayer();
+
+            RaycastHit hit2;
+
+            if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+            {
+                //Debug.Log(hit2.collider.name);
+                Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward * 100, Color.blue);
+
+                if (hit2.collider != null && hit2.collider.CompareTag("Player"))
+                {
+                    _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
+                }
+            }
+
+            _EnemyShootScript.Reloading(BulletEnegy);
+
+        }
+
+        if (hit.collider != null && !hit.collider.CompareTag("Player"))
+        {
+            EnemyTurretRotationScript.PatrolStat();
+            _Agent.stoppingDistance = 0f;
+
+            if (_LastUpdatePos == transform.position)
+            {
+                _StandbyTime -= Time.deltaTime;
+
+                if (_StandbyTime < 0f)
+                {
+                    _StandbyTime = 2f;
+                    _State = "Patrol";
+                }
+            }
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
@@ -211,9 +178,5 @@ public class EnemyTank : MonoBehaviour
 
     }
 
-    public void FacUnderAttack()
-    {
-        _State = "UnderAttack";
-    }
 
 }
