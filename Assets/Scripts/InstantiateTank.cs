@@ -16,7 +16,7 @@ public class InstantiateTank : MonoBehaviour
 
     bool _AnyTank; // 是否還有其他坦克
     Vector3 _InitPoint; // 兵工廠生成坦克的點
-    float _InitCooldown;
+    [SerializeField]float _InitCooldown;
 
 
     private void Start()
@@ -67,10 +67,10 @@ public class InstantiateTank : MonoBehaviour
         for (int i = 0; i < Pos.Count; i++)
         {
 
-            GameObject Tgo = Instantiate(EnemyTankPrefab, Pos[i], Quaternion.identity) as GameObject;
+            GameObject Tgo = Instantiate(EnemyTankPrefab, Pos[i], Quaternion.identity) as GameObject; // 敵方坦克
             Tgo.transform.eulerAngles = Rot[i];
 
-            GameObject EPgo = Instantiate(EnemyPoingPrefab) as GameObject;
+            GameObject EPgo = Instantiate(EnemyPoingPrefab) as GameObject; // 敵方坦克雷達
 
 
             EPgo.transform.SetParent(Map.transform);

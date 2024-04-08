@@ -104,7 +104,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -138,6 +138,7 @@ MonoBehaviour:
   EnemyPoingPrefab: {fileID: 1882248986637690587, guid: 4f22a1600b440254dbb0a21026795959, type: 3}
   MapCamera: {fileID: 0}
   Map: {fileID: 0}
+  _InitCooldown: 0
 --- !u!205 &3268694675673277901
 LODGroup:
   m_ObjectHideFlags: 0

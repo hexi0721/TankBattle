@@ -4,27 +4,11 @@ using UnityEngine;
 
 public class EnemyFactory : MonoBehaviour
 {
-    public float Hp;
+   
 
+    public static int MaxHp = 50;
+    public static int Hp = 50;
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("PlayerBullet"))
-        {
-            
-            Hp -= Random.Range(1, 5);
-            
-
-
-            if (Hp < 0)
-            {
-                Destroy(this.gameObject);
-            }
-        }
-
-        
-
-    }
 
 
 }
