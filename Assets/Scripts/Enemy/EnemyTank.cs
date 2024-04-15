@@ -21,7 +21,9 @@ public class EnemyTank : MonoBehaviour
 
     [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
     [SerializeField] Vector3 _LastUpdatePos; // 上一幀位置
+    [SerializeField] Vector3 _OriginalPos; // 初始位置
     [SerializeField] float _StandbyTime; // 待命時間
+    [SerializeField] float _ResetTime; // 重設時間
 
     RaycastHit hit;
     private void Start()
@@ -33,8 +35,11 @@ public class EnemyTank : MonoBehaviour
 
         _State = "Patrol";
         _TargetPos = transform.position;
+        _OriginalPos = transform.position;
         _StandbyTime = 2f;
-        
+        _ResetTime = 8f;
+
+
     }
     private void Update()
     {
@@ -68,22 +73,27 @@ public class EnemyTank : MonoBehaviour
 
                     EnemyTurretRotationScript.PatrolStat();
                     _Agent.stoppingDistance = 0f;
-
-                    if (_LastUpdatePos == transform.position)
+                    
+                    if (transform.position == _LastUpdatePos)
                     {
                         _StandbyTime -= Time.deltaTime;
 
                         if (_StandbyTime < 0f)
                         {
                             _StandbyTime = 2f;
-                            Vector3 _MVRAND = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+                            _ResetTime = 8f;
+                            Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
 
                             _TargetPos += _MVRAND;
                         }
                     }
-                    else // 修改停頓機制
+                    else if (Vector3.Distance(_TargetPos , _LastUpdatePos) != 0) // 回到初始位置
                     {
-
+                        _ResetTime -= Time.deltaTime;
+                        if (_ResetTime < 0f)
+                        {
+                            _TargetPos = _OriginalPos;
+                        }
                     }
 
                     break;

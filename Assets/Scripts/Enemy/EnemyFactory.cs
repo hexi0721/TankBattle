@@ -1,14 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EnemyFactory : MonoBehaviour
 {
+    public Image FacHp;
 
-    int MaxHp = 50;
-    public int Hp = 50;
+    float MaxHp = 50f;
+    public float Hp = 50f;
 
-    public int GetMaxHp()
+
+    private void Update()
+    {
+        FacHp.fillAmount = Hp / MaxHp;
+    }
+
+    public float GetMaxHp()
     {
         return MaxHp;
     }
