@@ -13,15 +13,24 @@ public class PlayerSetting : MonoBehaviour
 
     }
 
-    public float Hp; // 玩家生命 讓GameController判斷0時結束遊戲
+    public float Hp; // 玩家生命 綠色血條 讓GameController判斷0時結束遊戲
+    public float Hp2; // 紅色血條
     public float BulletEnegy;
+    bool _UnderAttack;
+    float Counter;
 
     //public float MaxHp;
     public Image HpImage;
+    public Image HpImage2;
 
     //public float MaxBulletEnegy;
     public Image BulletEnegyImage;
 
+    private void Start()
+    {
+        _UnderAttack = false;
+        Counter = 1.5f;
+    }
 
     private void Awake()
     {
@@ -34,6 +43,31 @@ public class PlayerSetting : MonoBehaviour
 
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
 
+        HpImage.fillAmount = Hp / 100;
+        if (Hp < 0)
+        {
+            Destroy(this.gameObject);
+        }
+
+        if(_UnderAttack)
+        {
+
+            if (Hp2 == Hp)
+            {
+                _UnderAttack = false;
+            }
+
+            Counter -= Time.deltaTime;
+
+            if (Counter <= 0 && Hp2 > Hp)
+            {
+                Hp2 -= 1;
+                HpImage2.fillAmount = Hp2 / 100;
+            }
+            
+        }
+        
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -42,16 +76,12 @@ public class PlayerSetting : MonoBehaviour
         {
 
             Hp -= Random.Range(5, 10);
-            HpImage.fillAmount = Hp / 100;
+            _UnderAttack = true;
+            Counter = 1.5f;
 
-
-            if (Hp < 0)
-            {
-                Destroy(this.gameObject);
-            }
         }
     }
 
-    // 需新增補血功能
+    // 新增補血功能
 
 }
