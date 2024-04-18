@@ -11,6 +11,7 @@ public class PlayerRotation : MonoBehaviour
 {
 
     public GameObject MainCamera;
+    
     public float speed; // 平移速度
 
     public GameObject body;
@@ -18,9 +19,10 @@ public class PlayerRotation : MonoBehaviour
     
     // 瞄準圖片
     public GameObject MuzzleAimImage;
+    public RectTransform AimC; // Aim canva
 
     float _clamp;
-    Vector2 ScreenPos;
+    [SerializeField]Vector2 ScreenPos;
     public static Vector3 targetPoint; // Aim 中心點
     
     private void Update()
@@ -58,37 +60,46 @@ public class PlayerRotation : MonoBehaviour
 
 
         // 世界座標轉換螢幕座標
-        ScreenPos = Camera.main.WorldToScreenPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 1000);
-        MuzzleAimImage.transform.position = ScreenPos;
+        //ScreenPos = Camera.main.WorldToScreenPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 1000);
+        ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 500);
+        
+        MuzzleAimImage.transform.localPosition = new Vector3((ScreenPos.x * AimC.rect.width) - AimC.rect.width / 2, (ScreenPos.y * AimC.rect.height) - AimC.rect.height / 2, 0);
+        //MuzzleAimImage.transform.position = ScreenPos;
 
 
         RaycastHit hit = Raycast();
-
+        
         if (hit.collider != null)
         {
             //Debug.Log(hit.point);
+            
+            Debug.Log(hit.collider.name);
             targetPoint = hit.point;
         }
         else
         {
-            targetPoint = transform.GetChild(0).position + transform.GetChild(0).forward * 1000;
+            targetPoint = transform.GetChild(0).position + transform.GetChild(0).forward * 500;
         }
         
 
     }
     
-    private RaycastHit Raycast()
+    private RaycastHit Raycast() // 修改 AIM
     {
         RaycastHit hit;
 
-        Vector3 ScreenPosNear = new Vector3(MuzzleAimImage.transform.position.x, MuzzleAimImage.transform.position.y, Camera.main.nearClipPlane);
-        Vector3 ScreenPosFar = new Vector3(MuzzleAimImage.transform.position.x, MuzzleAimImage.transform.position.y, Camera.main.farClipPlane);
+        Vector3 ScreenPosNear = new Vector3(ScreenPos.x * AimC.rect.width, ScreenPos.y * AimC.rect.height, MainCamera.GetComponent<Camera>().nearClipPlane);
+        Vector3 ScreenPosFar = new Vector3(ScreenPos.x * AimC.rect.width, ScreenPos.y * AimC.rect.height, MainCamera.GetComponent<Camera>().farClipPlane);
 
-        Vector3 WorldPosNear = Camera.main.ScreenToWorldPoint(ScreenPosNear);
-        Vector3 WorldPosFar = Camera.main.ScreenToWorldPoint(ScreenPosFar);
+        //Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosNear);
+        //Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosFar);
+        Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosNear);
+        Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosFar);
+
+        Debug.Log(ScreenPosNear + " " + ScreenPosFar);
 
         Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
-
+        Debug.DrawRay(WorldPosNear, (WorldPosFar - WorldPosNear) * 100, Color.blue);
         return hit;
     }
     
