@@ -60,20 +60,14 @@ public class PlayerRotation : MonoBehaviour
 
 
         // 世界座標轉換螢幕座標
-        //ScreenPos = Camera.main.WorldToScreenPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 1000);
         ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 500);
-        
         MuzzleAimImage.transform.localPosition = new Vector3((ScreenPos.x * AimC.rect.width) - AimC.rect.width / 2, (ScreenPos.y * AimC.rect.height) - AimC.rect.height / 2, 0);
-        //MuzzleAimImage.transform.position = ScreenPos;
-
-
+        Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 50, Color.blue);
         RaycastHit hit = Raycast();
         
         if (hit.collider != null)
         {
             //Debug.Log(hit.point);
-            
-            Debug.Log(hit.collider.name);
             targetPoint = hit.point;
         }
         else
@@ -91,15 +85,11 @@ public class PlayerRotation : MonoBehaviour
         Vector3 ScreenPosNear = new Vector3(ScreenPos.x * AimC.rect.width, ScreenPos.y * AimC.rect.height, MainCamera.GetComponent<Camera>().nearClipPlane);
         Vector3 ScreenPosFar = new Vector3(ScreenPos.x * AimC.rect.width, ScreenPos.y * AimC.rect.height, MainCamera.GetComponent<Camera>().farClipPlane);
 
-        //Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosNear);
-        //Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosFar);
-        Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosNear);
-        Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosFar);
-
-        Debug.Log(ScreenPosNear + " " + ScreenPosFar);
+        Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosNear);
+        Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosFar);
 
         Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
-        Debug.DrawRay(WorldPosNear, (WorldPosFar - WorldPosNear) * 100, Color.blue);
+        Debug.DrawRay(WorldPosNear, (WorldPosFar - WorldPosNear) * 50, Color.blue);
         return hit;
     }
     

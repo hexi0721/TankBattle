@@ -9,8 +9,10 @@ public class InstantiateTank : MonoBehaviour
     public GameObject EnemyTankPrefab;
     public GameObject EnemyPoingPrefab;
 
+    // 與 RadarPoint 配合
     public Camera MapCamera; // 地圖鏡頭
     public RectTransform Map; // 地圖 canva
+    public RectTransform MapBG; // 地圖 BG
 
     List<Vector3> _Pos , _Rot; // 敵方坦克初始出生位置
 
@@ -74,8 +76,11 @@ public class InstantiateTank : MonoBehaviour
             EPgo.GetComponent<RadarPoing>().MapCamera = MapCamera;
             EPgo.GetComponent<RadarPoing>().Obj = Tgo;
             EPgo.GetComponent<RadarPoing>().Map = Map;
-
-            EPgo.transform.localScale = new Vector3(1, 1, 1);
+            EPgo.GetComponent<RadarPoing>().MapBG = MapBG;
+            
+            EPgo.transform.localScale = Vector3.one;
+            EPgo.transform.localEulerAngles = Vector3.zero;
+            
         }
     }
 

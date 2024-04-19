@@ -69,7 +69,7 @@ public class EnemyTank : MonoBehaviour
 
             switch (_State)
             {
-                case "Patrol":
+                case "Patrol": // 巡邏
 
                     EnemyTurretRotationScript.PatrolStat();
                     _Agent.stoppingDistance = 0f;
@@ -98,18 +98,18 @@ public class EnemyTank : MonoBehaviour
 
                     break;
 
-                case "EnemyFound":
+                case "EnemyFound": // 發現敵人
 
                     AttackAction();
 
                     break;
 
-                case "UnderAttack":
+                case "UnderAttack": // 遭受攻擊
                     _TargetPos = _Player.transform.position;
 
                     break;
 
-                case "FacUnderAttack":
+                case "FacUnderAttack": // 兵工廠遭受攻擊
                     _Agent.stoppingDistance = 70f;
                     _TargetPos = _Player.transform.position;
 
