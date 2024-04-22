@@ -16,6 +16,8 @@ public class GameManage : MonoBehaviour
     {
         _visible = false;
         _showMap = false;
+
+        Map.localPosition = new Vector3(-450f, 0, 0);
     }
 
     private void Update()

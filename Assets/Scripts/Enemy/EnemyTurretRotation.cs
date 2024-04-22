@@ -6,15 +6,15 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public class EnemyTurretRotation : MonoBehaviour
 {
-    public float tmp;
+    
     public GameObject body;
-    GameObject Player;
+    GameObject _Player;
 
     [SerializeField]float _clamp;
 
     private void Start()
     {
-        Player = GameObject.FindWithTag("Player");
+        _Player = GameObject.FindWithTag("Player");
     }
 
     void Update()
@@ -29,8 +29,9 @@ public class EnemyTurretRotation : MonoBehaviour
     public void LookPlayer()
     {
 
-        Vector3 v = Player.transform.position - transform.position;
+        Vector3 v = _Player.transform.position - transform.position;
         v.Normalize();
+        
 
         Quaternion rotation = Quaternion.LookRotation(v);
 
@@ -49,10 +50,10 @@ public class EnemyTurretRotation : MonoBehaviour
         }
         else
         {
-            _clamp = rotation.eulerAngles.x+1f;
+            _clamp = rotation.eulerAngles.x;
         }
         
-        transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
+        transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.GetChild(0).eulerAngles.y, transform.GetChild(0).eulerAngles.z), 2 * Time.deltaTime);
 
     }
 

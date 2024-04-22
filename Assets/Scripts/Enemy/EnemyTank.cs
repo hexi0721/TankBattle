@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyTank : MonoBehaviour
 {
@@ -19,6 +18,8 @@ public class EnemyTank : MonoBehaviour
 
     [SerializeField] string _State;
 
+    public float tmp;
+    [SerializeField] float _Distance;
     [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
     [SerializeField] Vector3 _LastUpdatePos; // 上一幀位置
     [SerializeField] Vector3 _OriginalPos; // 初始位置
@@ -55,15 +56,20 @@ public class EnemyTank : MonoBehaviour
         {
             if (_State != "FacUnderAttack")
             {
-                if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                if (Physics.Raycast(transform.position , _Player.transform.position - transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                 {
                     if (hit.collider != null && hit.collider.CompareTag("Player"))
                     {
+                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position) * 100, Color.red);
                         _Agent.stoppingDistance = 70f;
                         // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
                         _TargetPos = _Player.transform.position;
                         _State = "EnemyFound";
                     }
+                }
+                else
+                {
+                    _State = "Patrol";
                 }
             }
 
@@ -99,7 +105,7 @@ public class EnemyTank : MonoBehaviour
                     break;
 
                 case "EnemyFound": // 發現敵人
-
+                    
                     AttackAction();
 
                     break;
@@ -131,7 +137,7 @@ public class EnemyTank : MonoBehaviour
     private void AttackAction()
     {
         // 距離多近 開火
-        float _Distance = Vector3.Distance(_Player.transform.position, transform.position);
+        _Distance = Vector3.Distance(_Player.transform.position, transform.position);
 
         if (_Distance <= _Agent.stoppingDistance)
         {
@@ -139,13 +145,14 @@ public class EnemyTank : MonoBehaviour
 
             RaycastHit hit2;
 
-            if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+            if (Physics.Raycast(Muzzle.transform.position , Muzzle.transform.forward, out hit2, 80f, 1 << 3 | 1 << 7 | 1 << 10  | 1 << 13 ))
             {
-                //Debug.Log(hit2.collider.name);
-                Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward * 100, Color.blue);
+                //Debug.Log("hit 2" + hit2.collider.name);
+                Debug.DrawRay(Muzzle.transform.position + Muzzle.transform.forward * 5f, Muzzle.transform.forward * 100, Color.black);
 
                 if (hit2.collider != null && hit2.collider.CompareTag("Player"))
                 {
+                    Debug.Log("Shoot");
                     _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
                 }
             }

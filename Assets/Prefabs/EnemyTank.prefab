@@ -122,6 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tmp: 0
   body: {fileID: 7628208035224881041}
+  _Player: {fileID: 4897572938967204257, guid: 083ce82620057294697b86342088cebd, type: 3}
   _clamp: 0
 --- !u!1 &1788451793792189928
 GameObject:
@@ -203,11 +204,14 @@ MonoBehaviour:
   BulletEnegy: 5
   EnemyTurretRotationScript: {fileID: 6395096611061684916}
   Muzzle: {fileID: 9001248144386161083}
-  EnemyFactoryScript: {fileID: 6714738463073601460, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
   _State: 
+  tmp: 0
+  _Distance: 0
   _TargetPos: {x: 0, y: 0, z: 0}
   _LastUpdatePos: {x: 0, y: 0, z: 0}
+  _OriginalPos: {x: 0, y: 0, z: 0}
   _StandbyTime: 0
+  _ResetTime: 0
 --- !u!114 &3887599674973282398
 MonoBehaviour:
   m_ObjectHideFlags: 0
