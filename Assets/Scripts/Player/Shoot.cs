@@ -20,9 +20,6 @@ public class Shoot : MonoBehaviour
     {
 
         Shooting(); // ек┴фоg└╗
-        
-        
-
 
     }
 

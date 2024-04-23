@@ -33,8 +33,6 @@ public class Muzzle : MonoBehaviour
         {
             _clamp = targetRotation.eulerAngles.x;
         }
-
-        //transform.forward = new Vector3(transform.forward.x, Mathf.Lerp(transform.forward.y, v.y, Time.deltaTime * 2), transform.forward.z);
         
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(_clamp, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z), 2 * Time.deltaTime);
 
@@ -48,7 +46,7 @@ public class Muzzle : MonoBehaviour
         
         if (hit.collider != null)
         {
-            //Debug.Log(hit.point);
+            
             targetPoint = hit.point;
         }
         else

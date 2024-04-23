@@ -8,8 +8,6 @@ public class SecondCamera : MonoBehaviour
     public GameObject turret;
     Vector3 _offset;
 
-    public float tmp;
-
     private void Start()
     {
 

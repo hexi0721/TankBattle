@@ -62,12 +62,12 @@ public class PlayerRotation : MonoBehaviour
         // 世界座標轉換螢幕座標
         ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 500);
         MuzzleAimImage.transform.localPosition = new Vector3((ScreenPos.x * AimC.rect.width) - AimC.rect.width / 2, (ScreenPos.y * AimC.rect.height) - AimC.rect.height / 2, 0);
-        Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 50, Color.blue);
+        Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 10 ,  Color.blue);
         RaycastHit hit = Raycast();
         
         if (hit.collider != null)
         {
-            //Debug.Log(hit.point);
+            
             targetPoint = hit.point;
         }
         else
@@ -78,7 +78,7 @@ public class PlayerRotation : MonoBehaviour
 
     }
     
-    private RaycastHit Raycast() // 修改 AIM
+    private RaycastHit Raycast() 
     {
         RaycastHit hit;
 
@@ -89,7 +89,7 @@ public class PlayerRotation : MonoBehaviour
         Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosFar);
 
         Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
-        Debug.DrawRay(WorldPosNear, (WorldPosFar - WorldPosNear) * 50, Color.blue);
+        
         return hit;
     }
     
