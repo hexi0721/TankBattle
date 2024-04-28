@@ -11,21 +11,30 @@ public class ResolutionSetting : MonoBehaviour
     Resolution[] resolutionsArr;
     public  TMP_Dropdown resolutionDropdown;
 
-    
+    List<string> s;
+    string[] words;
     void Start()
     {
         resolutionsArr = Screen.resolutions;
         resolutionDropdown.ClearOptions();
 
-        List<string> s = new List<string>();
+        s = new List<string>();
 
-        foreach (var resolution in resolutionsArr)
+        for (var i = 0; i < resolutionsArr.Length; i++)
         {
-            s.Add(resolution.width + " x " + resolution.height);
+            /*
+            if(i >= 1)
+            {
+                if (resolutionsArr[i].width == resolutionsArr[i-1].width && resolutionsArr[i].height == resolutionsArr[i - 1].height)
+                {
+                    continue;
+                }
+            }
+            */
+            s.Add(resolutionsArr[i].width + " x " + resolutionsArr[i].height);
         }
 
         resolutionDropdown.AddOptions(s);
-
         Get();
         
     }
@@ -33,8 +42,21 @@ public class ResolutionSetting : MonoBehaviour
 
     public void Set()
     {
+        
+        for (var i = 0; i < s.Count;i++) 
+        {
+            if(i == resolutionDropdown.value)
+            {
+                words = s[i].Split("x");
+            }
+        
+        }
 
-        Screen.SetResolution(resolutionsArr[resolutionDropdown.value].width, resolutionsArr[resolutionDropdown.value].height, Screen.fullScreen ,60);         
+
+
+        // value §P©w°ÝÃD
+        //Screen.SetResolution(resolutionsArr[resolutionDropdown.value].width, resolutionsArr[resolutionDropdown.value].height, Screen.fullScreen ,60);
+        Screen.SetResolution(int.Parse(words[0]) , int.Parse(words[1]), Screen.fullScreen ,60);    
     }
 
     void Get()

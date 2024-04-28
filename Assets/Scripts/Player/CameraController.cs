@@ -35,8 +35,8 @@ public class CameraController : MonoBehaviour
     {
         if(Obj != null) 
         {
-            transform.position = Obj.transform.position + Obj.transform.forward * -0.6f + transform.up;
-
+            // transform.position = Obj.transform.position + Obj.transform.forward * tmp + transform.up;
+            transform.position = Obj.transform.position + transform.up;
         }
         
 

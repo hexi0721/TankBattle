@@ -58,7 +58,7 @@ public class EnemyTank : MonoBehaviour
             {
                 if (Physics.Raycast(transform.position , _Player.transform.position - transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                 {
-                    Debug.Log(_Player.transform.name);
+                    //Debug.Log(_Player.transform.name);
                     if (hit.collider != null)
                     {
                         Debug.DrawRay(transform.position, (_Player.transform.position - transform.position) , Color.red);
@@ -154,7 +154,7 @@ public class EnemyTank : MonoBehaviour
 
                 if (hit2.collider != null && hit2.collider.CompareTag("Player"))
                 {
-                    Debug.Log("Shoot");
+                    // Debug.Log("Shoot");
                     _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
                 }
             }
