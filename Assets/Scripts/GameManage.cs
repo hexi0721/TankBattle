@@ -7,72 +7,63 @@ using UnityEngine;
 public class GameManage : MonoBehaviour
 {
     public GameObject MapCam; // 地圖鏡頭
-    public RectTransform Map;
+    public RectTransform Map; // 地圖bg
 
     bool _visible;
     bool _showMap;
-
+    bool _Fade;
+    float _speed = 5f;
     private void Start()
     {
         _visible = false;
         _showMap = false;
-
-        Map.localPosition = new Vector3(-450f, 0, 0);
+        _Fade = false;
+        Map.localPosition = new Vector3(-Map.transform.parent.GetComponent<RectTransform>().rect.width / 2 , 0, 0);
     }
 
     private void Update()
     {
+        //Debug.Log(Screen.width + " " + Screen.height);
         if (Input.GetKey(KeyCode.Tab))
         {
-
             _showMap = true;
-            _visible = true;
+            if(_showMap)
+            {
+                Map.localPosition = Vector3.Lerp(Map.localPosition, new Vector3(0, Map.localPosition.y, Map.localPosition.z), _speed * Time.deltaTime);
+            }
 
         }
 
         if(Input.GetKeyUp(KeyCode.Tab))
-        { 
-            _visible = false; 
+        {
+            _showMap = false;
+        }
+        if(!_showMap)
+        {
+            Map.localPosition = Vector3.Lerp(Map.localPosition, new Vector3(-Map.transform.parent.GetComponent<RectTransform>().rect.width / 2, Map.localPosition.y, Map.localPosition.z), _speed * Time.deltaTime);
         }
 
-        if(_showMap)
+
+
+
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
-            ShowOrHideMap();
+            // menu
         }
+
+        
         
     }
 
-    private void ShowOrHideMap()
+
+
+    void FadeIn()
     {
-        float speed = 5f;
-        if (_visible)
-        {
+        _Fade = true;
+    }
 
-
-            Map.localPosition = Vector3.Lerp(Map.localPosition , new Vector3(0 , Map.localPosition.y , Map.localPosition.z), speed * Time.deltaTime);
-
-
-
-        }
-        else
-        {
-            Map.localPosition = Vector3.Lerp(Map.localPosition, new Vector3(-450, Map.localPosition.y, Map.localPosition.z), speed * Time.deltaTime);
-
-            
-        }
-
-        if (Map.localPosition.x == 0)
-        {
-            
-            _showMap = false;
-        }
-
-        if (Map.localPosition.x == -450)
-        {
-            
-            _showMap = false;
-        }
-
-        
+    void FadeOut()
+    {
+        _Fade = false;
     }
 }

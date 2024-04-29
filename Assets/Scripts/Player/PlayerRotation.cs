@@ -60,19 +60,23 @@ public class PlayerRotation : MonoBehaviour
 
 
         // 世界座標轉換螢幕座標
-        ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 500);
+        ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 1000);
+        
         MuzzleAimImage.transform.localPosition = new Vector3((ScreenPos.x * AimC.rect.width) - AimC.rect.width / 2, (ScreenPos.y * AimC.rect.height) - AimC.rect.height / 2, 0);
-        Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 10 ,  Color.blue);
+        
+        
+        Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 50, Color.blue);
         RaycastHit hit = Raycast();
         
         if (hit.collider != null)
         {
-            
+            Debug.Log(1);
             targetPoint = hit.point;
         }
         else
         {
-            targetPoint = transform.GetChild(0).position + transform.GetChild(0).forward * 500;
+            Debug.Log(2);
+            targetPoint = transform.GetChild(0).position + transform.GetChild(0).forward * 1000;
         }
         
 
@@ -82,14 +86,15 @@ public class PlayerRotation : MonoBehaviour
     {
         RaycastHit hit;
 
-        Vector3 ScreenPosNear = new Vector3(ScreenPos.x * AimC.rect.width, ScreenPos.y * AimC.rect.height, MainCamera.GetComponent<Camera>().nearClipPlane);
-        Vector3 ScreenPosFar = new Vector3(ScreenPos.x * AimC.rect.width, ScreenPos.y * AimC.rect.height, MainCamera.GetComponent<Camera>().farClipPlane);
+        Vector3 ScreenPosNear = new Vector3(ScreenPos.x, ScreenPos.y, MainCamera.GetComponent<Camera>().nearClipPlane);
+        Vector3 ScreenPosFar = new Vector3(ScreenPos.x , ScreenPos.y , MainCamera.GetComponent<Camera>().farClipPlane);
 
-        Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosNear);
-        Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ScreenToWorldPoint(ScreenPosFar);
+        Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosNear);
+        Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosFar);
 
         Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
-        
+        Debug.DrawRay(WorldPosNear, WorldPosFar - WorldPosNear, Color.blue);
+        //Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 10, Color.blue);
         return hit;
     }
     

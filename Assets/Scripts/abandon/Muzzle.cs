@@ -46,7 +46,7 @@ public class Muzzle : MonoBehaviour
         
         if (hit.collider != null)
         {
-            
+            Debug.Log("hit");
             targetPoint = hit.point;
         }
         else
@@ -68,6 +68,7 @@ public class Muzzle : MonoBehaviour
         Vector3 WorldPosNear = Camera.main.ScreenToWorldPoint(ScreenPosNear);
         Vector3 WorldPosFar = Camera.main.ScreenToWorldPoint(ScreenPosFar);
 
+        Debug.DrawRay(WorldPosNear , WorldPosFar - WorldPosNear , Color.yellow);
         Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
 
         return hit;
