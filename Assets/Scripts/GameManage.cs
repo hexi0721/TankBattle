@@ -7,63 +7,80 @@ using UnityEngine;
 public class GameManage : MonoBehaviour
 {
     public GameObject MapCam; // 地圖鏡頭
-    public RectTransform Map; // 地圖bg
-
-    bool _visible;
-    bool _showMap;
-    bool _Fade;
+    public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas
+    
+    bool _showMap ;
+    public bool IsOpenMenu; // 是否開啟菜單
     float _speed = 5f;
     private void Start()
     {
-        _visible = false;
+        
         _showMap = false;
-        _Fade = false;
-        Map.localPosition = new Vector3(-Map.transform.parent.GetComponent<RectTransform>().rect.width / 2 , 0, 0);
+        IsOpenMenu = true;
+
+        MapCanvas.GetComponent<CanvasGroup>().alpha = 0f;
+        MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
     }
 
     private void Update()
     {
-        //Debug.Log(Screen.width + " " + Screen.height);
+        TabKeyCode();
+
+        EscKeyCode();
+
+    }
+
+    private void EscKeyCode()
+    {
+
+
+        // Esc 開關菜單
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            IsOpenMenu = !IsOpenMenu;
+            if (IsOpenMenu)
+            {
+                Cursor.visible = true;
+            }
+            else
+            {
+                Cursor.visible = false;
+            }
+        }
+    }
+
+    private void TabKeyCode()
+    {
         if (Input.GetKey(KeyCode.Tab))
         {
             _showMap = true;
-            if(_showMap)
+
+            if (_showMap)
             {
-                Map.localPosition = Vector3.Lerp(Map.localPosition, new Vector3(0, Map.localPosition.y, Map.localPosition.z), _speed * Time.deltaTime);
+                MapBG.localPosition = Vector3.Lerp(MapBG.localPosition, new Vector3(0, MapBG.localPosition.y, MapBG.localPosition.z), _speed * Time.deltaTime);
+
+                MapCanvas.GetComponent<CanvasGroup>().alpha += _speed * Time.deltaTime;
+
             }
 
         }
 
-        if(Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.Tab))
         {
             _showMap = false;
+
         }
-        if(!_showMap)
+        if (!_showMap)
         {
-            Map.localPosition = Vector3.Lerp(Map.localPosition, new Vector3(-Map.transform.parent.GetComponent<RectTransform>().rect.width / 2, Map.localPosition.y, Map.localPosition.z), _speed * Time.deltaTime);
+            MapBG.localPosition = Vector3.Lerp(MapBG.localPosition, new Vector3(-MapCanvas.rect.width / 2, MapBG.localPosition.y, MapBG.localPosition.z), _speed * Time.deltaTime);
+
+            MapCanvas.GetComponent<CanvasGroup>().alpha -= _speed * Time.deltaTime;
         }
-
-
-
-
-        if(Input.GetKeyDown(KeyCode.Escape))
-        {
-            // menu
-        }
-
-        
-        
     }
 
 
-
-    void FadeIn()
+    public bool GetIsOpenMenu()
     {
-        _Fade = true;
-    }
-
-    void FadeOut()
-    {
-        _Fade = false;
+        return IsOpenMenu;
     }
 }

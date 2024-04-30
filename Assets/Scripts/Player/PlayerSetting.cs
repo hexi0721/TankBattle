@@ -17,13 +17,11 @@ public class PlayerSetting : MonoBehaviour
     public float Hp2; // 紅色血條
     public float BulletEnegy;
     bool _UnderAttack;
-    float Counter;
+    float Counter; // 計算紅色血條何時動作
 
-    //public float MaxHp;
     public Image HpImage;
     public Image HpImage2;
 
-    //public float MaxBulletEnegy;
     public Image BulletEnegyImage;
 
     private void Start()

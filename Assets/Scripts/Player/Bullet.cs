@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        GetComponent<Rigidbody>().AddForce(transform.forward * speed, ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddForce(transform.forward * speed , ForceMode.Impulse);
     }
 
     
@@ -34,16 +34,12 @@ public class Bullet : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-
-
-
     }
 
 
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
-
 
         Instantiate(Explosion, transform.position, Quaternion.identity);
 

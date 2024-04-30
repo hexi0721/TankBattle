@@ -22,7 +22,7 @@ public class PlayerRotation : MonoBehaviour
     public RectTransform AimC; // Aim canva
 
     float _clamp;
-    [SerializeField]Vector2 ScreenPos;
+    Vector2 ScreenPos;
     public static Vector3 targetPoint; // Aim 中心點
     
     private void Update()
@@ -33,11 +33,8 @@ public class PlayerRotation : MonoBehaviour
         transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
 
-        
-
         Vector3 v = MainCamera.transform.position + MainCamera.transform.forward * 20 - transform.position;
-        v.Normalize();
-        Quaternion rotation = Quaternion.LookRotation(v);
+        Quaternion rotation = Quaternion.LookRotation(v.normalized);
         // 左右轉向 y 高度保持不變
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(transform.rotation.eulerAngles.x, rotation.eulerAngles.y, transform.rotation.eulerAngles.z), Time.deltaTime);
 
@@ -59,23 +56,21 @@ public class PlayerRotation : MonoBehaviour
         transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.GetChild(0).rotation.eulerAngles.y, transform.GetChild(0).eulerAngles.z), 2 * Time.deltaTime);
 
 
-        // 世界座標轉換螢幕座標
+        // 世界座標轉換視角座標
         ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 1000);
-        
         MuzzleAimImage.transform.localPosition = new Vector3((ScreenPos.x * AimC.rect.width) - AimC.rect.width / 2, (ScreenPos.y * AimC.rect.height) - AimC.rect.height / 2, 0);
         
         
-        Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 50, Color.blue);
         RaycastHit hit = Raycast();
         
         if (hit.collider != null)
         {
-            Debug.Log(1);
+            Debug.DrawRay(transform.GetChild(0).position, hit.point - transform.GetChild(0).position, Color.blue);
             targetPoint = hit.point;
+
         }
         else
         {
-            Debug.Log(2);
             targetPoint = transform.GetChild(0).position + transform.GetChild(0).forward * 1000;
         }
         
@@ -89,12 +84,13 @@ public class PlayerRotation : MonoBehaviour
         Vector3 ScreenPosNear = new Vector3(ScreenPos.x, ScreenPos.y, MainCamera.GetComponent<Camera>().nearClipPlane);
         Vector3 ScreenPosFar = new Vector3(ScreenPos.x , ScreenPos.y , MainCamera.GetComponent<Camera>().farClipPlane);
 
+        // 視角座標轉換世界座標
         Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosNear);
         Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosFar);
 
         Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
         Debug.DrawRay(WorldPosNear, WorldPosFar - WorldPosNear, Color.blue);
-        //Debug.DrawRay(transform.GetChild(0).position, transform.GetChild(0).forward * 10, Color.blue);
+        
         return hit;
     }
     

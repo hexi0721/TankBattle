@@ -12,10 +12,10 @@ public class CameraController : MonoBehaviour
 {
 
     public GameObject Obj; // player turret
-    
+    public GameManage gameManage;
     
     Vector2 O; // 螢幕中央
-    bool _IsOpenMenu; // 是否開啟菜單
+    
     bool _IsCenter;  // 是否在中央
 
     
@@ -27,7 +27,6 @@ public class CameraController : MonoBehaviour
 
         SetO();
 
-        _IsOpenMenu = true;
         _IsCenter = false;
     }
 
@@ -35,7 +34,6 @@ public class CameraController : MonoBehaviour
     {
         if(Obj != null) 
         {
-            // transform.position = Obj.transform.position + Obj.transform.forward * tmp + transform.up;
             transform.position = Obj.transform.position + transform.up;
         }
         
@@ -44,18 +42,10 @@ public class CameraController : MonoBehaviour
 
     private void Update()
     {
-        
-
-        EscEnable();
 
         SetO();
-
         IsMouseCenter();
-
         MouseMove();
-
-        
-
 
     }
 
@@ -77,7 +67,7 @@ public class CameraController : MonoBehaviour
     private void MouseMove()
     {
         // 鼠標移動 & 攝影機轉動
-        if (!_IsOpenMenu)
+        if (!gameManage.GetIsOpenMenu())
         {
 
             Vector3 ScreenPosNear = new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane);
@@ -101,22 +91,6 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    private void EscEnable()
-    {
-        // Esc 開關菜單
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _IsOpenMenu = !_IsOpenMenu;
-            if (_IsOpenMenu)
-            {
-                Cursor.visible = true;
-            }
-            else
-            {
-                Cursor.visible = false;
-            }
-        }
-    }
 
     private void SetO() // 設置螢幕中心點
     {

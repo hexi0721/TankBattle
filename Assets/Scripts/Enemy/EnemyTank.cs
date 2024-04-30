@@ -113,11 +113,13 @@ public class EnemyTank : MonoBehaviour
                     break;
 
                 case "UnderAttack": // 遭受攻擊
+
                     _TargetPos = _Player.transform.position;
 
                     break;
 
                 case "FacUnderAttack": // 兵工廠遭受攻擊
+
                     _Agent.stoppingDistance = 70f;
                     _TargetPos = _Player.transform.position;
 

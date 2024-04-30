@@ -11,7 +11,7 @@ public class InstantiateTank : MonoBehaviour
 
     // 與 RadarPoint 配合
     public Camera MapCamera; // 地圖鏡頭
-    public RectTransform Map; // 地圖 canva
+    public RectTransform Map; // 地圖 canvas
     public RectTransform MapBG; // 地圖 BG
 
     List<Vector3> _Pos , _Rot; // 敵方坦克初始出生位置
@@ -45,7 +45,7 @@ public class InstantiateTank : MonoBehaviour
     {
         _AnyTank = GameObject.FindWithTag("EnemyTank") ? true : false;
 
-
+        // 沒有敵方坦克時 每過幾秒生成一台
         if (!_AnyTank)
         {
             _InitCooldown -= Time.deltaTime;
@@ -61,7 +61,7 @@ public class InstantiateTank : MonoBehaviour
 
     }
 
-    private void BuildTank(List<Vector3> Pos , List<Vector3> Rot)
+    private void BuildTank(List<Vector3> Pos , List<Vector3> Rot) // 生成坦克 與 雷達
     {
         for (int i = 0; i < Pos.Count; i++)
         {

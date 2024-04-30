@@ -9,13 +9,14 @@ public class RadarPoing : MonoBehaviour
     public RectTransform Map; // 地圖 canva
     public RectTransform MapBG; // 地圖 BG
 
+    
     private void Update()
     {
 
         if(Obj != null)
         {
             Vector3 v = MapCamera.WorldToViewportPoint(Obj.transform.position);
-            transform.localPosition = new Vector3((v.x * Map.rect.width) - Map.rect.width / 2, (v.y * Map.rect.height) - Map.rect.height / 2 , -3) + MapBG.transform.localPosition;
+            transform.localPosition = new Vector3((v.x * Map.rect.width) - Map.rect.width / 2, (v.y * Map.rect.height) - Map.rect.height / 2 , -7) + MapBG.transform.localPosition;
 
 
         }
