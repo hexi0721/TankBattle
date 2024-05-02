@@ -30,10 +30,8 @@ public class EnemyTurretRotation : MonoBehaviour
     {
 
         Vector3 v = _Player.transform.position - transform.position;
-        v.Normalize();
         
-
-        Quaternion rotation = Quaternion.LookRotation(v);
+        Quaternion rotation = Quaternion.LookRotation(v.normalized);
 
         // Turret екеk
         transform.rotation = Quaternion.Lerp(transform.rotation , Quaternion.Euler(transform.rotation.eulerAngles.x , rotation.eulerAngles.y , transform.rotation.eulerAngles.z) , Time.deltaTime);

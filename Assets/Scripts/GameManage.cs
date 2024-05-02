@@ -12,6 +12,8 @@ public class GameManage : MonoBehaviour
     bool _showMap ;
     public bool IsOpenMenu; // 是否開啟菜單
     float _speed = 5f;
+
+    GameObject _PlayerTank;
     private void Start()
     {
         
@@ -20,6 +22,8 @@ public class GameManage : MonoBehaviour
 
         MapCanvas.GetComponent<CanvasGroup>().alpha = 0f;
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
+
+        _PlayerTank = GameObject.FindWithTag("Player");
     }
 
     private void Update()
@@ -27,6 +31,12 @@ public class GameManage : MonoBehaviour
         TabKeyCode();
 
         EscKeyCode();
+
+        if(_PlayerTank)
+        {
+            // 修改血條正確歸零
+            Debug.Log(true);
+        }
 
     }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.PlayerLoop;
 
 public class EnemyTank : MonoBehaviour
 {
@@ -15,14 +16,15 @@ public class EnemyTank : MonoBehaviour
     EnemyShoot _EnemyShootScript;
     GameObject _Player;
     NavMeshAgent _Agent;
+    //NavMeshObstacle _Obstacle;
 
     [SerializeField] string _State;
 
     
     [SerializeField] float _Distance;
-    Vector3 _TargetPos; // 存放前往的目標位置
-    Vector3 _LastUpdatePos; // 上一幀位置
-    Vector3 _OriginalPos; // 初始位置
+    [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
+    [SerializeField] Vector3 _LastUpdatePos; // 上一幀位置
+    [SerializeField] Vector3 _OriginalPos; // 初始位置
     [SerializeField] float _StandbyTime; // 待命時間
     [SerializeField] float _ResetTime; // 重設時間
 
@@ -31,6 +33,7 @@ public class EnemyTank : MonoBehaviour
     {
         _Player = GameObject.FindWithTag("Player");
         _Agent = GetComponent<NavMeshAgent>();
+        //_Obstacle = GetComponent<NavMeshObstacle>();
         _EnemyShootScript = GetComponent<EnemyShoot>();
         _EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
 
@@ -44,10 +47,15 @@ public class EnemyTank : MonoBehaviour
     }
     private void Update()
     {
+
+        
+
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
             _State = "FacUnderAttack";
         }
+
+        
     }
     private void LateUpdate()
     {
@@ -78,18 +86,24 @@ public class EnemyTank : MonoBehaviour
             switch (_State)
             {
                 case "Patrol": // 巡邏
-
+                    Debug.Log("Patrol");
                     EnemyTurretRotationScript.PatrolStat();
                     _Agent.stoppingDistance = 0f;
                     
                     if (transform.position == _LastUpdatePos)
                     {
+                        /*
+                        _Agent.enabled = false;
+                        _Obstacle.enabled = true;
+                        */
                         _StandbyTime -= Time.deltaTime;
 
                         if (_StandbyTime < 0f)
                         {
-                            _StandbyTime = 2f;
-                            _ResetTime = 8f;
+                            //_Obstacle.enabled = false;
+                            
+                            _StandbyTime = 3f;
+                            _ResetTime = 10f;
                             Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
 
                             _TargetPos += _MVRAND;
@@ -107,19 +121,19 @@ public class EnemyTank : MonoBehaviour
                     break;
 
                 case "EnemyFound": // 發現敵人
-                    
+                    Debug.Log("EnemyFound");
                     AttackAction();
 
                     break;
 
                 case "UnderAttack": // 遭受攻擊
-
+                    Debug.Log("UnderAttack");
                     _TargetPos = _Player.transform.position;
 
                     break;
 
                 case "FacUnderAttack": // 兵工廠遭受攻擊
-
+                    Debug.Log("FacUnderAttack");
                     _Agent.stoppingDistance = 70f;
                     _TargetPos = _Player.transform.position;
 
@@ -133,10 +147,17 @@ public class EnemyTank : MonoBehaviour
         }
 
         _LastUpdatePos = transform.position; // 紀錄上一幀位置
-
+        /*
+        if (!_Obstacle.enabled)
+        {
+            _Agent.enabled = true;
+            _Agent.SetDestination(_TargetPos);
+        }
+        */
         _Agent.SetDestination(_TargetPos);
-        
     }
+
+    
 
     private void AttackAction()
     {
@@ -165,7 +186,7 @@ public class EnemyTank : MonoBehaviour
 
         }
 
-        if (hit.collider != null && !hit.collider.CompareTag("Player"))
+        if (hit.collider != null && !hit.collider.CompareTag("Player") && _State != "FacUnderAttack")
         {
             EnemyTurretRotationScript.PatrolStat();
             _Agent.stoppingDistance = 0f;
@@ -176,7 +197,7 @@ public class EnemyTank : MonoBehaviour
 
                 if (_StandbyTime < 0f)
                 {
-                    _StandbyTime = 2f;
+                    _StandbyTime = 3f;
                     _State = "Patrol";
                 }
             }

@@ -32,16 +32,17 @@ public class CameraController : MonoBehaviour
 
     private void FixedUpdate() // 用Fixed 應該是因為Move的移動在Fixed 為了同步不抖動 所以這裡也要在Fixed (?
     {
-        if(Obj != null) 
-        {
-            transform.position = Obj.transform.position + transform.up;
-        }
+        
         
 
     }
 
     private void Update()
     {
+        if (Obj != null)
+        {
+            transform.position = Obj.transform.position + transform.up;
+        }
 
         SetO();
         IsMouseCenter();
