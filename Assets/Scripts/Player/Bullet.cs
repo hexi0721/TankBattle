@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Bullet : MonoBehaviour
 {
@@ -9,12 +10,15 @@ public class Bullet : MonoBehaviour
     public GameObject Flame; // ¿U¿N²É¤l
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
+    Image ShootFeedBack;
+
     public float speed;
     float _time;
 
     private void Start()
     {
         _time = 0f;
+        ShootFeedBack = GameObject.FindWithTag("ShootFeedBack").GetComponent<Image>();
     }
 
     private void FixedUpdate()
@@ -56,7 +60,7 @@ public class Bullet : MonoBehaviour
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
                 }
 
-
+                ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b , 1f);
 
 
 

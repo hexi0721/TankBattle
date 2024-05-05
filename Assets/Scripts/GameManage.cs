@@ -9,6 +9,7 @@ public class GameManage : MonoBehaviour
     public GameObject MapCam; // 地圖鏡頭
     public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas
     
+    
     bool _showMap ;
     public bool IsOpenMenu; // 是否開啟菜單
     float _speed = 5f;
@@ -32,10 +33,11 @@ public class GameManage : MonoBehaviour
 
         EscKeyCode();
 
-        if(_PlayerTank)
+        if(_PlayerTank == null && PlayerSetting.Instance.Hp2 >= 0)
         {
-            // 修改血條正確歸零
-            Debug.Log(true);
+
+            PlayerSetting.Instance.Hp2 -= 1;
+            PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
     }

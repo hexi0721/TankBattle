@@ -42,7 +42,7 @@ public class PlayerSetting : MonoBehaviour
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
 
         HpImage.fillAmount = Hp / 100;
-        if (Hp < 0)
+        if (Hp <= 0)
         {
             Destroy(this.gameObject);
         }

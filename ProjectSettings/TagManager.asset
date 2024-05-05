@@ -9,6 +9,7 @@ TagManager:
   - PlayerBullet
   - EnemyBullet
   - EnemyTank
+  - ShootFeedBack
   layers:
   - Default
   - TransparentFX
