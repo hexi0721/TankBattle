@@ -18,16 +18,25 @@ public class PlayerSetting : MonoBehaviour
     public float BulletEnegy;
     bool _UnderAttack;
     float Counter; // 計算紅色血條何時動作
+    [SerializeField] float _FeedBackTime;
 
     public Image HpImage;
     public Image HpImage2;
 
     public Image BulletEnegyImage;
+    Image ShootFeedBack;
+
+    bool _Ishit;
 
     private void Start()
     {
         _UnderAttack = false;
         Counter = 1.5f;
+
+        _FeedBackTime = 0f;
+        ShootFeedBack = GameObject.FindWithTag("ShootFeedBack").GetComponent<Image>();
+        ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
+        _Ishit = false;
     }
 
     private void Awake()
@@ -64,7 +73,16 @@ public class PlayerSetting : MonoBehaviour
             }
             
         }
-        
+
+        if (_FeedBackTime <= 0f)
+        {
+            ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
+        }
+        else
+        {
+            _FeedBackTime -= Time.deltaTime;
+        }
+
 
     }
 
@@ -80,6 +98,20 @@ public class PlayerSetting : MonoBehaviour
         }
     }
 
-    // 新增補血功能
+    
+    private void FeedBack()
+    {
+        _FeedBackTime = 1f;
+        ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 1f);
+    }
 
+    public void SetAimFeedback(bool Ishit)
+    {
+
+        _Ishit = Ishit;
+        
+
+    }
+
+    // 新增補血功能
 }

@@ -3158,6 +3158,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: ShootFeedBack
       objectReference: {fileID: 0}
+    - target: {fileID: 7829465783378519531, guid: 09a1504796e43c34eb0b156864ed4d51, type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

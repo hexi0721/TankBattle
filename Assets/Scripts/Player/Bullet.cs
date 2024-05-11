@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,15 +11,17 @@ public class Bullet : MonoBehaviour
     public GameObject Flame; // ¿U¿N²É¤l
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
-    Image ShootFeedBack;
-
+    public PlayerSetting playerSetting;
+    
     public float speed;
     float _time;
+    
 
     private void Start()
     {
         _time = 0f;
-        ShootFeedBack = GameObject.FindWithTag("ShootFeedBack").GetComponent<Image>();
+        
+        
     }
 
     private void FixedUpdate()
@@ -33,10 +36,14 @@ public class Bullet : MonoBehaviour
 
         _time += Time.deltaTime;
 
-        if(_time > 5.0f)
+        if(_time >= 5.0f)
         {
             Destroy(this.gameObject);
         }
+
+        
+
+
 
     }
 
@@ -60,7 +67,10 @@ public class Bullet : MonoBehaviour
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
                 }
 
-                ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b , 1f);
+
+                playerSetting.SetAimFeedback(true);
+
+
 
 
 
@@ -72,10 +82,14 @@ public class Bullet : MonoBehaviour
 
 
 
+            case "EnemyTank":
+
+                playerSetting.SetAimFeedback(true);
+
+
+                break;
         }
     }
-
-    
 
 
 }
