@@ -2,10 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.InputSystem.Controls.AxisControl;
 
 
 public class CameraController : MonoBehaviour
@@ -18,14 +20,20 @@ public class CameraController : MonoBehaviour
     
     bool _IsCenter;  // 是否在中央
 
-    
+
+    [SerializeField] Quaternion _rotation;
+    public float CamSmoothFactor;
+    float _LookUpMin , _LookUpMax ;
 
     private void Start()
     {
 
-        Cursor.visible = true;
+        _rotation = transform.rotation;
+            
+        _LookUpMin = -10 ;
+        _LookUpMax = 6;
 
-        SetO();
+        Cursor.visible = false;
 
         _IsCenter = false;
     }
@@ -41,13 +49,33 @@ public class CameraController : MonoBehaviour
     {
         if (Obj != null)
         {
-            transform.position = Obj.transform.position + transform.up;
+            if(Input.GetMouseButton(1))
+            {
+                transform.position = Obj.transform.position + transform.up + transform.forward*6f;
+            }
+            else
+            {
+                transform.position = Obj.transform.position + transform.up;
+            }
+
+
+            
         }
 
+        Debug.Log(transform.rotation);
+
+        _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
+        _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
+
+        _rotation.x = Mathf.Clamp(_rotation.x , _LookUpMin , _LookUpMax);
+
+        //transform.localRotation = Quaternion.Euler(_rotation.x, _rotation.y, _rotation.z);
+
+        /*
         SetO();
         IsMouseCenter();
         MouseMove();
-
+        */
     }
 
     
@@ -67,7 +95,7 @@ public class CameraController : MonoBehaviour
 
     private void MouseMove()
     {
-        // 鼠標移動 & 攝影機轉動
+        // 鼠標移動 & 攝影機轉動 // -10 < x < 6
         if (!gameManage.GetIsOpenMenu())
         {
 
@@ -80,6 +108,19 @@ public class CameraController : MonoBehaviour
             Vector3 v = WorldPosFar - WorldPosNear;
 
             v.Normalize();
+
+            
+            if (transform.rotation.eulerAngles.x >= 6.0f && transform.rotation.eulerAngles.x < 180f)
+            {
+                transform.rotation = Quaternion.Euler(6f  , transform.rotation.eulerAngles.y , transform.rotation.eulerAngles.z);
+            }
+            else if (transform.rotation.eulerAngles.x > 180f && transform.rotation.eulerAngles.x <= 350f)
+            {
+                transform.rotation = Quaternion.Euler(-10f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
+            
+
+            
 
             if (_IsCenter == false)  // 如果鼠標不在中心則轉向
             {

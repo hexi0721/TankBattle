@@ -11,17 +11,16 @@ public class Bullet : MonoBehaviour
     public GameObject Flame; // ¿U¿N²É¤l
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
-    public PlayerSetting playerSetting;
-    
     public float speed;
     float _time;
-    
+
 
     private void Start()
     {
         _time = 0f;
         
-        
+
+
     }
 
     private void FixedUpdate()
@@ -68,12 +67,7 @@ public class Bullet : MonoBehaviour
                 }
 
 
-                playerSetting.SetAimFeedback(true);
-
-
-
-
-
+                PlayerSetting.Instance._Ishit = true;
 
 
 
@@ -84,12 +78,23 @@ public class Bullet : MonoBehaviour
 
             case "EnemyTank":
 
-                playerSetting.SetAimFeedback(true);
+                PlayerSetting.Instance._Ishit = true;
 
 
                 break;
+
+            case "EnemyFactory":
+
+                PlayerSetting.Instance._Ishit = true;
+
+
+                break;
+
+
         }
     }
+
+
 
 
 }

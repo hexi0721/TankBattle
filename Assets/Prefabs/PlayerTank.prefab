@@ -462,7 +462,6 @@ MonoBehaviour:
   body: {fileID: 2569014630977227009}
   MuzzleAimImage: {fileID: 0}
   AimC: {fileID: 0}
-  ScreenPos: {x: 0, y: 0}
 --- !u!1 &4897572938967204257
 GameObject:
   m_ObjectHideFlags: 0
@@ -513,9 +512,11 @@ MonoBehaviour:
   Hp: 100
   Hp2: 100
   BulletEnegy: 2.5
+  _FeedBackTime: 0
   HpImage: {fileID: 0}
   HpImage2: {fileID: 0}
   BulletEnegyImage: {fileID: 0}
+  _Ishit: 0
 --- !u!54 &7687969622697810706
 Rigidbody:
   m_ObjectHideFlags: 0

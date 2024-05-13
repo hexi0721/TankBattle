@@ -9,7 +9,7 @@ public class PlayerSetting : MonoBehaviour
 
     public static PlayerSetting Instance 
     {
-        get { return _instance; }
+        get => _instance;
 
     }
 
@@ -26,7 +26,7 @@ public class PlayerSetting : MonoBehaviour
     public Image BulletEnegyImage;
     Image ShootFeedBack;
 
-    bool _Ishit;
+    public bool _Ishit;
 
     private void Start()
     {
@@ -74,14 +74,31 @@ public class PlayerSetting : MonoBehaviour
             
         }
 
-        if (_FeedBackTime <= 0f)
+        if (_Ishit)
         {
-            ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
+            _FeedBackTime = 0.1f;
+            ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 1f);
+            _Ishit = false;
+
+            
+            
         }
         else
         {
-            _FeedBackTime -= Time.deltaTime;
+
+            if (_FeedBackTime <= 0f)
+            {
+
+                ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
+            }
+            else
+            {
+                _FeedBackTime -= Time.deltaTime;
+            }
+
         }
+
+        
 
 
     }
@@ -98,20 +115,9 @@ public class PlayerSetting : MonoBehaviour
         }
     }
 
+
+
     
-    private void FeedBack()
-    {
-        _FeedBackTime = 1f;
-        ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 1f);
-    }
-
-    public void SetAimFeedback(bool Ishit)
-    {
-
-        _Ishit = Ishit;
-        
-
-    }
 
     // 新增補血功能
 }

@@ -10,6 +10,7 @@ TagManager:
   - EnemyBullet
   - EnemyTank
   - ShootFeedBack
+  - EnemyFactory
   layers:
   - Default
   - TransparentFX

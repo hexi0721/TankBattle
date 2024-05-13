@@ -150,5 +150,5 @@ MonoBehaviour:
   Explosion: {fileID: 5322160268999957822, guid: 4f2631a28097e1a4e8c82d5109be61ae, type: 3}
   Flame: {fileID: 2982222064502167191, guid: e4f8ca100ecbc914cbc407ca923379bd, type: 3}
   material: {fileID: 2100000, guid: 279117a27b1f70d4d94ce02c15667ad8, type: 2}
-  ShootFeedBack: {fileID: 7829465783378519531, guid: 09a1504796e43c34eb0b156864ed4d51, type: 3}
+  playerSetting: {fileID: 3478907896274486159, guid: 083ce82620057294697b86342088cebd, type: 3}
   speed: 50

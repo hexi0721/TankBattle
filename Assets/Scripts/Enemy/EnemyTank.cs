@@ -7,7 +7,7 @@ using UnityEngine.PlayerLoop;
 
 public class EnemyTank : MonoBehaviour
 {
-    [HideInInspector] public float Hp;
+    public float Hp;
     [HideInInspector] public float BulletEnegy;
     public EnemyTurretRotation EnemyTurretRotationScript;
     public GameObject Muzzle;

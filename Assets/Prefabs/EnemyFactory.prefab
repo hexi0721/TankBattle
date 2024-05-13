@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4353327714592033379}
   m_Layer: 7
   m_Name: EnemyFactory
-  m_TagString: Untagged
+  m_TagString: EnemyFactory
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8
@@ -121,7 +121,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77865af37ca76b348a92753495a743b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FacHp: {fileID: 0}
   Hp: 50
+  HpShowTime: 0
 --- !u!114 &7338906777041026863
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +140,7 @@ MonoBehaviour:
   EnemyPoingPrefab: {fileID: 1882248986637690587, guid: 4f22a1600b440254dbb0a21026795959, type: 3}
   MapCamera: {fileID: 0}
   Map: {fileID: 0}
+  MapBG: {fileID: 0}
   _InitCooldown: 0
 --- !u!205 &4353327714592033379
 LODGroup:
