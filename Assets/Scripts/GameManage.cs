@@ -10,16 +10,16 @@ public class GameManage : MonoBehaviour
     public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas
     
     
-    bool _showMap ;
-    public bool IsOpenMenu; // 是否開啟菜單
+    bool _showMap , _IsOpenMenu , _CanPlayerAction;
     float _speed = 5f;
 
     GameObject _PlayerTank;
     private void Start()
     {
-        
+        Cursor.visible = false;
+
         _showMap = false;
-        IsOpenMenu = true;
+        _IsOpenMenu = false;
 
         MapCanvas.GetComponent<CanvasGroup>().alpha = 0f;
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
@@ -40,6 +40,10 @@ public class GameManage : MonoBehaviour
             PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
+        _CanPlayerAction = (!_showMap && !_IsOpenMenu) ? true : false;
+
+        
+
     }
 
     private void EscKeyCode()
@@ -49,14 +53,16 @@ public class GameManage : MonoBehaviour
         // Esc 開關菜單
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            IsOpenMenu = !IsOpenMenu;
-            if (IsOpenMenu)
+            _IsOpenMenu = !_IsOpenMenu;
+            if (_IsOpenMenu)
             {
                 Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
             }
             else
             {
                 Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
             }
         }
     }
@@ -91,8 +97,8 @@ public class GameManage : MonoBehaviour
     }
 
 
-    public bool GetIsOpenMenu()
+    public bool CanPlayerAction()
     {
-        return IsOpenMenu;
+        return _CanPlayerAction;
     }
 }

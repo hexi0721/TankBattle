@@ -27,11 +27,12 @@ public class PlayerRotation : MonoBehaviour
     
     private void Update()
     {
-
+        /*
         // ¸j©w¼Æ­È
         transform.localPosition = body.transform.localPosition + body.transform.up * 1.1f;
         transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
+        */
 
         Vector3 v = MainCamera.transform.position + MainCamera.transform.forward * 20 - transform.position;
         Quaternion rotation = Quaternion.LookRotation(v.normalized);
