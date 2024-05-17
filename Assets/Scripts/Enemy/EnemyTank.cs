@@ -16,7 +16,7 @@ public class EnemyTank : MonoBehaviour
     EnemyShoot _EnemyShootScript;
     GameObject _Player;
     NavMeshAgent _Agent;
-    //NavMeshObstacle _Obstacle;
+    NavMeshObstacle _Obstacle;
 
     [SerializeField] string _State;
 
@@ -27,35 +27,39 @@ public class EnemyTank : MonoBehaviour
     [SerializeField] Vector3 _OriginalPos; // 初始位置
     [SerializeField] float _StandbyTime; // 待命時間
     [SerializeField] float _ResetTime; // 重設時間
+    [SerializeField] float _LastMoveTime;
+    [SerializeField] float _NetxFrameTime;
+    [SerializeField] bool _WantToMove;
 
     RaycastHit hit;
     private void Start()
     {
         _Player = GameObject.FindWithTag("Player");
         _Agent = GetComponent<NavMeshAgent>();
-        //_Obstacle = GetComponent<NavMeshObstacle>();
+        _Obstacle = GetComponent<NavMeshObstacle>();
+        _Obstacle.enabled = false;
         _EnemyShootScript = GetComponent<EnemyShoot>();
         _EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
 
         _State = "Patrol";
         _TargetPos = transform.position;
         _OriginalPos = transform.position;
+        //_LastUpdatePos = transform.position;
+        //_LastMoveTime = Time.time;
         _StandbyTime = 2f;
-        _ResetTime = 8f;
-
+        _ResetTime = 30f;
+        _WantToMove = true;
+        _NetxFrameTime = 0.2f;
 
     }
     private void Update()
     {
-
-        
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
             _State = "FacUnderAttack";
         }
 
-        
     }
     private void LateUpdate()
     {
@@ -86,54 +90,72 @@ public class EnemyTank : MonoBehaviour
             switch (_State)
             {
                 case "Patrol": // 巡邏
-                    //Debug.Log("Patrol");
+                    
                     EnemyTurretRotationScript.PatrolStat();
                     _Agent.stoppingDistance = 0f;
                     
-                    if (transform.position == _LastUpdatePos)
+                    if (transform.position == _LastUpdatePos && _WantToMove != true) // 停止時刻
                     {
-                        /*
+                        
                         _Agent.enabled = false;
                         _Obstacle.enabled = true;
-                        */
+                        
                         _StandbyTime -= Time.deltaTime;
 
-                        if (_StandbyTime < 0f)
+                        if (_StandbyTime < 0f) // 當停留時間小於零
                         {
-                            //_Obstacle.enabled = false;
-                            
-                            _StandbyTime = 3f;
-                            _ResetTime = 10f;
-                            Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
 
+                            _LastMoveTime = Time.time;
+                            _WantToMove = true;
+
+                            Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
                             _TargetPos += _MVRAND;
                         }
+
                     }
-                    else if (Vector3.Distance(_TargetPos , _LastUpdatePos) != 0) // 回到初始位置
+
+                    
+
+                    // 以免BUG 因此重置位置
+                    _ResetTime -= Time.deltaTime;
+                    if (_ResetTime < 0f)
                     {
-                        _ResetTime -= Time.deltaTime;
-                        if (_ResetTime < 0f)
+                        _WantToMove = true;
+                        _TargetPos = _OriginalPos;
+                    }
+                    
+                    if (_WantToMove)
+                    {
+                        _Obstacle.enabled = false;
+
+                        if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
                         {
-                            _TargetPos = _OriginalPos;
+                            _Agent.enabled = true;
+                            _Agent.SetDestination(_TargetPos);
+                            _WantToMove = false;
+
+                            _StandbyTime = 3f;
+                            _ResetTime = 30f;
                         }
+
                     }
 
                     break;
 
                 case "EnemyFound": // 發現敵人
-                    //Debug.Log("EnemyFound");
+                    
                     AttackAction();
 
                     break;
 
                 case "UnderAttack": // 遭受攻擊
-                    //Debug.Log("UnderAttack");
+                    
                     _TargetPos = _Player.transform.position;
 
                     break;
 
                 case "FacUnderAttack": // 兵工廠遭受攻擊
-                    //Debug.Log("FacUnderAttack");
+                    
                     _Agent.stoppingDistance = 70f;
                     _TargetPos = _Player.transform.position;
 
@@ -147,17 +169,15 @@ public class EnemyTank : MonoBehaviour
         }
 
         _LastUpdatePos = transform.position; // 紀錄上一幀位置
-        /*
-        if (!_Obstacle.enabled)
+        
+        if(_State != "Patrol")
         {
-            _Agent.enabled = true;
             _Agent.SetDestination(_TargetPos);
         }
-        */
-        _Agent.SetDestination(_TargetPos);
+        
     }
 
-    
+
 
     private void AttackAction()
     {
@@ -198,6 +218,14 @@ public class EnemyTank : MonoBehaviour
                 if (_StandbyTime < 0f)
                 {
                     _StandbyTime = 3f;
+                    _State = "Patrol";
+                }
+            }
+            else if (Vector3.Distance(_TargetPos, _LastUpdatePos) != 0)
+            {
+                _ResetTime -= Time.deltaTime;
+                if (_ResetTime < 0f)
+                {
                     _State = "Patrol";
                 }
             }

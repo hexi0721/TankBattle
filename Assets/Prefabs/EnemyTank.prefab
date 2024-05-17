@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 7916899886477022834}
   - component: {fileID: 3887599674973282398}
   - component: {fileID: -7559986053583295581}
-  - component: {fileID: -1160723512984201682}
+  - component: {fileID: -676027510588801185}
   m_Layer: 11
   m_Name: EnemyTank
   m_TagString: EnemyTank
@@ -210,6 +210,9 @@ MonoBehaviour:
   _OriginalPos: {x: 0, y: 0, z: 0}
   _StandbyTime: 0
   _ResetTime: 0
+  _LastMoveTime: 0
+  _NetxFrameTime: 0
+  _WantToMove: 0
 --- !u!114 &3887599674973282398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,7 +248,7 @@ NavMeshAgent:
   m_BaseOffset: 0.2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!208 &-1160723512984201682
+--- !u!208 &-676027510588801185
 NavMeshObstacle:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -254,12 +257,12 @@ NavMeshObstacle:
   m_GameObject: {fileID: 1788451793792189928}
   m_Enabled: 0
   serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_Shape: 0
+  m_Extents: {x: 1.28, y: 1, z: 1.28}
   m_MoveThreshold: 0.1
   m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_CarveOnlyStationary: 0
+  m_Center: {x: 0, y: 0, z: 0.87}
   m_TimeToStationary: 0.5
 --- !u!1 &2397618157613924280
 GameObject:
