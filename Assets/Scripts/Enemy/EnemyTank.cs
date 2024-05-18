@@ -170,7 +170,7 @@ public class EnemyTank : MonoBehaviour
 
         _LastUpdatePos = transform.position; // ¬ö¿ý¤W¤@´V¦ì¸m
         
-        if(_State != "Patrol")
+        if(_State != "Patrol" && _Agent.enabled)
         {
             _Agent.SetDestination(_TargetPos);
         }
@@ -204,6 +204,10 @@ public class EnemyTank : MonoBehaviour
 
             _EnemyShootScript.Reloading(BulletEnegy);
 
+        }
+        else
+        {
+            EnemyTurretRotationScript.PatrolStat();
         }
 
         if (hit.collider != null && !hit.collider.CompareTag("Player") && _State != "FacUnderAttack")
