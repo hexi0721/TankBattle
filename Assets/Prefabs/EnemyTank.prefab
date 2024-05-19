@@ -204,14 +204,10 @@ MonoBehaviour:
   EnemyTurretRotationScript: {fileID: 6395096611061684916}
   Muzzle: {fileID: 9001248144386161083}
   _State: 
-  _Distance: 0
   _TargetPos: {x: 0, y: 0, z: 0}
   _LastUpdatePos: {x: 0, y: 0, z: 0}
-  _OriginalPos: {x: 0, y: 0, z: 0}
   _StandbyTime: 0
   _ResetTime: 0
-  _LastMoveTime: 0
-  _NetxFrameTime: 0
   _WantToMove: 0
 --- !u!114 &3887599674973282398
 MonoBehaviour:
@@ -245,7 +241,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 5
-  m_BaseOffset: 0.2
+  m_BaseOffset: 0.17
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!208 &-676027510588801185

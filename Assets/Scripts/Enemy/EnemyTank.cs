@@ -66,57 +66,12 @@ public class EnemyTank : MonoBehaviour
 
         if (_Player != null)
         {
-            /*
-            if (_State != "FacUnderAttack")
-            {
-                if (Physics.Raycast(transform.position , _Player.transform.position - transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
-                {
-                    //Debug.Log(_Player.transform.name);
-                    if (hit.collider != null)
-                    {
-                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position) , Color.red);
-                        if (hit.collider.transform.CompareTag("Player"))
-                        {
-                            _Agent.stoppingDistance = 70f;
-                            // 如果碰撞到會是player位置，沒碰撞到則是player最後消失的位置
-                            _TargetPos = _Player.transform.position;
-                            _State = "EnemyFound";
-                        }
-                        
-                        
-                    }
-                }
-            }
-            */
+            
             RaycastHit hit;
             switch (_State)
             {
                 case "Patrol": // 巡邏
 
-
-                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
-                    {
-                        //Debug.Log(_Player.transform.name);
-                        if (hit.collider != null)
-                        {
-                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
-                            if (hit.collider.transform.CompareTag("Player"))
-                            {
-                                _Agent.stoppingDistance = 70f;
-
-                                _TargetPos = _Player.transform.position;
-                                _State = "EnemyFound";
-
-                                break;
-                            }
-
-
-                        }
-                    }
-                    else
-                    {
-                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.white);
-                    }
 
                     EnemyTurretRotationScript.PatrolStat();
                     _Agent.stoppingDistance = 0f;
@@ -147,6 +102,7 @@ public class EnemyTank : MonoBehaviour
                     _ResetTime -= Time.deltaTime;
                     if (_ResetTime < 0f)
                     {
+                        _LastMoveTime = Time.time;
                         _WantToMove = true;
                         _TargetPos = _OriginalPos;
                     }
@@ -167,12 +123,48 @@ public class EnemyTank : MonoBehaviour
 
                     }
 
+                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    {
+                        //Debug.Log(_Player.transform.name);
+                        if (hit.collider != null)
+                        {
+                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            if (hit.collider.transform.CompareTag("Player"))
+                            {
 
+                                _TargetPos = _Player.transform.position;
+                                _LastMoveTime = Time.time;
+                                //_WantToMove = true;
+                                _State = "EnemyFound";
+
+                                break;
+                            }
+
+
+                        }
+                    }
+                    else if (hit.collider == null)
+                    {
+                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.white);
+                    }
 
                     break;
 
                 case "EnemyFound": // 發現敵人
 
+
+                    EnemyTurretRotationScript.LookPlayer();
+                    _Agent.stoppingDistance = 70f;
+
+                    AttackAction();
+
+                    if (transform.position == _LastUpdatePos) // 停止時刻
+                    {
+
+                        _Agent.enabled = false;
+                        _Obstacle.enabled = true;
+
+                    }
 
                     if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
@@ -182,103 +174,57 @@ public class EnemyTank : MonoBehaviour
                             Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
                             if (!hit.collider.transform.CompareTag("Player"))
                             {
+                                _TargetPos = _Player.transform.position;
+                                _LastMoveTime = Time.time;
+                                _WantToMove = true;
                                 _State = "Patrol";
 
                                 break;
                             }
-                            else if (hit.collider.transform.CompareTag("Player")) // 找到player
-                            {
-                                _TargetPos = _Player.transform.position;
-                                _WantToMove = false;
-                                _LastMoveTime = Time.time;
-
-                                EnemyTurretRotationScript.LookPlayer();
-                                _Agent.stoppingDistance = 70f;
-                                Debug.Log(2);
-
-                                RaycastHit hit2;
-                                if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 80f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
-                                {
-
-                                    Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward, Color.black);
-
-                                    if (hit2.collider != null && hit2.collider.CompareTag("Player"))
-                                    {
-                                        // Debug.Log("Shoot");
-                                        _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
-                                    }
-                                }
-
-                                _EnemyShootScript.Reloading(BulletEnegy);
-                            }
-
-
                         }
+                        
                     }
-                    else // 當中間沒有地形阻隔時
+                    else if (hit.collider == null)
                     {
-                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.white);
-                        Debug.Log(3);
-
                         _TargetPos = _Player.transform.position;
-                        _Agent.stoppingDistance = 0f;
-
-                        if (_Obstacle.enabled)
-                        {
-                            _Obstacle.enabled = false;
-                            _WantToMove = true;
-                            _LastMoveTime = Time.time;
-                        }
-
-
-                        if(_WantToMove)
-                        {
-                            if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
-                            {
-                                _Agent.enabled = true;
-                                _Agent.SetDestination(_TargetPos);
-                                _WantToMove = false;
-
-                                //_StandbyTime = 3f;
-                                Debug.Log("3-1");
-                            }
-                        }
-
+                        _LastMoveTime = Time.time;
+                        _WantToMove = true;
+                        _State = "Patrol";
                         break;
-
                     }
-
-                    if (_WantToMove)
-                    {
-                        _Obstacle.enabled = false;
-                        _StandbyTime = 3f;
-                        if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
-                        {
-                            _Agent.enabled = true;
-                            _Agent.SetDestination(_TargetPos);
-                            _WantToMove = false;
-
-                            //_StandbyTime = 3f;
-                            Debug.Log(4);
-                        }
-
-                    }
-                    
-                    if (transform.position == _LastUpdatePos && _WantToMove != true) // 停止時刻
-                    {
-                        _Agent.enabled = false;
-                        _Obstacle.enabled = true;
-                        Debug.Log(5);
-                    }
-                    
-
-                    
 
                     break;
 
                 case "UnderAttack": // 遭受攻擊
 
+                    
+
                     _TargetPos = _Player.transform.position;
+                    if(_Agent.enabled)
+                    {
+                        _Agent.SetDestination(_TargetPos);
+                    }
+                    
+
+                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    {
+                        if (hit.collider != null)
+                        {
+                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            if (hit.collider.transform.CompareTag("Player"))
+                            {
+
+                                _TargetPos = _Player.transform.position;
+                                _LastMoveTime = Time.time;
+                                
+                                _State = "EnemyFound";
+
+                                break;
+                            }
+
+                        }
+                    }
+                    
 
                     break;
 
@@ -297,73 +243,33 @@ public class EnemyTank : MonoBehaviour
         }
 
         _LastUpdatePos = transform.position; // 紀錄上一幀位置
-        /*
-        if (_State != "Patrol" && _Agent.enabled)
-        {
-            _Agent.SetDestination(_TargetPos);
-        }
-        */
+        
     }
 
 
-    /*
+    
     private void AttackAction()
     {
-        // 距離多近 開火
-        //_Distance = Vector3.Distance(_Player.transform.position, transform.position);
-
-        if (_Distance <= _Agent.stoppingDistance)
+        
+        RaycastHit hit2;
+        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 80f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
         {
-            EnemyTurretRotationScript.LookPlayer();
 
-            RaycastHit hit2;
+            Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward, Color.black);
 
-            if (Physics.Raycast(Muzzle.transform.position , Muzzle.transform.forward, out hit2, 80f, 1 << 3 | 1 << 7 | 1 << 10  | 1 << 13 ))
+            if (hit2.collider != null && hit2.collider.CompareTag("Player"))
             {
-                
-                Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward , Color.black);
-
-                if (hit2.collider != null && hit2.collider.CompareTag("Player"))
-                {
-                    // Debug.Log("Shoot");
-                    _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
-                }
-            }
-
-            _EnemyShootScript.Reloading(BulletEnegy);
-
-        }
-        else
-        {
-            EnemyTurretRotationScript.PatrolStat();
-        }
-
-        if (hit.collider != null && !hit.collider.CompareTag("Player") && _State != "FacUnderAttack")
-        {
-            EnemyTurretRotationScript.PatrolStat();
-            _Agent.stoppingDistance = 0f;
-
-            if (_LastUpdatePos == transform.position)
-            {
-                _StandbyTime -= Time.deltaTime;
-
-                if (_StandbyTime < 0f)
-                {
-                    _StandbyTime = 3f;
-                    _State = "Patrol";
-                }
-            }
-            else if (Vector3.Distance(_TargetPos, _LastUpdatePos) != 0)
-            {
-                _ResetTime -= Time.deltaTime;
-                if (_ResetTime < 0f)
-                {
-                    _State = "Patrol";
-                }
+                // Debug.Log("Shoot");
+                _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
             }
         }
+
+        _EnemyShootScript.Reloading(BulletEnegy);
+
+
+
     }
-    */
+    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
