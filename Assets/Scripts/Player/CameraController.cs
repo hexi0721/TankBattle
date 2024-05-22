@@ -33,28 +33,33 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
 
-        if(gameManage.CanPlayerAction())
+        
+        if (Obj != null)
         {
-            if (Obj != null)
+            if (Input.GetMouseButton(1) && !gameManage.IsMenuOpen())
             {
-                if (Input.GetMouseButton(1))
-                {
-                    transform.position = Obj.transform.position + transform.up + transform.forward * 6f;
-                }
-                else
-                {
-                    transform.position = Obj.transform.position + transform.up;
-                }
-
-
+                transform.position = Obj.transform.position + transform.up + transform.forward * 6f;
+            }
+            else
+            {
+                transform.position = Obj.transform.position + transform.up;
             }
 
+
+        }
+
+        if(!gameManage.IsMenuOpen())
+        {
             _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
             _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
 
             _rotation.x = Mathf.Clamp(_rotation.x, _LookUpMin, _LookUpMax);
             transform.localEulerAngles = _rotation;
         }
+        
+        
+        
+        
 
         
 

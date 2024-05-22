@@ -44,8 +44,7 @@ public class EnemyTank : MonoBehaviour
         _State = "Patrol";
         _TargetPos = transform.position;
         _OriginalPos = transform.position;
-        //_LastUpdatePos = transform.position;
-        //_LastMoveTime = Time.time;
+        
         _StandbyTime = 2f;
         _ResetTime = 30f;
         _WantToMove = true;
@@ -57,6 +56,7 @@ public class EnemyTank : MonoBehaviour
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
+            _LastMoveTime = Time.time;
             _State = "FacUnderAttack";
         }
 
@@ -105,6 +105,7 @@ public class EnemyTank : MonoBehaviour
                         _LastMoveTime = Time.time;
                         _WantToMove = true;
                         _TargetPos = _OriginalPos;
+                        _ResetTime = 30f;
                     }
 
                     if (_WantToMove)
@@ -118,7 +119,7 @@ public class EnemyTank : MonoBehaviour
                             _WantToMove = false;
 
                             _StandbyTime = 3f;
-                            _ResetTime = 30f;
+                            
                         }
 
                     }
@@ -197,12 +198,25 @@ public class EnemyTank : MonoBehaviour
 
                 case "UnderAttack": // 遭受攻擊
 
-                    
-
                     _TargetPos = _Player.transform.position;
-                    if(_Agent.enabled)
+
+                    if (_Agent.enabled) // 當被攻擊時 obstacle 功能關閉狀態
                     {
+
                         _Agent.SetDestination(_TargetPos);
+                    }
+                    else // 當被攻擊時 obstacle 功能開啟狀態
+                    {
+
+                        _Obstacle.enabled = false;
+
+                        if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
+                        {
+                            _Agent.enabled = true;
+                            _Agent.SetDestination(_TargetPos);
+
+                        }
+
                     }
                     
 
@@ -228,12 +242,61 @@ public class EnemyTank : MonoBehaviour
 
                     break;
 
-                case "FacUnderAttack": // 兵工廠遭受攻擊
+                case "FacUnderAttack": // 兵工廠遭受攻擊 不死不休狀態
 
                     _Agent.stoppingDistance = 70f;
-                    _TargetPos = _Player.transform.position;
 
-                    //AttackAction();
+                    if (_Agent.enabled) // 當被攻擊時 obstacle 功能關閉狀態
+                    {
+                        _Agent.SetDestination(_TargetPos);
+                    }
+                    else // 當被攻擊時 obstacle 功能開啟狀態
+                    {
+
+                        _Obstacle.enabled = false;
+
+                        if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
+                        {
+                            _Agent.enabled = true;
+                            _Agent.SetDestination(_TargetPos);
+
+                        }
+
+                    }
+
+
+
+                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    {
+                        if (hit.collider != null) // 沒有找到player
+                        {
+                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            if (!hit.collider.transform.CompareTag("Player"))
+                            {
+                                _TargetPos = _Player.transform.position;
+                                _LastMoveTime = Time.time;
+                                _WantToMove = true;
+                                
+
+                                break;
+                            }
+                        }
+
+                    }
+                    else if (hit.collider == null)
+                    {
+                        _TargetPos = _Player.transform.position;
+                        _LastMoveTime = Time.time;
+                        _WantToMove = true;
+                        
+                        break;
+                    }
+
+
+
+
+
+
 
 
 
@@ -274,7 +337,9 @@ public class EnemyTank : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
         {
+            _LastMoveTime = Time.time;
             _State = "UnderAttack";
+            
             Hp -= Random.Range(1, 4);
 
             if (Hp < 0)

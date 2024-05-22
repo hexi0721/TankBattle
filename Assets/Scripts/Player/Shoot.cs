@@ -7,6 +7,7 @@ public class Shoot : MonoBehaviour
 {
 
     public GameObject bullet; // ¤l¼uª«¥ó
+    public GameManage gameManage;
 
     float _ReloadTime;
 
@@ -18,7 +19,11 @@ public class Shoot : MonoBehaviour
     void Update()
     {
 
-        Shooting(); // ¥ªÁä®gÀ»
+        if(!gameManage.IsMenuOpen())
+        {
+            Shooting(); // ¥ªÁä®gÀ»
+        }
+        
 
     }
 

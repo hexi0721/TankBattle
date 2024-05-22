@@ -9,7 +9,7 @@ public class ScriptEnableOrDisable : MonoBehaviour
 
     private void Update()
     {
-        GetComponent<PlayerRotation>().enabled = gameManage.CanPlayerAction() ? true : false;
+        GetComponent<PlayerRotation>().enabled = gameManage.IsMenuOpen() ? true : false;
 
 
 

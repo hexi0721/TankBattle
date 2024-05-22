@@ -9,36 +9,43 @@ public class Move : MonoBehaviour
     [SerializeField] float ph;
 
     public float speed;
+    public GameManage gameManage;
 
     private void FixedUpdate()
     {
-        
-        if (transform.parent.GetComponent<Rigidbody>().velocity.magnitude < 10.0f)
+
+        if (!gameManage.IsMenuOpen())
         {
-            if (Input.GetKey(KeyCode.W))
+            if (transform.parent.GetComponent<Rigidbody>().velocity.magnitude < 10.0f)
             {
-                transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * transform.forward);
+                if (Input.GetKey(KeyCode.W))
+                {
+                    transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * transform.forward);
+                }
+
+
+                if (Input.GetKey(KeyCode.S))
+                {
+                    transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * -transform.forward);
+                }
             }
 
 
-            if (Input.GetKey(KeyCode.S))
+
+
+            if (Input.GetKey(KeyCode.A))
             {
-                transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * -transform.forward);
+                transform.RotateAround(transform.position, Vector3.up, -ph * Time.deltaTime);
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                transform.RotateAround(transform.position, Vector3.up, ph * Time.deltaTime);
             }
         }
-        
+
 
         
-
-        if (Input.GetKey(KeyCode.A))
-        {
-            transform.RotateAround(transform.position, Vector3.up, -ph * Time.deltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.D))
-        {
-            transform.RotateAround(transform.position, Vector3.up, ph * Time.deltaTime);
-        }
     }
 
 

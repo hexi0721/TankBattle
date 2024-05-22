@@ -10,7 +10,7 @@ public class GameManage : MonoBehaviour
     public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas
     
     
-    bool _showMap , _IsOpenMenu , _CanPlayerAction;
+    bool _showMap , _IsOpenMenu ;
     float _speed = 5f;
 
     GameObject _PlayerTank;
@@ -19,7 +19,7 @@ public class GameManage : MonoBehaviour
         Cursor.visible = false;
 
         _showMap = false;
-        _IsOpenMenu = false;
+        _IsOpenMenu = false; // true 是開啟菜單 false 是關閉菜單
 
         MapCanvas.GetComponent<CanvasGroup>().alpha = 0f;
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
@@ -40,7 +40,7 @@ public class GameManage : MonoBehaviour
             PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
-        _CanPlayerAction = (!_showMap && !_IsOpenMenu) ? true : false;
+        //_CanPlayerAction = (!_IsOpenMenu) ? true : false;
 
         
 
@@ -69,7 +69,7 @@ public class GameManage : MonoBehaviour
 
     private void TabKeyCode()
     {
-        if (Input.GetKey(KeyCode.Tab))
+        if (Input.GetKey(KeyCode.Tab) && !_IsOpenMenu)
         {
             _showMap = true;
 
@@ -83,7 +83,7 @@ public class GameManage : MonoBehaviour
 
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab))
+        if (Input.GetKeyUp(KeyCode.Tab) || _IsOpenMenu)
         {
             _showMap = false;
 
@@ -97,8 +97,8 @@ public class GameManage : MonoBehaviour
     }
 
 
-    public bool CanPlayerAction()
+    public bool IsMenuOpen()
     {
-        return _CanPlayerAction;
+        return _IsOpenMenu;
     }
 }
