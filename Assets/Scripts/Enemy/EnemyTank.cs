@@ -56,7 +56,11 @@ public class EnemyTank : MonoBehaviour
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
-            _LastMoveTime = Time.time;
+            //_LastMoveTime = Time.time;
+            if( _Player != null )
+            {
+                _TargetPos = _Player.transform.position;
+            }
             _State = "FacUnderAttack";
         }
 
@@ -135,7 +139,6 @@ public class EnemyTank : MonoBehaviour
 
                                 _TargetPos = _Player.transform.position;
                                 _LastMoveTime = Time.time;
-                                //_WantToMove = true;
                                 _State = "EnemyFound";
 
                                 break;
@@ -169,7 +172,7 @@ public class EnemyTank : MonoBehaviour
 
                     if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
-                        //Debug.Log(hit.collider.name);
+                        
                         if (hit.collider != null) // 沒有找到player
                         {
                             Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
@@ -185,7 +188,7 @@ public class EnemyTank : MonoBehaviour
                         }
                         
                     }
-                    else if (hit.collider == null)
+                    else if (hit.collider == null) // 沒有找到player
                     {
                         _TargetPos = _Player.transform.position;
                         _LastMoveTime = Time.time;
@@ -202,7 +205,6 @@ public class EnemyTank : MonoBehaviour
 
                     if (_Agent.enabled) // 當被攻擊時 obstacle 功能關閉狀態
                     {
-
                         _Agent.SetDestination(_TargetPos);
                     }
                     else // 當被攻擊時 obstacle 功能開啟狀態
@@ -242,63 +244,70 @@ public class EnemyTank : MonoBehaviour
 
                     break;
 
-                case "FacUnderAttack": // 兵工廠遭受攻擊 不死不休狀態
+                case "FacUnderAttack": // 兵工廠遭受攻擊
 
                     _Agent.stoppingDistance = 70f;
 
-                    if (_Agent.enabled) // 當被攻擊時 obstacle 功能關閉狀態
-                    {
-                        _Agent.SetDestination(_TargetPos);
-                    }
-                    else // 當被攻擊時 obstacle 功能開啟狀態
-                    {
+                    if (_WantToMove)
+                    { 
 
                         _Obstacle.enabled = false;
 
-                        if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
+                        if (Time.time > _LastMoveTime + _NetxFrameTime) 
                         {
                             _Agent.enabled = true;
                             _Agent.SetDestination(_TargetPos);
-
+                            
                         }
 
                     }
-
-
-
-                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    else
                     {
-                        if (hit.collider != null) // 沒有找到player
+                        _LastMoveTime = Time.time;
+                    }
+
+                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))  // 找尋player
+                    {
+                        
+                        if (hit.collider != null) 
                         {
                             Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
-                            if (!hit.collider.transform.CompareTag("Player"))
+                            if (hit.collider.transform.CompareTag("Player")) // 找到player
                             {
-                                _TargetPos = _Player.transform.position;
-                                _LastMoveTime = Time.time;
+
+                                EnemyTurretRotationScript.LookPlayer();
+                                AttackAction();
+
+                                if (transform.position == _LastUpdatePos )
+                                {
+
+                                    _Agent.enabled = false;
+                                    _Obstacle.enabled = true;
+                                    _WantToMove = false;
+                                }   
+
+                            }
+                            else // 未找到player
+                            {
+                                EnemyTurretRotationScript.PatrolStat();
                                 _WantToMove = true;
                                 
-
-                                break;
                             }
+                            
+                            
                         }
 
                     }
-                    else if (hit.collider == null)
+                    else if (hit.collider == null ) // 未找到player
                     {
-                        _TargetPos = _Player.transform.position;
-                        _LastMoveTime = Time.time;
+                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.white);
+
+                        EnemyTurretRotationScript.PatrolStat();
                         _WantToMove = true;
                         
-                        break;
                     }
 
-
-
-
-
-
-
-
+                    
 
                     break;
 
@@ -322,7 +331,6 @@ public class EnemyTank : MonoBehaviour
 
             if (hit2.collider != null && hit2.collider.CompareTag("Player"))
             {
-                // Debug.Log("Shoot");
                 _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
             }
         }
@@ -338,6 +346,7 @@ public class EnemyTank : MonoBehaviour
         if (collision.gameObject.CompareTag("PlayerBullet"))
         {
             _LastMoveTime = Time.time;
+            _WantToMove = true;
             _State = "UnderAttack";
             
             Hp -= Random.Range(1, 4);

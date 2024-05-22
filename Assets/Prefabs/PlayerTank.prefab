@@ -337,6 +337,7 @@ MonoBehaviour:
   pv: 15
   ph: 15
   speed: 750000
+  gameManage: {fileID: 0}
 --- !u!1 &3679154673662322920
 GameObject:
   m_ObjectHideFlags: 0
@@ -664,6 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bullet: {fileID: 2919987416683246573, guid: f8c9cb52ef5ed8448a786fb807f07687, type: 3}
+  gameManage: {fileID: 0}
 --- !u!1 &8407656772683377843
 GameObject:
   m_ObjectHideFlags: 0
