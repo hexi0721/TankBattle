@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73039feed0998ae4f85e432aabfdacc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 100
+  Hp: 1000000
   Hp2: 100
   BulletEnegy: 2.5
   _FeedBackTime: 0

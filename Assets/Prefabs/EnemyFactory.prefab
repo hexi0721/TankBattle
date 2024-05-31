@@ -20,7 +20,7 @@ GameObject:
   m_TagString: EnemyFactory
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &7974774353189467042
 Transform:
@@ -141,6 +141,7 @@ MonoBehaviour:
   MapCamera: {fileID: 0}
   Map: {fileID: 0}
   MapBG: {fileID: 0}
+  _InitPoint: {fileID: 0}
   _InitCooldown: 0
 --- !u!205 &4353327714592033379
 LODGroup:
@@ -156,11 +157,11 @@ LODGroup:
   m_AnimateCrossFading: 0
   m_LastLODIsBillboard: 0
   m_LODs:
-  - screenRelativeHeight: 0.3385787
+  - screenRelativeHeight: 0.2771271
     fadeTransitionWidth: 0
     renderers:
     - renderer: {fileID: 6589140301289287966}
-  - screenRelativeHeight: 0.24304073
+  - screenRelativeHeight: 0.16177852
     fadeTransitionWidth: 0
     renderers: []
   - screenRelativeHeight: 0.1
