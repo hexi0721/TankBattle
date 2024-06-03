@@ -28,6 +28,8 @@ public class PlayerSetting : MonoBehaviour
 
     public bool _Ishit;
 
+    public Animator animator;
+
     private void Start()
     {
         _UnderAttack = false;
@@ -115,9 +117,6 @@ public class PlayerSetting : MonoBehaviour
         }
     }
 
-
-
-    
 
     // 新增補血功能
 }

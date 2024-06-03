@@ -3,17 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManage : MonoBehaviour
 {
     public GameObject MapCam; // 地圖鏡頭
-    public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas
-    
-    
+    public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
+
+    public Image OpeningBlackBg;
+
     bool _showMap , _IsOpenMenu ;
     float _speed = 5f;
 
-    GameObject _PlayerTank;
+    GameObject _PlayerTank ;
+
+    
     private void Start()
     {
         Cursor.visible = false;
@@ -25,6 +29,9 @@ public class GameManage : MonoBehaviour
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
 
         _PlayerTank = GameObject.FindWithTag("Player");
+        
+
+
     }
 
     private void Update()
@@ -40,10 +47,9 @@ public class GameManage : MonoBehaviour
             PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
-        //_CanPlayerAction = (!_IsOpenMenu) ? true : false;
-
+        float BlackBgAlpha = OpeningBlackBg.color.a - (Time.deltaTime * 0.25f);
+        OpeningBlackBg.color = new Color(0, 0, 0, BlackBgAlpha);
         
-
     }
 
     private void EscKeyCode()
