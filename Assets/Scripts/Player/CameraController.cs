@@ -30,25 +30,6 @@ public class CameraController : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-
-        
-        
-
-
-
-
-
-        
-        
-        
-        
-
-        
-
-    }
-
     private void LateUpdate()
     {
 
@@ -84,10 +65,6 @@ public class CameraController : MonoBehaviour
         {
 
             transform.forward = Obj.transform.forward;
-
-
-
-
 
         }
     }

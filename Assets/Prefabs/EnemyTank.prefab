@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 3887599674973282398}
   - component: {fileID: -7559986053583295581}
   - component: {fileID: -676027510588801185}
+  - component: {fileID: -2847389962442484206}
   m_Layer: 11
   m_Name: EnemyTank
   m_TagString: EnemyTank
@@ -260,6 +261,21 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 0
   m_Center: {x: 0, y: 0, z: 0.87}
   m_TimeToStationary: 0.5
+--- !u!114 &-2847389962442484206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788451793792189928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6edf02225df327340bd4835b6e95a014, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMangae: {fileID: 0}
+  EnemyTankScript: {fileID: 7916899886477022834}
+  EnemyShootScript: {fileID: 3887599674973282398}
 --- !u!1 &2397618157613924280
 GameObject:
   m_ObjectHideFlags: 0

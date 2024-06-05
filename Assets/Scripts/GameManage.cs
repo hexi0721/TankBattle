@@ -13,6 +13,10 @@ public class GameManage : MonoBehaviour
     public Image OpeningBlackBg;
 
     bool _showMap , _IsOpenMenu ;
+    public bool IsOpenMenu
+    {
+        get { return _IsOpenMenu; }
+    }
     float _speed = 5f;
 
     GameObject _PlayerTank ;

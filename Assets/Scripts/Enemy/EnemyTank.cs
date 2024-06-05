@@ -23,6 +23,9 @@ public class EnemyTank : MonoBehaviour
 
     //[SerializeField] float _Distance;
     [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
+
+    
+
     [SerializeField] Vector3 _LastUpdatePos; // 上一幀位置
     Vector3 _OriginalPos; // 初始位置
     [SerializeField] float _StandbyTime; // 待命時間
@@ -123,7 +126,8 @@ public class EnemyTank : MonoBehaviour
                             _WantToMove = false;
 
                             _StandbyTime = 3f;
-                            
+                            _ResetTime = 30f;
+
                         }
 
                     }
