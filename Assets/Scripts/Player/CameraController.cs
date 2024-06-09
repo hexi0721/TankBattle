@@ -33,9 +33,13 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
 
-        if (Obj != null)
+        
+
+
+        if (!PlayerSetting.Instance.animator.enabled)
         {
-            if (Input.GetMouseButton(1) && !gameManage.IsMenuOpen())
+            
+            if (Obj != null && Input.GetMouseButton(1) && !gameManage.IsOpenMenu)
             {
                 transform.position = Obj.transform.position + transform.up + transform.forward * 6f;
             }
@@ -44,14 +48,7 @@ public class CameraController : MonoBehaviour
                 transform.position = Obj.transform.position + transform.up;
             }
 
-
-        }
-
-
-        if (!PlayerSetting.Instance.animator.enabled)
-        {
-
-            if (!gameManage.IsMenuOpen())
+            if (!gameManage.IsOpenMenu)
             {
                 _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
                 _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
@@ -63,7 +60,7 @@ public class CameraController : MonoBehaviour
         }
         else
         {
-
+            transform.position = Obj.transform.position + transform.up;
             transform.forward = Obj.transform.forward;
 
         }

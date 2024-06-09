@@ -19,7 +19,7 @@ public class Shoot : MonoBehaviour
     void Update()
     {
 
-        if(!gameManage.IsMenuOpen())
+        if(!gameManage.IsOpenMenu)
         {
             Shooting(); // ¥ªÁä®gÀ»
         }

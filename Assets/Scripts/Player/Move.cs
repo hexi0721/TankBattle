@@ -14,7 +14,7 @@ public class Move : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (!gameManage.IsMenuOpen())
+        if (!gameManage.IsOpenMenu)
         {
             if (transform.parent.GetComponent<Rigidbody>().velocity.magnitude < 10.0f)
             {

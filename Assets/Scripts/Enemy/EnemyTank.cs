@@ -10,7 +10,10 @@ public class EnemyTank : MonoBehaviour
     public float Hp;
     [HideInInspector] public float BulletEnegy;
     public EnemyTurretRotation EnemyTurretRotationScript;
+    public DisableEnemyTankAction DisableEnemyTankActionScript;
+    
     public GameObject Muzzle;
+
 
     EnemyFactory _EnemyFactoryScript;
     EnemyShoot _EnemyShootScript;
@@ -20,12 +23,7 @@ public class EnemyTank : MonoBehaviour
 
     [SerializeField] string _State;
 
-
-    //[SerializeField] float _Distance;
     [SerializeField] Vector3 _TargetPos; // 存放前往的目標位置
-
-    
-
     [SerializeField] Vector3 _LastUpdatePos; // 上一幀位置
     Vector3 _OriginalPos; // 初始位置
     [SerializeField] float _StandbyTime; // 待命時間
@@ -33,7 +31,13 @@ public class EnemyTank : MonoBehaviour
     float _LastMoveTime;
     float _NetxFrameTime;
     [SerializeField] bool _WantToMove;
-
+    
+    public bool WantToMove
+    {
+        set => _WantToMove = value;
+        get => _WantToMove;
+    }
+    
     //RaycastHit hit;
     private void Start()
     {
@@ -83,28 +87,6 @@ public class EnemyTank : MonoBehaviour
                     EnemyTurretRotationScript.PatrolStat();
                     _Agent.stoppingDistance = 0f;
 
-                    if (transform.position == _LastUpdatePos && _WantToMove != true) // 停止時刻
-                    {
-
-                        _Agent.enabled = false;
-                        _Obstacle.enabled = true;
-
-                        _StandbyTime -= Time.deltaTime;
-
-                        if (_StandbyTime < 0f) // 當停留時間小於零
-                        {
-
-                            _LastMoveTime = Time.time;
-                            _WantToMove = true;
-
-                            Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
-                            _TargetPos += _MVRAND;
-                        }
-
-                    }
-
-
-
                     // 以免BUG 因此重置位置
                     _ResetTime -= Time.deltaTime;
                     if (_ResetTime < 0f)
@@ -115,22 +97,57 @@ public class EnemyTank : MonoBehaviour
                         _ResetTime = 30f;
                     }
 
-                    if (_WantToMove)
+                    if(DisableEnemyTankActionScript.ExitMenu)
                     {
-                        _Obstacle.enabled = false;
-
-                        if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
+                        if(_Agent.enabled)
                         {
-                            _Agent.enabled = true;
                             _Agent.SetDestination(_TargetPos);
-                            _WantToMove = false;
+                            _WantToMove = true;
+                        }
+                        
+                        DisableEnemyTankActionScript.ExitMenu = false;
+                    }
+                    else
+                    {
+                        if (transform.position == _LastUpdatePos && _WantToMove != true) // 停止時刻
+                        {
 
-                            _StandbyTime = 3f;
-                            _ResetTime = 30f;
+                            _Agent.enabled = false;
+                            _Obstacle.enabled = true;
+
+                            _StandbyTime -= Time.deltaTime;
+
+                            if (_StandbyTime < 0f) // 當停留時間小於零
+                            {
+
+                                _LastMoveTime = Time.time;
+                                _WantToMove = true;
+
+                                Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
+                                _TargetPos += _MVRAND;
+                            }
 
                         }
 
+                        if (_WantToMove)
+                        {
+                            _Obstacle.enabled = false;
+
+                            if (Time.time > _LastMoveTime + _NetxFrameTime) // 現在時間 大於 如果想移動的時間 加 下幾幀時間
+                            {
+                                _Agent.enabled = true;
+                                _Agent.SetDestination(_TargetPos);
+                                _WantToMove = false;
+
+                                _StandbyTime = 3f;
+                                _ResetTime = 30f;
+
+                            }
+
+                        }
                     }
+
+                    
 
                     if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
@@ -166,7 +183,7 @@ public class EnemyTank : MonoBehaviour
 
                     AttackAction();
 
-                    if (transform.position == _LastUpdatePos) // 停止時刻
+                    if (transform.position == _LastUpdatePos ) // 停止時刻
                     {
 
                         _Agent.enabled = false;

@@ -8,7 +8,7 @@ public class StartPoint : MonoBehaviour
 {
     public BoxCollider StartPosAirWall;
     public Image AimImage;
-    float _stay = 2f;
+    [SerializeField]float _stay = 2f;
 
     private void Start()
     {

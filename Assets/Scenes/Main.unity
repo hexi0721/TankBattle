@@ -3097,6 +3097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartPosAirWall: {fileID: 1811423605}
   AimImage: {fileID: 32014533}
+  _stay: 2
 --- !u!64 &1468826736
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -4214,7 +4215,7 @@ Transform:
   m_GameObject: {fileID: 1985274653}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 44.28517, y: -57.751446, z: -40.54976}
+  m_LocalPosition: {x: 42.58, y: -58.13, z: -37.42}
   m_LocalScale: {x: 0.13588415, y: 0.1358842, z: 0.11888771}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4234,6 +4235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   StartPosAirWall: {fileID: 1811423605}
   AimImage: {fileID: 32014533}
+  _stay: 2
 --- !u!1 &2020916187
 GameObject:
   m_ObjectHideFlags: 0

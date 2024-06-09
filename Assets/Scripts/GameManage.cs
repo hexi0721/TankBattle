@@ -106,9 +106,5 @@ public class GameManage : MonoBehaviour
         }
     }
 
-
-    public bool IsMenuOpen()
-    {
-        return _IsOpenMenu;
-    }
+    
 }
