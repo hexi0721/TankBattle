@@ -12,6 +12,7 @@ TagManager:
   - ShootFeedBack
   - EnemyFactory
   - GameStartPoint
+  - GateOpenPoint
   layers:
   - Default
   - TransparentFX

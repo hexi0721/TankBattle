@@ -125,6 +125,8 @@ public class EnemyTank : MonoBehaviour
 
                                 Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
                                 _TargetPos += _MVRAND;
+
+                                _ResetTime = 30f;
                             }
 
                         }
@@ -140,7 +142,7 @@ public class EnemyTank : MonoBehaviour
                                 _WantToMove = false;
 
                                 _StandbyTime = 3f;
-                                _ResetTime = 30f;
+                                
 
                             }
 
@@ -372,7 +374,7 @@ public class EnemyTank : MonoBehaviour
             
             Hp -= Random.Range(1, 4);
 
-            if (Hp < 0)
+            if (Hp <= 0)
             {
                 Destroy(this.gameObject);
             }

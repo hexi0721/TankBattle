@@ -29,6 +29,7 @@ public class StartPoint : MonoBehaviour
             {
                 PlayerSetting.Instance.animator.enabled = false;
                 AimImage.enabled = true;
+                Destroy(this.gameObject);
             }
         }
     }

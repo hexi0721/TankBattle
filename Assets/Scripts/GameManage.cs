@@ -5,12 +5,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class GameManage : MonoBehaviour
 {
     public GameObject MapCam; // 地圖鏡頭
     public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
 
     public Image OpeningBlackBg;
+    
 
     bool _showMap , _IsOpenMenu ;
     public bool IsOpenMenu
@@ -40,20 +42,24 @@ public class GameManage : MonoBehaviour
 
     private void Update()
     {
-        TabKeyCode();
+        // TabKeyCode();
 
         EscKeyCode();
 
-        if(_PlayerTank == null && PlayerSetting.Instance.Hp2 >= 0)
+        if(_PlayerTank == null && PlayerSetting.Instance.Hp2 >= 0) // 修正玩家死亡 紅色HP正確消除
         {
 
             PlayerSetting.Instance.Hp2 -= 1;
             PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
+        // 開場把黑幕去掉
         float BlackBgAlpha = OpeningBlackBg.color.a - (Time.deltaTime * 0.25f);
         OpeningBlackBg.color = new Color(0, 0, 0, BlackBgAlpha);
+
         
+        
+
     }
 
     private void EscKeyCode()
@@ -73,6 +79,8 @@ public class GameManage : MonoBehaviour
             {
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Confined;
+
+                
             }
         }
     }
