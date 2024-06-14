@@ -13,6 +13,7 @@ TagManager:
   - EnemyFactory
   - GameStartPoint
   - GateOpenPoint
+  - EnemyBackUpPoint
   layers:
   - Default
   - TransparentFX

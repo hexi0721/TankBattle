@@ -8,7 +8,7 @@ public class Timer : MonoBehaviour
 {
 
     public TMP_Text Time_txt;
-    [SerializeField]float _time = 300f;
+    [SerializeField]float _time;
 
     public float EnemyBackUpTime
     {
@@ -26,10 +26,14 @@ public class Timer : MonoBehaviour
     {
 
         // 計時器
-        if (_gameManage.IsOpenMenu == false && PlayerSetting.Instance.animator.enabled == false)
+        if (_gameManage.IsOpenMenu == false && PlayerSetting.Instance.animator.enabled == false && _time >= 0f)
         {
             _time -= Time.deltaTime;
-            Time_txt.text = "敵方援軍抵達時間 : " + ((int)_time);
+            Time_txt.text = "<color=#FF0000>敵方援軍抵達時間 : " + ((int)_time) + "</color>";
+        }
+        else
+        {
+            Time_txt.text = "";
         }
 
 

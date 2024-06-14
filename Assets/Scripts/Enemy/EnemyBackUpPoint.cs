@@ -5,13 +5,14 @@ using UnityEngine;
 public class EnemyBackUpPoint : MonoBehaviour
 {
 
+    public GameManage gameManage;
 
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.transform.CompareTag("Player"))
         {
-            EnemyBackUpSpot._backupStart = true;
+            gameManage.BackUpTrigger = true;
             Destroy(this.gameObject);
         }
     }

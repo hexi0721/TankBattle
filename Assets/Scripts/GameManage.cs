@@ -15,7 +15,7 @@ public class GameManage : MonoBehaviour
     
 
     bool _showMap , _IsOpenMenu ;
-    public bool IsOpenMenu
+    public bool IsOpenMenu // 菜單是否開啟
     {
         get { return _IsOpenMenu; }
     }
@@ -23,7 +23,14 @@ public class GameManage : MonoBehaviour
 
     GameObject _PlayerTank ;
 
-    
+    bool _backuptrigger;  
+    public bool BackUpTrigger // 敵方援軍觸發
+    {
+        get => _backuptrigger;
+        set => _backuptrigger = value;
+    }
+
+
     private void Start()
     {
         Cursor.visible = false;
