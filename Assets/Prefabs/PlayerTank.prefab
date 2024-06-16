@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 3327186227136030687}
   - component: {fileID: 7102027264658762442}
   - component: {fileID: 7877323600610919836}
+  - component: {fileID: 3522893410985160434}
   m_Layer: 3
   m_Name: body
   m_TagString: Player
@@ -338,6 +339,20 @@ MonoBehaviour:
   ph: 15
   speed: 750000
   gameManage: {fileID: 0}
+--- !u!114 &3522893410985160434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2569014630977227009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1fb2afa031cd34c8faedaeb1396f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManage: {fileID: 0}
+  component: {fileID: 7877323600610919836}
 --- !u!1 &3679154673662322920
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,6 +366,7 @@ GameObject:
   - component: {fileID: 4874584266496558318}
   - component: {fileID: 4404783354671160989}
   - component: {fileID: 7812460549970746669}
+  - component: {fileID: 3968817053395596981}
   m_Layer: 10
   m_Name: turret
   m_TagString: Player
@@ -463,6 +479,20 @@ MonoBehaviour:
   body: {fileID: 2569014630977227009}
   MuzzleAimImage: {fileID: 0}
   AimC: {fileID: 0}
+--- !u!114 &3968817053395596981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3679154673662322920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1fb2afa031cd34c8faedaeb1396f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManage: {fileID: 0}
+  component: {fileID: 7812460549970746669}
 --- !u!1 &4897572938967204257
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +504,7 @@ GameObject:
   - component: {fileID: 4434484243550678015}
   - component: {fileID: 3478907896274486159}
   - component: {fileID: 7687969622697810706}
+  - component: {fileID: 3899204322271352701}
   m_Layer: 3
   m_Name: PlayerTank
   m_TagString: Player
@@ -518,6 +549,7 @@ MonoBehaviour:
   HpImage2: {fileID: 0}
   BulletEnegyImage: {fileID: 0}
   _Ishit: 0
+  animator: {fileID: 3899204322271352701}
 --- !u!54 &7687969622697810706
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -545,6 +577,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!95 &3899204322271352701
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4897572938967204257}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 86ff4d29672c0814f8da6bb197a1d053, type: 2}
+  m_CullingMode: 2
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7250823975182527810
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,6 +611,7 @@ GameObject:
   - component: {fileID: 4328550950771507164}
   - component: {fileID: 289267199439896321}
   - component: {fileID: 3132953355748065123}
+  - component: {fileID: 4089976961372950452}
   m_Layer: 10
   m_Name: muzzle
   m_TagString: Player
@@ -666,6 +720,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 2919987416683246573, guid: f8c9cb52ef5ed8448a786fb807f07687, type: 3}
   gameManage: {fileID: 0}
+--- !u!114 &4089976961372950452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7250823975182527810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a1fb2afa031cd34c8faedaeb1396f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameManage: {fileID: 0}
+  component: {fileID: 3132953355748065123}
 --- !u!1 &8407656772683377843
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,6 +20,7 @@ public class EnemyTank : MonoBehaviour
     GameObject _Player;
     NavMeshAgent _Agent;
     NavMeshObstacle _Obstacle;
+    Rigidbody rb;
 
     [SerializeField] string _State;
 
@@ -47,6 +48,7 @@ public class EnemyTank : MonoBehaviour
         _Obstacle.enabled = false;
         _EnemyShootScript = GetComponent<EnemyShoot>();
         _EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
+        rb = GetComponent<Rigidbody>();
 
         _State = "Patrol";
         _TargetPos = transform.position;
@@ -376,8 +378,13 @@ public class EnemyTank : MonoBehaviour
 
             if (Hp <= 0)
             {
-                Destroy(this.gameObject);
-            }
+                //Destroy(this.gameObject);
+                EnemyTurretRotationScript.enabled =false;
+                DisableEnemyTankActionScript.enabled = false;
+                _EnemyShootScript.enabled = false;
+                Destroy(rb);
+                this.enabled = false;
+}
         }
 
 

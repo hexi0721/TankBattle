@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     public AudioClip sExplosion; // Ãz¬µ­µ®Ä
     public GameObject Explosion; // Ãz¬µ²É¤l
     public GameObject Flame; // ¿U¿N²É¤l
+    public GameObject BarrelExplode;
+
     public Material material; // ªo±í³QÃz¬µ¯À§÷
 
     public float speed;
@@ -64,6 +66,7 @@ public class Bullet : MonoBehaviour
                 {
                     Destroy(collision.transform.GetChild(0).gameObject);
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
+                    Instantiate(BarrelExplode, collision.transform.position, Quaternion.identity);
                 }
 
 
