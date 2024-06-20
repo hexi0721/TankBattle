@@ -14,6 +14,7 @@ public class EnemyTank : MonoBehaviour
     
     public GameObject Muzzle;
 
+    public Material DestroyMaterial;
 
     EnemyFactory _EnemyFactoryScript;
     EnemyShoot _EnemyShootScript;
@@ -51,7 +52,7 @@ public class EnemyTank : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         _State = "Patrol";
-        _TargetPos = transform.position;
+        _TargetPos = transform.position + new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5)); ;
         _OriginalPos = transform.position;
         
         _StandbyTime = 2f;
@@ -113,7 +114,7 @@ public class EnemyTank : MonoBehaviour
                     {
                         if (transform.position == _LastUpdatePos && _WantToMove != true) // °±¤î®É¨è
                         {
-
+                            
                             _Agent.enabled = false;
                             _Obstacle.enabled = true;
 
@@ -125,8 +126,8 @@ public class EnemyTank : MonoBehaviour
                                 _LastMoveTime = Time.time;
                                 _WantToMove = true;
 
-                                Vector3 _MVRAND = new Vector3(Random.Range(-5, 5), 0, Random.Range(-5, 5));
-                                _TargetPos += _MVRAND;
+                                
+                                _TargetPos += new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
 
                                 _ResetTime = 30f;
                             }
@@ -141,8 +142,8 @@ public class EnemyTank : MonoBehaviour
                             {
                                 _Agent.enabled = true;
                                 _Agent.SetDestination(_TargetPos);
-                                _WantToMove = false;
 
+                                _WantToMove = false;
                                 _StandbyTime = 3f;
                                 
 
@@ -383,8 +384,14 @@ public class EnemyTank : MonoBehaviour
                 DisableEnemyTankActionScript.enabled = false;
                 _EnemyShootScript.enabled = false;
                 Destroy(rb);
+                
+
+                transform.GetChild(0).GetComponent<Renderer>().material = DestroyMaterial; // body
+                transform.GetChild(1).GetComponent<Renderer>().material = DestroyMaterial; // turret
+                transform.GetChild(1).GetChild(0).GetComponent<Renderer>().material = DestroyMaterial; // muzzle
+
                 this.enabled = false;
-}
+            }
         }
 
 

@@ -20,6 +20,8 @@ public class CameraController : MonoBehaviour
     public float CamSmoothFactor;
     float _LookUpMin , _LookUpMax ;
 
+    public float _distance;
+
     private void Start()
     {
 

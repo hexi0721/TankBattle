@@ -53,7 +53,7 @@ public class Bullet : MonoBehaviour
     {
         Destroy(gameObject);
 
-        Instantiate(Explosion, transform.position, Quaternion.identity);
+        Instantiate(Explosion, collision.contacts[0].point, Quaternion.identity);
 
 
         switch (collision.transform.tag)
@@ -66,7 +66,7 @@ public class Bullet : MonoBehaviour
                 {
                     Destroy(collision.transform.GetChild(0).gameObject);
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
-                    Instantiate(BarrelExplode, collision.transform.position, Quaternion.identity);
+                    Instantiate(BarrelExplode, collision.contacts[0].point, Quaternion.identity);
                 }
 
 
