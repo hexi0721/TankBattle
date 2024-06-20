@@ -14,6 +14,7 @@ public class EnemyTank : MonoBehaviour
     
     public GameObject Muzzle;
 
+    public GameObject BigExplode;
     public Material DestroyMaterial;
 
     EnemyFactory _EnemyFactoryScript;
@@ -32,6 +33,7 @@ public class EnemyTank : MonoBehaviour
     [SerializeField] float _ResetTime; // 重設時間
     float _LastMoveTime;
     float _NetxFrameTime;
+    float _DescendTime;
     [SerializeField] bool _WantToMove;
     
     public bool WantToMove
@@ -59,10 +61,27 @@ public class EnemyTank : MonoBehaviour
         _ResetTime = 30f;
         _WantToMove = true;
         _NetxFrameTime = 0.2f;
+        _DescendTime = 4f;
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (Hp <= 0)
+        {
+            _DescendTime -= Time.fixedDeltaTime;
+
+            if (_DescendTime < 0) 
+            {
+                
+            }
+        }
+
 
     }
     private void Update()
     {
+        
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
@@ -379,18 +398,23 @@ public class EnemyTank : MonoBehaviour
 
             if (Hp <= 0)
             {
-                //Destroy(this.gameObject);
-                EnemyTurretRotationScript.enabled =false;
+                
+                GetComponent<WhenEnemyTankDestroy>().IsDestroy = true;
+                Instantiate(BigExplode, transform.position, Quaternion.identity); // 爆炸
+
+                // 行動腳本DISABLE
+                EnemyTurretRotationScript.enabled = false;
                 DisableEnemyTankActionScript.enabled = false;
                 _EnemyShootScript.enabled = false;
                 Destroy(rb);
+                Destroy(transform.GetChild(1).gameObject); // 將turret摧毀
+
+                transform.GetChild(0).GetComponent<Renderer>().material = DestroyMaterial; // TankBody
                 
-
-                transform.GetChild(0).GetComponent<Renderer>().material = DestroyMaterial; // body
-                transform.GetChild(1).GetComponent<Renderer>().material = DestroyMaterial; // turret
-                transform.GetChild(1).GetChild(0).GetComponent<Renderer>().material = DestroyMaterial; // muzzle
-
+                _Agent.enabled = false;
+                _Obstacle.enabled = false;
                 this.enabled = false;
+
             }
         }
 

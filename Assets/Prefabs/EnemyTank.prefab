@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 7916899886477022834}
   - component: {fileID: 3887599674973282398}
   - component: {fileID: -2847389962442484206}
+  - component: {fileID: 4460498070629682749}
   - component: {fileID: -7559986053583295581}
   - component: {fileID: -676027510588801185}
   m_Layer: 11
@@ -205,6 +206,7 @@ MonoBehaviour:
   EnemyTurretRotationScript: {fileID: 6395096611061684916}
   DisableEnemyTankActionScript: {fileID: -2847389962442484206}
   Muzzle: {fileID: 9001248144386161083}
+  BigExplode: {fileID: 2982222064502167191, guid: 65dbce4e6a116ac4180dbf810084be07, type: 3}
   DestroyMaterial: {fileID: 2100000, guid: 1de07ea7e80218e4c9bc32666dc585bc, type: 2}
   _State: 
   _TargetPos: {x: 0, y: 0, z: 0}
@@ -240,6 +242,24 @@ MonoBehaviour:
   EnemyTankScript: {fileID: 7916899886477022834}
   EnemyShootScript: {fileID: 3887599674973282398}
   _ExitMenu: 0
+--- !u!114 &4460498070629682749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1788451793792189928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fed2b96c08db3524ea59dc66bad9f026, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsDestroy: 0
+  TankBodyChild:
+  - {fileID: 7628208035224881041}
+  - {fileID: 7109104398064795677}
+  - {fileID: 2397618157613924280}
+  - {fileID: 7068422839464829109}
 --- !u!195 &-7559986053583295581
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -35,7 +35,7 @@ public class InstantiateTank : MonoBehaviour
         _AnyTank = GameObject.FindWithTag("EnemyTank") ? true : false;
 
         // 沒有敵方坦克時 每過幾秒生成一台
-        if (!_AnyTank)
+        if (GetComponent<EnemyFactory>().Hp < GetComponent<EnemyFactory>().GetMaxHp())
         {
             _InitCooldown -= Time.deltaTime;
 

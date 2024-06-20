@@ -11,7 +11,6 @@ public class GateOpenPoint : MonoBehaviour
     {
         if (other.transform.CompareTag("Player"))
         {
-            Debug.Log(other.transform.name);
             Destroy(Gate);
             Destroy(this.gameObject);
         }
