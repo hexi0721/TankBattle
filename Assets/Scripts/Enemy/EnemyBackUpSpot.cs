@@ -24,28 +24,20 @@ public class EnemyBackUpSpot : MonoBehaviour
 
     private void Update()
     {
-        
-        if(_appearTime > 0f)
+        if (!gameManage.IsOpenMenu)
         {
-            _appearTime -= Time.deltaTime;
+            if ((timer.EnemyBackUpTime < 0f || gameManage.BackUpTrigger) && _appearTime <= 0f)
+            {
+                instantiateTank.BuildTank(new List<Vector3>() { transform.position });
+                _appearTime = 30f;
+
+            }
+            else if (_appearTime > 0f)
+            {
+                _appearTime -= Time.deltaTime;
+            }
         }
-
-
-        if (timer.EnemyBackUpTime <= 0f && gameManage.BackUpTrigger && _appearTime <= 0f)
-        {
-            instantiateTank.BuildTank(new List<Vector3>() { transform.position });
-            _appearTime = 30f;
-            
-        }
-
-        
-
-        
 
     }
-
-
-
-
 
 }

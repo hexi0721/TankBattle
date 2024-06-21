@@ -65,27 +65,13 @@ public class EnemyTank : MonoBehaviour
 
     }
 
-    private void FixedUpdate()
-    {
-        if (Hp <= 0)
-        {
-            _DescendTime -= Time.fixedDeltaTime;
-
-            if (_DescendTime < 0) 
-            {
-                
-            }
-        }
-
-
-    }
     private void Update()
     {
         
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
-            //_LastMoveTime = Time.time;
+            
             if( _Player != null )
             {
                 _TargetPos = _Player.transform.position;
@@ -131,6 +117,7 @@ public class EnemyTank : MonoBehaviour
                     }
                     else
                     {
+                        // 日後再優化
                         if (transform.position == _LastUpdatePos && _WantToMove != true) // 停止時刻
                         {
                             
@@ -175,7 +162,7 @@ public class EnemyTank : MonoBehaviour
 
                     if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
-                        //Debug.Log(_Player.transform.name);
+                        
                         if (hit.collider != null)
                         {
                             Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
@@ -413,6 +400,7 @@ public class EnemyTank : MonoBehaviour
                 
                 _Agent.enabled = false;
                 _Obstacle.enabled = false;
+
                 this.enabled = false;
 
             }

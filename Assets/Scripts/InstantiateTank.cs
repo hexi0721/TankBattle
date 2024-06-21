@@ -14,9 +14,7 @@ public class InstantiateTank : MonoBehaviour
     public RectTransform Map; // 地圖 canvas
     public RectTransform MapBG; // 地圖 BG
 
-    //List<Vector3> _Pos , _Rot; // 敵方坦克初始出生位置
-
-    bool _AnyTank; // 是否還有其他坦克
+    bool _FactoryTank; // 是否還有其他坦克
     public Transform _InitPoint;
     [SerializeField]float _InitCooldown;
 
@@ -25,24 +23,23 @@ public class InstantiateTank : MonoBehaviour
     {
 
         _InitCooldown = 8f;
-        _AnyTank = true;
-
+        _FactoryTank = true;
 
     }
 
     private void Update()
     {
-        _AnyTank = GameObject.FindWithTag("EnemyTank") ? true : false;
-
-        // 沒有敵方坦克時 每過幾秒生成一台
-        if (GetComponent<EnemyFactory>().Hp < GetComponent<EnemyFactory>().GetMaxHp())
+        _FactoryTank = GameObject.FindWithTag("FactoryTank") ? true : false;
+        
+        // 當無生產坦克 還有 生產時間到 則生產坦克
+        if (_FactoryTank == false)
         {
             _InitCooldown -= Time.deltaTime;
 
             if(_InitCooldown < 0)
             {
-                BuildTank(new List<Vector3>() { _InitPoint.position });
-                _InitCooldown = 8f;
+                BuildTank(new List<Vector3>() { _InitPoint.position  } , "FactoryTank");
+                _InitCooldown = 15f;
             }
 
         }
@@ -69,6 +66,29 @@ public class InstantiateTank : MonoBehaviour
             EPgo.transform.localScale = Vector3.one;
             EPgo.transform.localEulerAngles = Vector3.zero;
             
+        }
+    }
+
+    public void BuildTank(List<Vector3> Pos , string s) // 生成坦克 與 雷達
+    {
+        for (int i = 0; i < Pos.Count; i++)
+        {
+
+            GameObject Tgo = Instantiate(EnemyTankPrefab, Pos[i], Quaternion.identity) as GameObject; // 敵方坦克
+            Tgo.tag = s;
+
+
+            GameObject EPgo = Instantiate(EnemyPoingPrefab) as GameObject; // 敵方坦克雷達
+
+            EPgo.transform.SetParent(Map.transform);
+            EPgo.GetComponent<RadarPoing>().MapCamera = MapCamera;
+            EPgo.GetComponent<RadarPoing>().Obj = Tgo;
+            EPgo.GetComponent<RadarPoing>().Map = Map;
+            EPgo.GetComponent<RadarPoing>().MapBG = MapBG;
+
+            EPgo.transform.localScale = Vector3.one;
+            EPgo.transform.localEulerAngles = Vector3.zero;
+
         }
     }
 

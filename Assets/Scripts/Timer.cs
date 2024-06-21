@@ -16,6 +16,7 @@ public class Timer : MonoBehaviour
     }
 
     GameManage _gameManage;
+    public EnemyFactory EnemyFactoryScript;
 
     private void Start()
     {
@@ -24,6 +25,14 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
+
+
+        // 當兵工廠被攻擊 敵方援軍抵達時間 變為0
+        if (EnemyFactoryScript.Hp < EnemyFactoryScript.GetMaxHp())
+        {
+            _time = -1f;
+
+        }
 
         // 計時器
         if (_gameManage.IsOpenMenu == false && PlayerSetting.Instance.animator.enabled == false && _time >= 0f)
@@ -35,6 +44,9 @@ public class Timer : MonoBehaviour
         {
             Time_txt.text = "";
         }
+
+
+        
 
 
     }

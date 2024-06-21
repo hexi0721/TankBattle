@@ -64,7 +64,7 @@ public class Bullet : MonoBehaviour
                 
                 if (collision.transform.childCount != 0)
                 {
-                    //Debug.Log(collision.gameObject.GetComponent<Renderer>().material, material);
+                    
                     collision.gameObject.GetComponent<Renderer>().material = material;
                     Destroy(collision.transform.GetChild(0).gameObject);
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
@@ -72,26 +72,16 @@ public class Bullet : MonoBehaviour
                     PlayerSetting.Instance._Ishit = true;
                 }
 
-                
-                
-
-                //collision.collider.GetComponent<Collider>().excludeLayers += 1 << 8;
-
 
                 break;
 
 
 
             case "EnemyTank":
-
-                PlayerSetting.Instance._Ishit = true;
-
-
-                break;
-
+            case "FactoryTank":
             case "EnemyFactory":
-
                 PlayerSetting.Instance._Ishit = true;
+
 
 
                 break;

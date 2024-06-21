@@ -7,11 +7,14 @@ public class WhenEnemyTankDestroy : MonoBehaviour
 
     public bool IsDestroy;
     public List<GameObject> TankBodyChild;
+
+    float _disappearTime;
     
 
     private void Start()
     {
         IsDestroy = false;
+        _disappearTime = 15f;
     }
 
     private void Update()
@@ -34,8 +37,13 @@ public class WhenEnemyTankDestroy : MonoBehaviour
 
             }
 
-            this.enabled = false;
+            //this.enabled = false;
 
+            _disappearTime -= Time.deltaTime;
+            if(_disappearTime < 0 )
+            {
+                Destroy(this.gameObject);
+            }
         }
 
 
