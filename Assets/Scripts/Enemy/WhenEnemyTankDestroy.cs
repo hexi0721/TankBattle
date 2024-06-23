@@ -9,7 +9,7 @@ public class WhenEnemyTankDestroy : MonoBehaviour
     public List<GameObject> TankBodyChild;
 
     float _disappearTime;
-    
+
 
     private void Start()
     {
@@ -28,13 +28,8 @@ public class WhenEnemyTankDestroy : MonoBehaviour
                 
                 MeshCollider MC = child.GetComponent<MeshCollider>();
 
-                MC.excludeLayers += 1 << 3;
-                MC.excludeLayers += 1 << 9;
-                MC.excludeLayers += 1 << 8;
-                MC.excludeLayers += 1 << 10;
-                MC.excludeLayers += 1 << 11;
-                MC.excludeLayers += 1 << 12;
-
+                MC.excludeLayers = (int)Mathf.Pow(2, 3) + (int)Mathf.Pow(2, 8) + (int)Mathf.Pow(2, 9) + (int)Mathf.Pow(2, 10) + (int)Mathf.Pow(2, 11) + (int)Mathf.Pow(2, 12);
+                
             }
 
             //this.enabled = false;

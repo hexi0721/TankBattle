@@ -9,6 +9,7 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public class PlayerRotation : MonoBehaviour
 {
+    public CameraController cameraController;
 
     public GameObject MainCamera;
     
@@ -16,13 +17,12 @@ public class PlayerRotation : MonoBehaviour
 
     public GameObject body;
 
-    
-    // 瞄準圖片
-    public GameObject MuzzleAimImage;
-    public RectTransform AimC; // Aim canva
+
 
     float _clamp;
-    Vector2 ScreenPos;
+    
+
+
     public static Vector3 targetPoint; // Aim 中心點
     
     private void Update()
@@ -57,9 +57,7 @@ public class PlayerRotation : MonoBehaviour
         transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.GetChild(0).rotation.eulerAngles.y, transform.GetChild(0).eulerAngles.z), 2 * Time.deltaTime);
 
 
-        // 世界座標轉換視角座標
-        ScreenPos = MainCamera.GetComponent<Camera>().WorldToViewportPoint(transform.GetChild(0).position + transform.GetChild(0).forward * 1000);
-        MuzzleAimImage.transform.localPosition = new Vector3((ScreenPos.x * AimC.rect.width) - AimC.rect.width / 2, (ScreenPos.y * AimC.rect.height) - AimC.rect.height / 2, 0);
+        
         
         
         RaycastHit hit = Raycast();
@@ -82,8 +80,8 @@ public class PlayerRotation : MonoBehaviour
     {
         RaycastHit hit;
 
-        Vector3 ScreenPosNear = new Vector3(ScreenPos.x, ScreenPos.y, MainCamera.GetComponent<Camera>().nearClipPlane);
-        Vector3 ScreenPosFar = new Vector3(ScreenPos.x , ScreenPos.y , MainCamera.GetComponent<Camera>().farClipPlane);
+        Vector3 ScreenPosNear = new Vector3(cameraController.ScreenPos.x, cameraController.ScreenPos.y, MainCamera.GetComponent<Camera>().nearClipPlane);
+        Vector3 ScreenPosFar = new Vector3(cameraController.ScreenPos.x , cameraController.ScreenPos.y , MainCamera.GetComponent<Camera>().farClipPlane);
 
         // 視角座標轉換世界座標
         Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosNear);

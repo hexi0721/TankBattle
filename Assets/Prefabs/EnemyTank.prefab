@@ -239,9 +239,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6edf02225df327340bd4835b6e95a014, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyTankScript: {fileID: 7916899886477022834}
-  EnemyShootScript: {fileID: 3887599674973282398}
-  _ExitMenu: 0
 --- !u!114 &4460498070629682749
 MonoBehaviour:
   m_ObjectHideFlags: 0
