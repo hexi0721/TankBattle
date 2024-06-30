@@ -28,7 +28,7 @@ public class PlayerSetting : MonoBehaviour
 
     public bool _Ishit;
 
-    public Animator animator;
+    public Animator animator; // 測試坦克功能可以disable
 
     private void Start()
     {
@@ -39,6 +39,15 @@ public class PlayerSetting : MonoBehaviour
         ShootFeedBack = GameObject.FindWithTag("ShootFeedBack").GetComponent<Image>();
         ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
         _Ishit = false;
+
+        animator = GetComponent<Animator>();
+
+        /*
+        // 測試坦克功能可以disable
+        animator.enabled = true;
+        transform.position = new Vector3(126.49f, 40.597f , 319.73f);
+        //
+        */
     }
 
     private void Awake()

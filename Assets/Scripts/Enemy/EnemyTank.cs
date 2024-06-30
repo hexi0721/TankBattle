@@ -33,7 +33,7 @@ public class EnemyTank : MonoBehaviour
     [SerializeField] float _ResetTime; // 重設時間
     float _LastMoveTime;
     float _NetxFrameTime;
-    float _DescendTime;
+    
     [SerializeField] bool _WantToMove;
     
     public bool WantToMove
@@ -61,7 +61,7 @@ public class EnemyTank : MonoBehaviour
         _ResetTime = 30f;
         _WantToMove = true;
         _NetxFrameTime = 0.2f;
-        _DescendTime = 4f;
+        
 
     }
 

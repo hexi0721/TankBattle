@@ -57,9 +57,6 @@ public class PlayerRotation : MonoBehaviour
         transform.GetChild(0).rotation = Quaternion.Lerp(transform.GetChild(0).transform.rotation, Quaternion.Euler(_clamp, transform.GetChild(0).rotation.eulerAngles.y, transform.GetChild(0).eulerAngles.z), 2 * Time.deltaTime);
 
 
-        
-        
-        
         RaycastHit hit = Raycast();
         
         if (hit.collider != null)
@@ -82,13 +79,13 @@ public class PlayerRotation : MonoBehaviour
 
         Vector3 ScreenPosNear = new Vector3(cameraController.ScreenPos.x, cameraController.ScreenPos.y, MainCamera.GetComponent<Camera>().nearClipPlane);
         Vector3 ScreenPosFar = new Vector3(cameraController.ScreenPos.x , cameraController.ScreenPos.y , MainCamera.GetComponent<Camera>().farClipPlane);
-
+        
         // 視角座標轉換世界座標
         Vector3 WorldPosNear = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosNear);
         Vector3 WorldPosFar = MainCamera.GetComponent<Camera>().ViewportToWorldPoint(ScreenPosFar);
 
-        Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit);
-        Debug.DrawRay(WorldPosNear, WorldPosFar - WorldPosNear, Color.blue);
+        Physics.Raycast(WorldPosNear, WorldPosFar - WorldPosNear, out hit , 1000f , ~(1 << 14));
+        Debug.DrawRay(WorldPosNear, WorldPosFar - WorldPosNear, Color.green);
         
         return hit;
     }
