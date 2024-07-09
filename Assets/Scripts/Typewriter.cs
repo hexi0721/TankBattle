@@ -3,65 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-
-public class Typewriter : MonoBehaviour
+using System;
+/*
+public class TypewriterMessage
 {
-    static Typewriter _instance;
 
+    Action onActionCallback = null;
 
-    public TMP_Text TextComponent;
-
-    float _timer;
-    [SerializeField] int _charIndex;
-    float _timePerChar;
-    [SerializeField] string _currentMsg;
-    [SerializeField] int _msgIndex;
-    bool _done;
-
-    List<string> _messages;
-
-
-
-
-    private void Awake()
+    float _timer = 0;
+    int _charIndex = 0;
+    public int CharIndex
     {
-        _instance = this;
-
-        _messages = new List<string>();
-        _messages.Add("與友軍順利突破包圍網後，你與小隊成員在原地稍作休整，不過根據出去偵查的成員回來匯報，於東方山脈上發現有座敵軍坦克工廠。\r\n\r\n");
-        _messages.Add("刻不容緩之際，你未將這層消息上報至最高指揮部，而是兵貴神速率領小隊突襲，若成功則將為前線友軍緩解龐大壓力，即便失敗也能作為誘餌，只是你的小隊將獨自面對源源不絕的敵軍。\r\n");
-        _msgIndex = 0;
-        _currentMsg = _messages[_msgIndex];
+        get => _charIndex;
+        set => _charIndex = value;
+    }
+    float _timePerChar = 0.05f;
+    string _currentMsg;
+    public string CurrentMsg
+    {
+        get => _currentMsg;
     }
 
-    private void Start()
+    public TypewriterMessage(string msg)
     {
-        _timer = 0;
-        _charIndex = 0;
-        _timePerChar = 0.05f;
-        _done = false;
+        _currentMsg = msg;
     }
 
-    private void Update()
+    public void Update()
     {
-
-        if (_msgIndex >= _messages.Count)
-        {
-            return;
-        }
-
-        if (_done)
-        {
-            _done = false;
-            _msgIndex++;
-            if (_msgIndex >= _messages.Count)
-            {
-                return;
-            }
-            _currentMsg += _messages[_msgIndex];
-
-        }
-
         _timer -= Time.deltaTime;
 
         if (_timer < 0)
@@ -69,20 +38,66 @@ public class Typewriter : MonoBehaviour
             _charIndex += 1;
             _timer += _timePerChar;
 
-            TextComponent.text = _currentMsg.Substring(0, _charIndex);
+        }
+    }
+
+
+
+public class Typewriter : MonoBehaviour
+{
+    static Typewriter _instance;
+
+    public TMP_Text TextComponent;
+
+    [SerializeField] int _charIndex;
+
+    [SerializeField] string _fullMsg;
+    [SerializeField] int _msgIndex;
+
+    List<TypewriterMessage> _messages = new List<TypewriterMessage>();
+
+    private void Awake()
+    {
+        _instance = this;
+
+    }
+
+    private void Start()
+    {
+        _charIndex = 0;
+
+    }
+
+    private void Update()
+    {
+        if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
+        {
+            return;
         }
 
-        if (_charIndex >= _currentMsg.Length)
+        if (_charIndex >= _fullMsg.Length) // 當一個句子結束時 將下一個句子加進來
         {
-            _done = true;
+            _msgIndex++;
+            if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
+            {
+                return;
+            }
+
+            _fullMsg += _messages[_msgIndex].CurrentMsg;
+            _messages[_msgIndex].CharIndex = _charIndex; // 將上一個句子字元數量繼承到此句
+
         }
+
+        _messages[_msgIndex].Update();
+        TextComponent.text = _fullMsg.Substring(0, _messages[_msgIndex].CharIndex);
+        _charIndex = _messages[_msgIndex].CharIndex;
 
 
     }
 
     bool IsActive()
     {
-        return _charIndex < _currentMsg.Length;
+        return _charIndex < _fullMsg.Length;
     }
 
     public void WriteNextMessageInQueue()
@@ -90,11 +105,22 @@ public class Typewriter : MonoBehaviour
 
         if (IsActive())
         {
-            TextComponent.text = _currentMsg;
-            _charIndex = _currentMsg.Length;
-
-            _done = true;
+            TextComponent.text = _fullMsg;
+            _charIndex = _fullMsg.Length;
         }
 
     }
+
+    public static void Add(string msg)
+    {
+        TypewriterMessage type = new TypewriterMessage(msg);
+        _instance._messages.Add(type);
+    }
+
+    public static void Activate()
+    {
+        _instance._msgIndex = 0;
+        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsg;
+    }
 }
+}*/

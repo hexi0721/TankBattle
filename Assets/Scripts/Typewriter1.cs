@@ -3,27 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class TypewriterMessage
 {
+
+    Action onActionCallback = null;
+
     float _timer = 0;
     int _charIndex = 0;
     public int CharIndex
     {
         get => _charIndex;
+        set => _charIndex = value;
     }
     float _timePerChar = 0.05f;
     string _currentMsg;
-    public string CurrentMsg
+    public string CurrentMsgAndCallback()
     {
-        get => _currentMsg;
-    }
+        if(onActionCallback != null)
+        {
+            onActionCallback();
+        }
 
+        return _currentMsg;
+    }
+    /*
     public TypewriterMessage(string msg)
     {
         _currentMsg = msg;
     }
-    
+    */
+    public TypewriterMessage(string msg , Action callback)
+    {
+        _currentMsg = msg;
+        onActionCallback = callback;
+    }
+
+    public void Callback()
+    {
+        if (onActionCallback != null)
+        {
+            onActionCallback();
+        }
+    }
+
     public void Update()
     {
         _timer -= Time.deltaTime;
@@ -33,8 +57,8 @@ public class TypewriterMessage
             _charIndex += 1;
             _timer += _timePerChar;
 
-            //TextComponent.text = _fullMsg.Substring(0, _charIndex);
         }
+        
     }
     
 }
@@ -45,10 +69,7 @@ public class Typewriter1 : MonoBehaviour
 
     public TMP_Text TextComponent;
 
-    float _timer;
     [SerializeField] int _charIndex;
-    public int tmpIndex=0;
-    float _timePerChar;
 
     [SerializeField] string _fullMsg;
     [SerializeField] int _msgIndex;
@@ -64,37 +85,34 @@ public class Typewriter1 : MonoBehaviour
     private void Start()
     {
         _charIndex = 0;
-        _timer = 0;
-        _timePerChar = 0.05f;
+
     }
 
     private void Update()
     {
+        if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
+        {
+            return;
+        }
 
-        if (_charIndex >= _fullMsg.Length) // 當一個句子結束時 往下一個句子
+        if (_charIndex >= _fullMsg.Length) // 當一個句子結束時 將下一個句子加進來
         {
             
+            _msgIndex++;
             if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
             {
                 return;
             }
 
-            _fullMsg += _messages[_msgIndex].CurrentMsg; // 從首句開始
-            _msgIndex++; // _msg序號+1
+            _fullMsg += _messages[_msgIndex].CurrentMsgAndCallback(); 
+            _messages[_msgIndex].CharIndex = _charIndex; // 將上一個句子字元數量繼承到此句
+
         }
+        
+        _messages[_msgIndex].Update();
+        TextComponent.text = _fullMsg.Substring(0, _messages[_msgIndex].CharIndex);
+        _charIndex = _messages[_msgIndex].CharIndex; 
 
-        _timer -= Time.deltaTime;
-
-        if (_timer < 0)
-        {
-            _charIndex += 1;
-            _timer += _timePerChar;
-
-            TextComponent.text = _fullMsg.Substring(0, _charIndex);
-        }
-        // 試著放進typewritemessage
-        int a = _msgIndex - 1;
-        tmpIndex += _messages[a].CharIndex;
 
     }
 
@@ -113,16 +131,22 @@ public class Typewriter1 : MonoBehaviour
         }
 
     }
-
+    /*
     public static void Add(string msg)
     {
         TypewriterMessage type = new TypewriterMessage(msg);
+        _instance._messages.Add(type);
+    }
+    */
+    public static void Add(string msg , Action callback = null)
+    {
+        TypewriterMessage type = new TypewriterMessage(msg , callback);
         _instance._messages.Add(type);
     }
 
     public static void Activate()
     {
         _instance._msgIndex = 0;
-        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsg;
+        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsgAndCallback();
     }
 }
