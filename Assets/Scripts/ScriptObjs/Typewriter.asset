@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbc842584423b48458e9b09ce1d9d3ea, type: 3}
+  m_Name: Typewriter
+  m_EditorClassIdentifier: 
+  Messages:
+  - _currentMsg: This is a test.
+  - _currentMsg: This is Hello World.
+  - _currentMsg: This is End.

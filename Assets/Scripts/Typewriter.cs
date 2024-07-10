@@ -19,14 +19,26 @@ public class TypewriterMessage
     }
     float _timePerChar = 0.05f;
     string _currentMsg;
-    public string CurrentMsg
+    public string CurrentMsg()
     {
-        get => _currentMsg;
+
+
+        return _currentMsg;
     }
 
-    public TypewriterMessage(string msg)
+    public TypewriterMessage(string msg, Action callback)
     {
+        onActionCallback = callback;
         _currentMsg = msg;
+
+    }
+
+    public void Callback()
+    {
+        if (onActionCallback != null)
+        {
+            onActionCallback();
+        }
     }
 
     public void Update()
@@ -39,10 +51,11 @@ public class TypewriterMessage
             _timer += _timePerChar;
 
         }
+
     }
 
-
-
+}
+*/
 public class Typewriter : MonoBehaviour
 {
     static Typewriter _instance;
@@ -77,13 +90,14 @@ public class Typewriter : MonoBehaviour
 
         if (_charIndex >= _fullMsg.Length) // 當一個句子結束時 將下一個句子加進來
         {
+            _messages[_msgIndex].Callback();
             _msgIndex++;
             if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
             {
                 return;
             }
 
-            _fullMsg += _messages[_msgIndex].CurrentMsg;
+            _fullMsg += _messages[_msgIndex].CurrentMsg();
             _messages[_msgIndex].CharIndex = _charIndex; // 將上一個句子字元數量繼承到此句
 
         }
@@ -111,16 +125,15 @@ public class Typewriter : MonoBehaviour
 
     }
 
-    public static void Add(string msg)
+    public static void Add(string msg, Action callback = null)
     {
-        TypewriterMessage type = new TypewriterMessage(msg);
+        TypewriterMessage type = new TypewriterMessage(msg, callback);
         _instance._messages.Add(type);
     }
 
     public static void Activate()
     {
         _instance._msgIndex = 0;
-        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsg;
+        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsg();
     }
 }
-}*/

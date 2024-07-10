@@ -4,7 +4,19 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using Unity.VisualScripting;
 
+[System.Serializable]
+public class MessageJson
+{
+    public TypewriterMessage Message;
+}
+public class TypewriterJson
+{
+    public MessageJson[] Messages;
+}
+
+[System.Serializable]
 public class TypewriterMessage
 {
 
@@ -18,26 +30,19 @@ public class TypewriterMessage
         set => _charIndex = value;
     }
     float _timePerChar = 0.05f;
-    string _currentMsg;
-    public string CurrentMsgAndCallback()
-    {
-        if(onActionCallback != null)
-        {
-            onActionCallback();
-        }
 
+    [SerializeField]
+    string _currentMsg;
+    public string CurrentMsg()
+    {
         return _currentMsg;
     }
-    /*
-    public TypewriterMessage(string msg)
-    {
-        _currentMsg = msg;
-    }
-    */
+
     public TypewriterMessage(string msg , Action callback)
     {
-        _currentMsg = msg;
         onActionCallback = callback;
+        _currentMsg = msg;
+        
     }
 
     public void Callback()
@@ -47,7 +52,7 @@ public class TypewriterMessage
             onActionCallback();
         }
     }
-
+    
     public void Update()
     {
         _timer -= Time.deltaTime;
@@ -97,14 +102,14 @@ public class Typewriter1 : MonoBehaviour
 
         if (_charIndex >= _fullMsg.Length) // 當一個句子結束時 將下一個句子加進來
         {
-            
+            _messages[_msgIndex].Callback();
             _msgIndex++;
             if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
             {
                 return;
             }
 
-            _fullMsg += _messages[_msgIndex].CurrentMsgAndCallback(); 
+            _fullMsg += _messages[_msgIndex].CurrentMsg(); 
             _messages[_msgIndex].CharIndex = _charIndex; // 將上一個句子字元數量繼承到此句
 
         }
@@ -131,22 +136,46 @@ public class Typewriter1 : MonoBehaviour
         }
 
     }
-    /*
-    public static void Add(string msg)
-    {
-        TypewriterMessage type = new TypewriterMessage(msg);
-        _instance._messages.Add(type);
-    }
-    */
+
     public static void Add(string msg , Action callback = null)
     {
         TypewriterMessage type = new TypewriterMessage(msg , callback);
         _instance._messages.Add(type);
     }
 
+    public static void Add(TypewriterScriptableObj SourceObj)
+    {
+        TypewriterMessage type;
+        for (int i = 0;i < SourceObj.Messages.Count;i++) 
+        {
+            
+            if (i !=  SourceObj.Messages.Count-1)
+            {
+                type = new TypewriterMessage(SourceObj.Messages[i].CurrentMsg() + "\r\n", () => { Debug.Log("CallBack"); });
+                
+            }
+            else
+            {
+                type = new TypewriterMessage(SourceObj.Messages[i].CurrentMsg() , () => { Debug.Log("CallBack"); });
+                
+            }
+            _instance._messages.Add(type);
+        }
+    }
+
+    public static void Add(TypewriterJson json)
+    {
+        TypewriterMessage type;
+        for (int i = 0;i < json.Messages.Length; i++)
+        {
+            type = new TypewriterMessage(json.Messages[i].Message + "\r\n", () => { Debug.Log("CallBack"); });
+            _instance._messages.Add(type);
+        }
+    }
+
     public static void Activate()
     {
         _instance._msgIndex = 0;
-        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsgAndCallback();
+        _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsg();
     }
 }
