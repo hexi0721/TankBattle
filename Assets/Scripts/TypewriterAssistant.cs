@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TypewriterAssistant : MonoBehaviour
 {
-    public TypewriterScriptableObj ScriptableOnbj;
-    public TypewriterJson json;
+    // public TypewriterScriptableObj ScriptableOnbj;
+    
     public TextAsset textAsset;
     private void Start()
     {
@@ -20,10 +20,10 @@ public class TypewriterAssistant : MonoBehaviour
         //Typewriter1.Add(ScriptableOnbj);
 
         // Json
-        json = JsonUtility.FromJson<TypewriterJson>(textAsset.text);
-        Typewriter1.Add(json);
+        TypewriterJson json = JsonUtility.FromJson<TypewriterJson>(textAsset.text);
+        TypewriterAndLodeScene.Add(json);
 
-        Typewriter1.Activate();
+        TypewriterAndLodeScene.Activate();
         
     }
 

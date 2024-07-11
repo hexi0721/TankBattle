@@ -5,11 +5,13 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using Unity.VisualScripting;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class MessageJson
 {
-    public TypewriterMessage Message;
+    public string Message;
 }
 public class TypewriterJson
 {
@@ -38,11 +40,11 @@ public class TypewriterMessage
         return _currentMsg;
     }
 
-    public TypewriterMessage(string msg , Action callback)
+    public TypewriterMessage(string msg, Action callback)
     {
         onActionCallback = callback;
         _currentMsg = msg;
-        
+
     }
 
     public void Callback()
@@ -52,7 +54,7 @@ public class TypewriterMessage
             onActionCallback();
         }
     }
-    
+
     public void Update()
     {
         _timer -= Time.deltaTime;
@@ -63,14 +65,14 @@ public class TypewriterMessage
             _timer += _timePerChar;
 
         }
-        
+
     }
-    
+
 }
 
-public class Typewriter1 : MonoBehaviour
+public class TypewriterAndLodeScene : MonoBehaviour
 {
-    static Typewriter1 _instance;
+    static TypewriterAndLodeScene _instance;
 
     public TMP_Text TextComponent;
 
@@ -81,6 +83,11 @@ public class Typewriter1 : MonoBehaviour
 
     List<TypewriterMessage> _messages = new List<TypewriterMessage>();
 
+    bool _doNextScene;
+    [SerializeField] bool _fadeIn;
+    [SerializeField] bool _fadeOut;
+    TMP_Text _Continue;
+
     private void Awake()
     {
         _instance = this;
@@ -90,13 +97,58 @@ public class Typewriter1 : MonoBehaviour
     private void Start()
     {
         _charIndex = 0;
+        _doNextScene = false;
 
+        _Continue = GameObject.Find("Continue").GetComponent<TMP_Text>();
+        _Continue.color = new Color(255,255,255,0);
+        _fadeIn = true;
+        _fadeOut = false;
     }
 
     private void Update()
     {
-        if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
+        
+
+
+        if (_msgIndex >= _messages.Count) // 當所有句子已結束時 執行漸入漸出
         {
+            float Alpha;
+
+            if (_fadeIn)
+            {
+
+                if (_Continue.color.a < 1.0f)
+                {
+                    Alpha = _Continue.color.a + (Time.deltaTime);
+                    _Continue.color = new Color(255, 255, 255, Alpha);
+
+                    if (_Continue.color.a >= 1.0f)
+                    {
+                        _fadeIn = false;
+                        FadeOut();
+                    }
+                }
+
+            }
+
+            if (_fadeOut)
+            {
+
+                if (_Continue.color.a > 0.0f)
+                {
+                    Alpha = _Continue.color.a - (Time.deltaTime);
+                    _Continue.color = new Color(255, 255, 255, Alpha);
+
+                    if (_Continue.color.a <= 0.0f)
+                    {
+                        _fadeOut = false;
+                        FadeIn();
+                    }
+                }
+
+            }
+
+
             return;
         }
 
@@ -104,19 +156,19 @@ public class Typewriter1 : MonoBehaviour
         {
             _messages[_msgIndex].Callback();
             _msgIndex++;
-            if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行腳本
+            if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行
             {
                 return;
             }
 
-            _fullMsg += _messages[_msgIndex].CurrentMsg(); 
+            _fullMsg += _messages[_msgIndex].CurrentMsg();
             _messages[_msgIndex].CharIndex = _charIndex; // 將上一個句子字元數量繼承到此句
 
         }
-        
+
         _messages[_msgIndex].Update();
         TextComponent.text = _fullMsg.Substring(0, _messages[_msgIndex].CharIndex);
-        _charIndex = _messages[_msgIndex].CharIndex; 
+        _charIndex = _messages[_msgIndex].CharIndex;
 
 
     }
@@ -124,6 +176,21 @@ public class Typewriter1 : MonoBehaviour
     bool IsActive()
     {
         return _charIndex < _fullMsg.Length;
+    }
+
+    bool LoadNextScene()
+    {
+        return _doNextScene;
+    }
+
+    void FadeIn()
+    {
+        _fadeIn = true;
+    }
+
+    void FadeOut()
+    {
+        _fadeOut = true;
     }
 
     public void WriteNextMessageInQueue()
@@ -134,15 +201,19 @@ public class Typewriter1 : MonoBehaviour
             TextComponent.text = _fullMsg;
             _charIndex = _fullMsg.Length;
         }
+        else if (LoadNextScene())
+        {
+            SceneManager.LoadScene(1);
+        }
 
     }
 
-    public static void Add(string msg , Action callback = null)
+    public static void Add(string msg, Action callback = null)
     {
-        TypewriterMessage type = new TypewriterMessage(msg , callback);
+        TypewriterMessage type = new TypewriterMessage(msg, callback);
         _instance._messages.Add(type);
     }
-
+    /*
     public static void Add(TypewriterScriptableObj SourceObj)
     {
         TypewriterMessage type;
@@ -162,13 +233,23 @@ public class Typewriter1 : MonoBehaviour
             _instance._messages.Add(type);
         }
     }
-
+    */
     public static void Add(TypewriterJson json)
     {
         TypewriterMessage type;
-        for (int i = 0;i < json.Messages.Length; i++)
+        for (int i = 0; i < json.Messages.Length; i++)
         {
-            type = new TypewriterMessage(json.Messages[i].Message + "\r\n", () => { Debug.Log("CallBack"); });
+
+            if(i != json.Messages.Length - 1)
+            {
+                type = new TypewriterMessage(json.Messages[i].Message + "\r\n", null);
+            }
+            else
+            {
+                type = new TypewriterMessage(json.Messages[i].Message , () => { _instance._doNextScene = true; });
+            }
+
+            
             _instance._messages.Add(type);
         }
     }

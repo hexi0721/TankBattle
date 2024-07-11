@@ -42,12 +42,12 @@ public class PlayerSetting : MonoBehaviour
 
         animator = GetComponent<Animator>();
 
-        /*
+        
         // 測試坦克功能可以disable
         animator.enabled = true;
         transform.position = new Vector3(126.49f, 40.597f , 319.73f);
         //
-        */
+        
     }
 
     private void Awake()
