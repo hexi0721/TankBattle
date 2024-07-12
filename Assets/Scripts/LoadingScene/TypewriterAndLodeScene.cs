@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 public class MessageJson
 {
     public string Message;
+    public int SceneNum;
 }
 public class TypewriterJson
 {
@@ -88,6 +89,12 @@ public class TypewriterAndLodeScene : MonoBehaviour
     [SerializeField] bool _fadeOut;
     TMP_Text _Continue;
 
+    // loadscene
+    public Image LoadingBar;
+    AsyncOperation _async;
+    string SceneNum;
+
+    //
     private void Awake()
     {
         _instance = this;
@@ -103,13 +110,19 @@ public class TypewriterAndLodeScene : MonoBehaviour
         _Continue.color = new Color(255,255,255,0);
         _fadeIn = true;
         _fadeOut = false;
+
+        _async = SceneManager.LoadSceneAsync(SceneNum);
+        _async.allowSceneActivation = false;
     }
 
     private void Update()
     {
+
+        Debug.Log(SceneNum);
         
+        LoadingBar.fillAmount = _async.progress / 0.9f;
 
-
+        
         if (_msgIndex >= _messages.Count) // 當所有句子已結束時 執行漸入漸出
         {
             float Alpha;
@@ -201,9 +214,9 @@ public class TypewriterAndLodeScene : MonoBehaviour
             TextComponent.text = _fullMsg;
             _charIndex = _fullMsg.Length;
         }
-        else if (LoadNextScene())
+        else if (LoadNextScene() && _async.isDone)
         {
-            SceneManager.LoadScene(1);
+            _async.allowSceneActivation = true;
         }
 
     }
@@ -242,11 +255,11 @@ public class TypewriterAndLodeScene : MonoBehaviour
 
             if(i != json.Messages.Length - 1)
             {
-                type = new TypewriterMessage(json.Messages[i].Message + "\r\n", null);
+                type = new TypewriterMessage(json.Messages[i].Message + "\r\n\r\n", null);
             }
             else
             {
-                type = new TypewriterMessage(json.Messages[i].Message , () => { _instance._doNextScene = true; });
+                type = new TypewriterMessage(json.Messages[i].Message , () => { _instance._doNextScene = true;  _instance.SceneNum = json.Messages[i].SceneNum.ToString(); } );
             }
 
             
