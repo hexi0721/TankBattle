@@ -12,7 +12,7 @@ using UnityEngine.SceneManagement;
 public class MessageJson
 {
     public string Message;
-    public int SceneNum;
+    public string SceneNum;
 }
 public class TypewriterJson
 {
@@ -36,6 +36,7 @@ public class TypewriterMessage
 
     [SerializeField]
     string _currentMsg;
+    
     public string CurrentMsg()
     {
         return _currentMsg;
@@ -48,6 +49,7 @@ public class TypewriterMessage
 
     }
 
+    
     public void Callback()
     {
         if (onActionCallback != null)
@@ -55,6 +57,7 @@ public class TypewriterMessage
             onActionCallback();
         }
     }
+    
 
     public void Update()
     {
@@ -89,12 +92,12 @@ public class TypewriterAndLodeScene : MonoBehaviour
     [SerializeField] bool _fadeOut;
     TMP_Text _Continue;
 
+    //[SerializeField]int SceneNum ;
     // loadscene
     public Image LoadingBar;
     AsyncOperation _async;
-    string SceneNum;
-
     //
+
     private void Awake()
     {
         _instance = this;
@@ -111,63 +114,28 @@ public class TypewriterAndLodeScene : MonoBehaviour
         _fadeIn = true;
         _fadeOut = false;
 
-        _async = SceneManager.LoadSceneAsync(SceneNum);
-        _async.allowSceneActivation = false;
+        
     }
 
     private void Update()
     {
 
-        Debug.Log(SceneNum);
-        
-        LoadingBar.fillAmount = _async.progress / 0.9f;
+        // Debug.Log(_async.progress);
+        if(_async != null)
+        {
+            LoadingBar.fillAmount = _async.progress / 0.9f;
+        }
 
-        
         if (_msgIndex >= _messages.Count) // 當所有句子已結束時 執行漸入漸出
         {
-            float Alpha;
-
-            if (_fadeIn)
-            {
-
-                if (_Continue.color.a < 1.0f)
-                {
-                    Alpha = _Continue.color.a + (Time.deltaTime);
-                    _Continue.color = new Color(255, 255, 255, Alpha);
-
-                    if (_Continue.color.a >= 1.0f)
-                    {
-                        _fadeIn = false;
-                        FadeOut();
-                    }
-                }
-
-            }
-
-            if (_fadeOut)
-            {
-
-                if (_Continue.color.a > 0.0f)
-                {
-                    Alpha = _Continue.color.a - (Time.deltaTime);
-                    _Continue.color = new Color(255, 255, 255, Alpha);
-
-                    if (_Continue.color.a <= 0.0f)
-                    {
-                        _fadeOut = false;
-                        FadeIn();
-                    }
-                }
-
-            }
-
-
+            FadeIn();
+            FadeOut();
             return;
         }
 
         if (_charIndex >= _fullMsg.Length) // 當一個句子結束時 將下一個句子加進來
         {
-            _messages[_msgIndex].Callback();
+            _messages[_msgIndex].Callback(); // 讓_doNextScene變true
             _msgIndex++;
             if (_msgIndex >= _messages.Count) // 當所有句子已結束時 不要再執行
             {
@@ -191,19 +159,40 @@ public class TypewriterAndLodeScene : MonoBehaviour
         return _charIndex < _fullMsg.Length;
     }
 
-    bool LoadNextScene()
-    {
-        return _doNextScene;
-    }
-
     void FadeIn()
     {
-        _fadeIn = true;
+        if (_fadeIn)
+        {
+            if (_Continue.color.a < 1.0f)
+            {
+                float Alpha = _Continue.color.a + (Time.deltaTime);
+                _Continue.color = new Color(255, 255, 255, Alpha);
+
+                if (_Continue.color.a >= 1.0f)
+                {
+                    _fadeIn = false;
+                    _fadeOut = true;
+                }
+            }
+        }
     }
 
     void FadeOut()
     {
-        _fadeOut = true;
+        if (_fadeOut)
+        {
+            if (_Continue.color.a > 0.0f)
+            {
+                float Alpha = _Continue.color.a - (Time.deltaTime);
+                _Continue.color = new Color(255, 255, 255, Alpha);
+
+                if (_Continue.color.a <= 0.0f)
+                {
+                    _fadeOut = false;
+                    _fadeIn = true;
+                }
+            }
+        }
     }
 
     public void WriteNextMessageInQueue()
@@ -214,13 +203,20 @@ public class TypewriterAndLodeScene : MonoBehaviour
             TextComponent.text = _fullMsg;
             _charIndex = _fullMsg.Length;
         }
-        else if (LoadNextScene() && _async.isDone)
+        else if (_doNextScene && _async.progress >= 0.9f)
         {
             _async.allowSceneActivation = true;
         }
-
+        
     }
-
+    /*
+    public void SceneNumAddOne()
+    {
+        SceneNum = PlayerPrefs.GetInt("SceneNum");
+        SceneNum += 1;
+        PlayerPrefs.SetInt("SceneNum" , SceneNum);
+    }
+    */
     public static void Add(string msg, Action callback = null)
     {
         TypewriterMessage type = new TypewriterMessage(msg, callback);
@@ -259,10 +255,10 @@ public class TypewriterAndLodeScene : MonoBehaviour
             }
             else
             {
-                type = new TypewriterMessage(json.Messages[i].Message , () => { _instance._doNextScene = true;  _instance.SceneNum = json.Messages[i].SceneNum.ToString(); } );
+
+                type = new TypewriterMessage(json.Messages[i].Message , () => { _instance._doNextScene = true; });
             }
 
-            
             _instance._messages.Add(type);
         }
     }
@@ -271,5 +267,11 @@ public class TypewriterAndLodeScene : MonoBehaviour
     {
         _instance._msgIndex = 0;
         _instance._fullMsg = _instance._messages[_instance._msgIndex].CurrentMsg();
+
+        // 讀取進度
+        int SceneNum = PlayerPrefs.GetInt("SceneNum") + 1;
+        PlayerPrefs.SetInt("SceneNum", SceneNum);
+        _instance._async = SceneManager.LoadSceneAsync(PlayerPrefs.GetInt("SceneNum"));
+        _instance._async.allowSceneActivation = false;
     }
 }
