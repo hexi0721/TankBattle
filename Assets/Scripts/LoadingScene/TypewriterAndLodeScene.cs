@@ -5,7 +5,6 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using Unity.VisualScripting;
-using UnityEditor.SearchService;
 using UnityEngine.SceneManagement;
 
 [System.Serializable]
@@ -120,7 +119,6 @@ public class TypewriterAndLodeScene : MonoBehaviour
     private void Update()
     {
 
-        // Debug.Log(_async.progress);
         if(_async != null)
         {
             LoadingBar.fillAmount = _async.progress / 0.9f;

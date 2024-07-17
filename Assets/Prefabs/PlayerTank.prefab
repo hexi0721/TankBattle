@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pv: 15
-  ph: 15
+  ph: 25
   speed: 750000
   gameManage: {fileID: 0}
 --- !u!114 &3522893410985160434
@@ -474,11 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a560148719233a49ad674eea34d9774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraController: {fileID: 0}
   MainCamera: {fileID: 0}
   speed: 2
   body: {fileID: 2569014630977227009}
-  MuzzleAimImage: {fileID: 0}
-  AimC: {fileID: 0}
 --- !u!114 &3968817053395596981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -585,12 +584,12 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4897572938967204257}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 86ff4d29672c0814f8da6bb197a1d053, type: 2}
-  m_CullingMode: 2
+  m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 

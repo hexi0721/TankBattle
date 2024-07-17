@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 172972734248027766}
   - component: {fileID: 6714738463073601460}
   - component: {fileID: 7338906777041026863}
+  - component: {fileID: 5362351550532078400}
   - component: {fileID: 4353327714592033379}
   m_Layer: 7
   m_Name: EnemyFactory
@@ -143,6 +144,18 @@ MonoBehaviour:
   MapBG: {fileID: 0}
   _InitPoint: {fileID: 0}
   _InitCooldown: 0
+--- !u!114 &5362351550532078400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189798898747717389}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1111cfb0b7df7c46981a3c7533323d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!205 &4353327714592033379
 LODGroup:
   m_ObjectHideFlags: 0
