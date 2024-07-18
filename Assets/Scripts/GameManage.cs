@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 
 public class GameManage : MonoBehaviour
 {
+
     public GameObject MapCam; // 地圖鏡頭
     public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
 
@@ -17,7 +19,8 @@ public class GameManage : MonoBehaviour
     bool _showMap , _IsOpenMenu ;
     public bool IsOpenMenu // 菜單是否開啟
     {
-        get { return _IsOpenMenu; }
+        get => _IsOpenMenu;
+        set => _IsOpenMenu = value;
     }
     float _speed = 5f;
 
@@ -30,6 +33,12 @@ public class GameManage : MonoBehaviour
         set => _backuptrigger = value;
     }
 
+    static GameManage _instance;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
@@ -42,18 +51,39 @@ public class GameManage : MonoBehaviour
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
 
         _PlayerTank = GameObject.FindWithTag("Player");
-        
 
+        
 
     }
 
     private void Update()
     {
+
         // TabKeyCode();
 
-        EscKeyCode();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            OpenCloseMenu();
+        }
+        switch (IsOpenMenu)
+        {
+            case true:
 
-        if(_PlayerTank == null && PlayerSetting.Instance.Hp2 >= 0) // 修正玩家死亡 紅色HP正確消除
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
+
+                break;
+
+            case false:
+
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
+
+                break;
+        }
+
+
+        if (_PlayerTank == null && PlayerSetting.Instance.Hp2 >= 0) // 修正玩家死亡 紅色HP正確消除
         {
 
             PlayerSetting.Instance.Hp2 -= 1;
@@ -69,32 +99,16 @@ public class GameManage : MonoBehaviour
 
     }
 
-    private void EscKeyCode()
+    public static void OpenCloseMenu()
     {
 
+        _instance.IsOpenMenu = !_instance.IsOpenMenu;
 
-        // Esc 開關菜單
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            _IsOpenMenu = !_IsOpenMenu;
-            if (_IsOpenMenu)
-            {
-                Cursor.visible = true;
-                Cursor.lockState = CursorLockMode.None;
-            }
-            else
-            {
-                Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Confined;
-
-                
-            }
-        }
     }
 
     private void TabKeyCode()
     {
-        if (Input.GetKey(KeyCode.Tab) && !_IsOpenMenu)
+        if (Input.GetKey(KeyCode.Tab) && !_instance.IsOpenMenu)
         {
             _showMap = true;
 
@@ -108,7 +122,7 @@ public class GameManage : MonoBehaviour
 
         }
 
-        if (Input.GetKeyUp(KeyCode.Tab) || _IsOpenMenu)
+        if (Input.GetKeyUp(KeyCode.Tab) || _instance.IsOpenMenu)
         {
             _showMap = false;
 

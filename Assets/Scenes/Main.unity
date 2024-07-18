@@ -1012,7 +1012,7 @@ GameObject:
   - component: {fileID: 395009534}
   - component: {fileID: 395009533}
   m_Layer: 5
-  m_Name: ReturnToGane
+  m_Name: ReturnGane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1081,7 +1081,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 395009534}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 116962088}
+        m_TargetAssemblyTypeName: SubMenu, Assembly-CSharp
+        m_MethodName: ReturnGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &395009534
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2529,7 +2541,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 926903770}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 116962088}
+        m_TargetAssemblyTypeName: SubMenu, Assembly-CSharp
+        m_MethodName: ReturnMainMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &926903770
 MonoBehaviour:
   m_ObjectHideFlags: 0

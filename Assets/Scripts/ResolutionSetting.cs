@@ -8,17 +8,18 @@ using TMPro;
 
 public class ResolutionSetting : MonoBehaviour
 {
-
+    
     Resolution[] resolutionsArr;
     public  TMP_Dropdown resolutionDropdown;
 
     [SerializeField] List<string> s;
     string[] words;
+
     void Start()
     {
         resolutionsArr = Screen.resolutions;
         resolutionDropdown.ClearOptions();
-
+        
         s = new List<string>();
 
         for (var i = 0; i < resolutionsArr.Length; i++)
@@ -38,7 +39,13 @@ public class ResolutionSetting : MonoBehaviour
                 s.Add(resolutionsArr[i].width + " x " + resolutionsArr[i].height);
             }
             
-            
+            /*
+            if((float)resolutionsArr[i].width > 800f)
+            {
+                s.Add(resolutionsArr[i].width + " x " + resolutionsArr[i].height);
+            }
+            */
+
         }
 
         resolutionDropdown.AddOptions(s);
@@ -49,33 +56,17 @@ public class ResolutionSetting : MonoBehaviour
 
     public void Set() // 設定解析度
     {
-        
-        for (var i = 0; i < s.Count;i++) 
-        {
-            if(i == resolutionDropdown.value)
-            {
-                words = s[i].Split("x");
-            }
-        }
+
+        words = s[resolutionDropdown.value].Split("x");
+        PlayerPrefs.SetInt("currentResolutionIndex", resolutionDropdown.value);
 
         Screen.SetResolution(int.Parse(words[0]) , int.Parse(words[1]), FullScreenMode.Windowed, new RefreshRate() { numerator = 60, denominator = 1 });    
     }
 
     void Get()
     {
-        var currentResolutionIndex = 0;
-
         
-        for(var i = 0;i < resolutionsArr.Length;i++)
-        {
-            if (resolutionsArr[i].width == Screen.width && resolutionsArr[i].height == Screen.height)
-            {
-                currentResolutionIndex = i;
-                
-            }
-        }
-            
-        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.value = PlayerPrefs.GetInt("currentResolutionIndex");
         resolutionDropdown.RefreshShownValue();
     }
 }

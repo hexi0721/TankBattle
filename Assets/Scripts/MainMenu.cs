@@ -6,20 +6,18 @@ using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    int _SceneNum = 1;
+    
     public GameObject SettingBtn;
 
     public void GameStart()
     {
-        PlayerPrefs.SetInt("SceneNum", _SceneNum);
-
-        SceneManager.LoadScene(_SceneNum);
+        PlayerPrefs.SetInt("SceneNum", 1);
+        SceneManager.LoadScene(PlayerPrefs.GetInt("SceneNum"));
     }
 
-    public void CloseTheGame()
+    public void ContinueGame()
     {
-        Application.Quit();
-        //EditorApplication.isPlaying = false;
+        SceneManager.LoadScene(PlayerPrefs.GetInt("SceneNum"));
     }
 
     public void Setting()
@@ -27,5 +25,10 @@ public class MainMenu : MonoBehaviour
         SettingBtn.SetActive(!SettingBtn.activeSelf);
     }
 
+    public void CloseTheGame()
+    {
+        Application.Quit();
+        //EditorApplication.isPlaying = false;
+    }
 
 }

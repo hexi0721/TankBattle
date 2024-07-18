@@ -119,7 +119,7 @@ public class TypewriterAndLodeScene : MonoBehaviour
     private void Update()
     {
 
-        if(_async != null)
+        if (_async != null)
         {
             LoadingBar.fillAmount = _async.progress / 0.9f;
         }
