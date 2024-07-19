@@ -7,7 +7,34 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     
-    public GameObject SettingBtn;
+    public GameObject setting;
+
+    private void Start()
+    {
+        StackSettings._stack = new List<GameObject> ();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            if (StackSettings._stack.Count != 0)
+            {
+
+                StackSettings.PullStack();
+
+
+            }
+            else
+            {
+                
+                StackSettings.AddStack(setting);
+            }
+
+
+        }
+    }
 
     public void GameStart()
     {
@@ -22,7 +49,15 @@ public class MainMenu : MonoBehaviour
 
     public void Setting()
     {
-        SettingBtn.SetActive(!SettingBtn.activeSelf);
+        if (setting.activeSelf == true)
+        {
+            StackSettings.PullStack();
+        }
+        else
+        {
+            StackSettings.AddStack(setting);
+        }
+
     }
 
     public void CloseTheGame()

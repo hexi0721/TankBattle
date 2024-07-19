@@ -10,13 +10,15 @@ using UnityEngine.UI;
 public class GameManage : MonoBehaviour
 {
 
-    public GameObject MapCam; // 地圖鏡頭
-    public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
+    //public GameObject MapCam; // 地圖鏡頭
+    //public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
 
     public Image OpeningBlackBg;
-    
 
-    bool _showMap , _IsOpenMenu ;
+    public GameObject SubMenu;
+
+    [HideInInspector] bool _IsOpenMenu;
+    // bool _showMap ;
     public bool IsOpenMenu // 菜單是否開啟
     {
         get => _IsOpenMenu;
@@ -44,26 +46,45 @@ public class GameManage : MonoBehaviour
     {
         Cursor.visible = false;
 
-        _showMap = false;
+        //_showMap = false;
         _IsOpenMenu = false; // true 是開啟菜單 false 是關閉菜單
-
+        /*
         MapCanvas.GetComponent<CanvasGroup>().alpha = 0f;
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
-
+        */
         _PlayerTank = GameObject.FindWithTag("Player");
 
-        
-
+        StackSettings._stack = new List<GameObject>();
     }
 
     private void Update()
     {
+        
 
         // TabKeyCode();
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            OpenCloseMenu();
+
+            if(StackSettings._stack.Count != 0)
+            {
+
+                if(StackSettings._stack.Count == 1)
+                {
+                    IsOpenMenu = false;
+                }
+
+                StackSettings.PullStack();
+
+                
+            }
+            else
+            {
+                IsOpenMenu = true;
+                StackSettings.AddStack(SubMenu);
+            }
+            
+            
         }
         switch (IsOpenMenu)
         {
@@ -72,12 +93,29 @@ public class GameManage : MonoBehaviour
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
 
+                
+                SubMenu.GetComponent<CanvasGroup>().alpha += _speed * Time.deltaTime;
+
+                if(SubMenu.GetComponent<CanvasGroup>().alpha == 1.0f)
+                {
+                    SubMenu.GetComponent<CanvasGroup>().interactable = true;
+                }
+                else
+                {
+                    SubMenu.GetComponent<CanvasGroup>().interactable = false;
+                }
+
+
+
                 break;
 
             case false:
 
                 Cursor.visible = false;
-                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.lockState = CursorLockMode.Locked;
+
+
+                SubMenu.GetComponent<CanvasGroup>().alpha -= _speed * Time.deltaTime;
 
                 break;
         }
@@ -106,6 +144,7 @@ public class GameManage : MonoBehaviour
 
     }
 
+    /*
     private void TabKeyCode()
     {
         if (Input.GetKey(KeyCode.Tab) && !_instance.IsOpenMenu)
@@ -134,6 +173,6 @@ public class GameManage : MonoBehaviour
             MapCanvas.GetComponent<CanvasGroup>().alpha -= _speed * Time.deltaTime;
         }
     }
-
+    */
     
 }

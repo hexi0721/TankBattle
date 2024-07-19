@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SubMenu : MonoBehaviour
 {
-    public GameObject SettingBtn;
-
+    public GameObject setting;
 
 
     public void ReturnGame()
@@ -16,7 +15,8 @@ public class SubMenu : MonoBehaviour
 
     public void Setting()
     {
-        SettingBtn.SetActive(!SettingBtn.activeSelf);
+
+        StackSettings.AddStack(setting);
     }
 
     public void ReturnMainMenu()
