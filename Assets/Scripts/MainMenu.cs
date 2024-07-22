@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     
     public GameObject setting;
+    public GameObject ExitMenu;
 
     private void Start()
     {
@@ -21,15 +22,12 @@ public class MainMenu : MonoBehaviour
 
             if (StackSettings._stack.Count != 0)
             {
-
                 StackSettings.PullStack();
-
 
             }
             else
             {
-                
-                StackSettings.AddStack(setting);
+                StackSettings.AddStack(ExitMenu);
             }
 
 
@@ -62,8 +60,20 @@ public class MainMenu : MonoBehaviour
 
     public void CloseTheGame()
     {
-        Application.Quit();
+        
+        StackSettings.AddStack(ExitMenu);
+
+    }
+
+    public void Quit()
+    {
         //EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
+
+    public void Canecel()
+    {
+        StackSettings.PullStack();
     }
 
 }

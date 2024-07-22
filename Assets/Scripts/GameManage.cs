@@ -17,7 +17,7 @@ public class GameManage : MonoBehaviour
 
     public GameObject SubMenu;
 
-    [HideInInspector] bool _IsOpenMenu;
+    [SerializeField] bool _IsOpenMenu;
     // bool _showMap ;
     public bool IsOpenMenu // µæ³æ¬O§_¶}±Ò
     {
@@ -59,7 +59,7 @@ public class GameManage : MonoBehaviour
 
     private void Update()
     {
-        
+
 
         // TabKeyCode();
 
@@ -73,10 +73,8 @@ public class GameManage : MonoBehaviour
                 {
                     IsOpenMenu = false;
                 }
-
                 StackSettings.PullStack();
 
-                
             }
             else
             {

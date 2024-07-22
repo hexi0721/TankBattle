@@ -11,12 +11,19 @@ public class SubMenu : MonoBehaviour
     public void ReturnGame()
     {
         GameManage.OpenCloseMenu();
+        StackSettings.PullStack();
     }
 
     public void Setting()
     {
-
-        StackSettings.AddStack(setting);
+        if (setting.activeSelf == true)
+        {
+            StackSettings.PullStack();
+        }
+        else
+        {
+            StackSettings.AddStack(setting);
+        }
     }
 
     public void ReturnMainMenu()
@@ -25,6 +32,8 @@ public class SubMenu : MonoBehaviour
         PlayerPrefs.SetInt("SceneNum", SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene(0);
     }
+
+
 
 
 }

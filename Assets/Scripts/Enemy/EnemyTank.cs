@@ -41,6 +41,8 @@ public class EnemyTank : MonoBehaviour
         set => _WantToMove = value;
         get => _WantToMove;
     }
+
+    public float offset;
     
     //RaycastHit hit;
     private void Start()
@@ -67,7 +69,9 @@ public class EnemyTank : MonoBehaviour
 
     private void Update()
     {
-        
+        Vector3 pos = transform.position;
+        pos.y = Terrain.activeTerrain.SampleHeight(transform.position);
+        transform.position = pos + new Vector3(0,offset,0);
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
