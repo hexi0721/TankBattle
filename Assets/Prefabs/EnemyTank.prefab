@@ -185,7 +185,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
@@ -214,6 +214,8 @@ MonoBehaviour:
   _StandbyTime: 0
   _ResetTime: 0
   _WantToMove: 0
+  offset: 0
+  terrain: {fileID: 0}
 --- !u!114 &3887599674973282398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +278,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 5
-  m_BaseOffset: -0.07
+  m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!208 &-676027510588801185

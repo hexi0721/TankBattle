@@ -42,8 +42,9 @@ public class EnemyTank : MonoBehaviour
         get => _WantToMove;
     }
 
-    public float offset;
-    
+    public float offset = 0.55f;
+    public Terrain terrain;
+
     //RaycastHit hit;
     private void Start()
     {
@@ -63,15 +64,13 @@ public class EnemyTank : MonoBehaviour
         _ResetTime = 30f;
         _WantToMove = true;
         _NetxFrameTime = 0.2f;
-        
 
+        terrain = GameObject.Find("MainTerrain").GetComponent<Terrain>();
     }
 
     private void Update()
     {
-        Vector3 pos = transform.position;
-        pos.y = Terrain.activeTerrain.SampleHeight(transform.position);
-        transform.position = pos + new Vector3(0,offset,0);
+        
 
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
         {
@@ -86,6 +85,8 @@ public class EnemyTank : MonoBehaviour
     }
     private void LateUpdate()
     {
+
+        transform.position = new Vector3(transform.position.x, terrain.SampleHeight(transform.position) + offset, transform.position.z);
 
         if (_Player != null)
         {

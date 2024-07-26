@@ -11,6 +11,7 @@ public class Move : MonoBehaviour
     public float speed;
     public GameManage gameManage;
 
+    
     private void FixedUpdate()
     {
 
@@ -48,7 +49,10 @@ public class Move : MonoBehaviour
         
     }
 
-
+    private void Update()
+    {
+        
+    }
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.transform.tag)

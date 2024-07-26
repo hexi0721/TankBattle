@@ -1456,9 +1456,9 @@ GameObject:
   - component: {fileID: 534121820}
   - component: {fileID: 534121819}
   - component: {fileID: 534121818}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SubTerrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
@@ -1518,7 +1518,7 @@ Terrain:
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
   m_RenderingLayerMask: 1
-  m_AllowAutoConnect: 1
+  m_AllowAutoConnect: 0
   m_EnableHeightmapRayTracing: 1
   m_EnableTreesAndDetailsRayTracing: 0
   m_TreeMotionVectorModeOverride: 3
@@ -2681,15 +2681,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3353636593502140411, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 120.76753
+      value: 162.07794
       objectReference: {fileID: 0}
     - target: {fileID: 3353636593502140411, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 40.596573
+      value: 40.596577
       objectReference: {fileID: 0}
     - target: {fileID: 3353636593502140411, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 213.01572
+      value: 172.93913
       objectReference: {fileID: 0}
     - target: {fileID: 3353636593502140411, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2719,6 +2719,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7916899886477022834, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
+      propertyPath: terrain
+      value: 
+      objectReference: {fileID: 1175903820}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3138,7 +3142,7 @@ GameObject:
   - component: {fileID: 1175903820}
   - component: {fileID: 1175903819}
   m_Layer: 13
-  m_Name: Terrain
+  m_Name: MainTerrain
   m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5364,7 +5368,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!64 &1820946801
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -6550,6 +6554,10 @@ PrefabInstance:
       propertyPath: HpImage
       value: 
       objectReference: {fileID: 862914031}
+    - target: {fileID: 3478907896274486159, guid: 083ce82620057294697b86342088cebd, type: 3}
+      propertyPath: terrain
+      value: 
+      objectReference: {fileID: 1175903820}
     - target: {fileID: 3478907896274486159, guid: 083ce82620057294697b86342088cebd, type: 3}
       propertyPath: HpImage2
       value: 
