@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
+using static UnityEngine.UI.Image;
 
 public class EnemyTank : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class EnemyTank : MonoBehaviour
     public float offset = 0.55f;
     public Terrain terrain;
 
-    //RaycastHit hit;
+    
     private void Start()
     {
         _Player = GameObject.FindWithTag("Player");
@@ -63,7 +64,7 @@ public class EnemyTank : MonoBehaviour
         _StandbyTime = 2f;
         _ResetTime = 30f;
         _WantToMove = true;
-        _NetxFrameTime = 0.2f;
+        _NetxFrameTime = 0.5f;
 
         terrain = GameObject.Find("MainTerrain").GetComponent<Terrain>();
     }
@@ -81,6 +82,22 @@ public class EnemyTank : MonoBehaviour
             }
             _State = "FacUnderAttack";
         }
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position  , Vector3.down, out hit, 1 << 13))
+        {
+            //Drawline to show the hit point
+            Debug.DrawLine(transform.position  , hit.point, Color.red);
+            
+
+            //Get slope angle from the raycast hit normal then calcuate new pos of the object
+            Quaternion newRot = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+
+            //Apply the rotation 
+            transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
+
+        }
+
 
     }
     private void LateUpdate()
@@ -123,7 +140,7 @@ public class EnemyTank : MonoBehaviour
                     else
                     {
                         // 日後再優化
-                        if (transform.position == _LastUpdatePos && _WantToMove != true) // 停止時刻
+                        if (transform.position.x == _TargetPos.x && transform.position.z == _TargetPos.z && _WantToMove == false) // 停止時刻
                         {
                             
                             _Agent.enabled = false;
@@ -170,7 +187,7 @@ public class EnemyTank : MonoBehaviour
                         
                         if (hit.collider != null)
                         {
-                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            Debug.DrawRay(transform.position, hit.point , Color.red);
                             if (hit.collider.transform.CompareTag("Player"))
                             {
 
@@ -186,7 +203,7 @@ public class EnemyTank : MonoBehaviour
                     }
                     else if (hit.collider == null)
                     {
-                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.white);
+                        Debug.DrawRay(transform.position, hit.point , Color.white);
                     }
 
                     break;
@@ -212,7 +229,7 @@ public class EnemyTank : MonoBehaviour
                         
                         if (hit.collider != null) // 沒有找到player
                         {
-                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            Debug.DrawRay(transform.position, hit.point , Color.red);
                             if (!hit.collider.transform.CompareTag("Player"))
                             {
                                 _TargetPos = _Player.transform.position;
@@ -263,7 +280,7 @@ public class EnemyTank : MonoBehaviour
                     {
                         if (hit.collider != null)
                         {
-                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            Debug.DrawRay(transform.position, hit.point , Color.red);
                             if (hit.collider.transform.CompareTag("Player"))
                             {
 
@@ -308,7 +325,7 @@ public class EnemyTank : MonoBehaviour
                         
                         if (hit.collider != null) 
                         {
-                            Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.red);
+                            Debug.DrawRay(transform.position, hit.point , Color.red);
                             if (hit.collider.transform.CompareTag("Player")) // 找到player
                             {
 
@@ -337,7 +354,7 @@ public class EnemyTank : MonoBehaviour
                     }
                     else if (hit.collider == null ) // 未找到player
                     {
-                        Debug.DrawRay(transform.position, (_Player.transform.position - transform.position), Color.white);
+                        Debug.DrawRay(transform.position, hit.point , Color.white);
 
                         EnemyTurretRotationScript.PatrolStat();
                         _WantToMove = true;
@@ -360,15 +377,15 @@ public class EnemyTank : MonoBehaviour
     private void AttackAction()
     {
         
-        RaycastHit hit2;
-        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit2, 80f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+        RaycastHit hit;
+        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit, 80f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
         {
 
-            Debug.DrawRay(Muzzle.transform.position, Muzzle.transform.forward, Color.black);
+            Debug.DrawRay(Muzzle.transform.position, hit.point , Color.black);
 
-            if (hit2.collider != null && hit2.collider.CompareTag("Player"))
+            if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
-                _EnemyShootScript.Shooting(BulletEnegy, hit2.point);
+                _EnemyShootScript.Shooting(BulletEnegy, hit.point);
             }
         }
 

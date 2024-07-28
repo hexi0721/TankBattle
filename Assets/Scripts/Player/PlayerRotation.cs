@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.InputSystem.Controls.AxisControl;
@@ -17,6 +18,8 @@ public class PlayerRotation : MonoBehaviour
 
     public GameObject body;
 
+    public GameObject turret;
+
 
 
     float _clamp;
@@ -24,16 +27,21 @@ public class PlayerRotation : MonoBehaviour
 
 
     public static Vector3 targetPoint; // Aim 中心點
-    
-    private void Update()
+
+    private void FixedUpdate()
     {
-        /*
         // 綁定數值
         transform.localPosition = body.transform.localPosition + body.transform.up * 1.1f;
         transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
-        transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        */
+        transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, transform.localEulerAngles.y, body.transform.localEulerAngles.z);
 
+        //turret.transform.eulerAngles = new Vector3(turret.transform.eulerAngles.z, transform.eulerAngles.y, transform.localEulerAngles.z);
+
+
+    }
+    private void Update()
+    {
+        
         Vector3 v = MainCamera.transform.position + MainCamera.transform.forward * 20 - transform.position;
         Quaternion rotation = Quaternion.LookRotation(v.normalized);
         // 左右轉向 y 高度保持不變

@@ -30,9 +30,6 @@ public class PlayerSetting : MonoBehaviour
 
     public Animator animator; // 測試坦克功能可以disable
 
-    public float offset = 0.55f;
-    public Terrain terrain;
-
     private void Start()
     {
         _UnderAttack = false;
@@ -47,8 +44,8 @@ public class PlayerSetting : MonoBehaviour
 
         
         // 測試坦克功能可以disable
-        animator.enabled = true;
-        transform.position = new Vector3(126.49f, 40.597f , 319.73f);
+        //animator.enabled = true;
+        //transform.position = new Vector3(126.49f, 40.597f , 319.73f);
         //
         
     }
@@ -62,7 +59,7 @@ public class PlayerSetting : MonoBehaviour
     void Update()
     {
 
-        transform.position = new Vector3(transform.position.x, terrain.SampleHeight(transform.position) + offset, transform.position.z);
+        
 
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
 
