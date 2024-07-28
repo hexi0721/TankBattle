@@ -18,7 +18,7 @@ public class PlayerRotation : MonoBehaviour
 
     public GameObject body;
 
-    public GameObject turret;
+    public GameObject muzzle;
 
 
 
@@ -35,7 +35,7 @@ public class PlayerRotation : MonoBehaviour
         transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
         transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, transform.localEulerAngles.y, body.transform.localEulerAngles.z);
 
-        //turret.transform.eulerAngles = new Vector3(turret.transform.eulerAngles.z, transform.eulerAngles.y, transform.localEulerAngles.z);
+        //muzzle.transform.eulerAngles = new Vector3(muzzle.transform.eulerAngles.z, transform.eulerAngles.y, transform.localEulerAngles.z);
 
 
     }
