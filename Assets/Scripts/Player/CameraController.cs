@@ -14,7 +14,9 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 public class CameraController : MonoBehaviour
 {
 
-    public GameObject Obj; // player turret
+    public GameObject turret; // player turret
+    //public GameObject muzzle;
+    
     public GameManage gameManage;
     
     Vector3 _rotation;
@@ -46,13 +48,13 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = Obj.transform.position + transform.up;
+        transform.position = turret.transform.position + transform.up;
 
         switch (!PlayerSetting.Instance.animator.enabled)
         {
             case false:
 
-                transform.forward = Obj.transform.forward;
+                transform.forward = turret.transform.forward;
 
             break;
 
@@ -61,13 +63,12 @@ public class CameraController : MonoBehaviour
                 if (!gameManage.IsOpenMenu)
                 {
 
-
                     // 世界座標轉換視角座標
-                    screenPos = GetComponent<Camera>().WorldToViewportPoint(Obj.transform.GetChild(0).position + Obj.transform.GetChild(0).forward * 1000);
+                    screenPos = GetComponent<Camera>().WorldToViewportPoint(turret.transform.GetChild(0).position + turret.transform.GetChild(0).forward * 1000);
                     screenPos.y = 0.5f;
 
                     // 介於0.54 ~ 0.78 offset會在0.04 ~ 0.28
-                    if (Obj != null && Input.GetMouseButton(1)) // 右鍵放大
+                    if (turret != null && Input.GetMouseButton(1)) // 右鍵放大
                     {
                         MuzzleAimImage.SetActive(true);
                         MuzzleAimImage.transform.localPosition = new Vector3((screenPos.x * AimC.rect.width) - AimC.rect.width / 2, ((screenPos.y * AimC.rect.height) - AimC.rect.height / 2), 0);
