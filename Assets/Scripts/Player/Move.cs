@@ -5,29 +5,35 @@ using UnityEngine;
 public class Move : MonoBehaviour
 {
 
-    [SerializeField] float pv;
     [SerializeField] float ph;
 
     public float speed;
     public GameManage gameManage;
+    public GameObject shell;
 
-    
+    Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     private void FixedUpdate()
     {
 
         if (!gameManage.IsOpenMenu)
         {
-            if (transform.parent.GetComponent<Rigidbody>().velocity.magnitude < 10.0f)
+            if (rb.velocity.magnitude < 10.0f)
             {
                 if (Input.GetKey(KeyCode.W))
                 {
-                    transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * transform.forward);
+                    rb.AddForce(speed * Time.fixedDeltaTime * shell.transform.forward);
                 }
 
 
                 if (Input.GetKey(KeyCode.S))
                 {
-                    transform.parent.GetComponent<Rigidbody>().AddForce(speed * Time.fixedDeltaTime * -transform.forward);
+                    rb.AddForce(speed * Time.fixedDeltaTime * -shell.transform.forward);
                 }
             }
 
@@ -36,12 +42,12 @@ public class Move : MonoBehaviour
 
             if (Input.GetKey(KeyCode.A))
             {
-                transform.RotateAround(transform.position, Vector3.up, -ph * Time.deltaTime);
+                shell.transform.RotateAround(shell.transform.position, Vector3.up, -ph * Time.deltaTime);
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                transform.RotateAround(transform.position, Vector3.up, ph * Time.deltaTime);
+                shell.transform.RotateAround(shell.transform.position, Vector3.up, ph * Time.deltaTime);
             }
         }
 
@@ -49,10 +55,6 @@ public class Move : MonoBehaviour
         
     }
 
-    private void Update()
-    {
-        
-    }
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.transform.tag)
@@ -60,7 +62,7 @@ public class Move : MonoBehaviour
 
             case "Terrain":
 
-                transform.parent.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                rb.velocity -= Vector3.one * Time.fixedDeltaTime;
 
                 break;
 

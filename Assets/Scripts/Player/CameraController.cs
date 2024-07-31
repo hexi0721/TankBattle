@@ -14,13 +14,14 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 public class CameraController : MonoBehaviour
 {
 
-    public GameObject turret; // player turret
-    //public GameObject Tank;
-    //public GameObject muzzle;
+    public GameObject turret;
+    public GameObject shell;
+    public GameObject Muzzle;
+    
     
     public GameManage gameManage;
     
-    public static Vector3 _rotation;
+    Vector3 _rotation;
     public float CamSmoothFactor;
     float _LookUpMin , _LookUpMax ;
 
@@ -39,7 +40,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        transform.localEulerAngles = turret.transform.localEulerAngles;
+        _rotation = turret.transform.eulerAngles;
 
         _LookUpMin = -10 ;
         _LookUpMax = 6;
@@ -48,8 +49,12 @@ public class CameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        transform.position = turret.transform.position + transform.up;
 
+        // 自己影響自己
+        transform.position = turret.transform.position + turret.transform.up * 1.1f;
+        transform.eulerAngles = shell.transform.eulerAngles;
+
+        //Debug.Log(turret.transform.up);
 
         switch (!PlayerSetting.Instance.animator.enabled)
         {
@@ -65,11 +70,11 @@ public class CameraController : MonoBehaviour
                 {
 
                     // 世界座標轉換視角座標
-                    screenPos = GetComponent<Camera>().WorldToViewportPoint(turret.transform.GetChild(0).position + turret.transform.GetChild(0).forward * 1000);
+                    screenPos = GetComponent<Camera>().WorldToViewportPoint(Muzzle.transform.position + Muzzle.transform.forward * 1000);
                     screenPos.y = 0.5f;
 
                     // 介於0.54 ~ 0.78 offset會在0.04 ~ 0.28
-                    if (turret != null && Input.GetMouseButton(1)) // 右鍵放大
+                    if (Input.GetMouseButton(1)) // 右鍵放大
                     {
                         MuzzleAimImage.SetActive(true);
                         MuzzleAimImage.transform.localPosition = new Vector3((screenPos.x * AimC.rect.width) - AimC.rect.width / 2, ((screenPos.y * AimC.rect.height) - AimC.rect.height / 2), 0);

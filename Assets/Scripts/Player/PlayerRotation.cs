@@ -11,13 +11,10 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 public class PlayerRotation : MonoBehaviour
 {
     
-
     public GameObject MainCamera;
+    public GameObject Muzzle;
     
     public float speed; // 平移速度
-
-    public GameObject body;
-
 
     float _clampMin = -8f;
     float _clampMax = 3f;
@@ -28,48 +25,38 @@ public class PlayerRotation : MonoBehaviour
 
     private void Start()
     {
-        _rotation = transform.GetChild(0).transform.localEulerAngles;
-    }
-
-    private void FixedUpdate()
-    {
-        /*
-        // 綁定數值
-        transform.localPosition = body.transform.localPosition + body.transform.up * 1.1f;
-        transform.localPosition = new Vector3(0, transform.localPosition.y, 0);
-        transform.localEulerAngles = new Vector3(body.transform.localEulerAngles.x, transform.localEulerAngles.y, body.transform.localEulerAngles.z);
-        */
+        _rotation = transform.localEulerAngles;
         
-
-
     }
+
+ 
     private void Update()
     {
-
-        Vector3 v = (MainCamera.transform.position + MainCamera.transform.forward * 20) - transform.position;
-        Quaternion rotation = Quaternion.LookRotation(v.normalized);
-
+        
         // turret 左右 xz 保持不變
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(transform.rotation.eulerAngles.x, rotation.eulerAngles.y, transform.rotation.eulerAngles.z), Time.deltaTime);
+        _rotation.y += Input.GetAxis("Mouse X") * 2;
+        transform.localRotation = Quaternion.Lerp(transform.localRotation,
+            Quaternion.Euler(transform.localRotation.eulerAngles.x, _rotation.y, transform.localRotation.eulerAngles.z), 2 * Time.deltaTime);
         
         
         // muzzle 上下 yz 保持不變
         _rotation.x += Input.GetAxis("Mouse Y") * 2 * (-1);
         _rotation.x = Mathf.Clamp(_rotation.x, _clampMin, _clampMax);
-        transform.GetChild(0).transform.localRotation = Quaternion.Lerp(transform.GetChild(0).transform.localRotation ,
-            Quaternion.Euler(_rotation.x, transform.GetChild(0).transform.localRotation.eulerAngles.y, transform.GetChild(0).transform.localRotation.eulerAngles.z), 2 * Time.deltaTime);
-
+        Muzzle.transform.localRotation = Quaternion.Lerp(Muzzle.transform.localRotation ,
+            Quaternion.Euler(_rotation.x, Muzzle.transform.localRotation.eulerAngles.y, Muzzle.transform.localRotation.eulerAngles.z), 2 * Time.deltaTime);
+        
+        
         RaycastHit hit = Raycast();
         
         if (hit.collider != null)
         {
-            Debug.DrawRay(transform.GetChild(0).transform.position, hit.point - transform.GetChild(0).transform.position, Color.blue);
+            Debug.DrawRay(Muzzle.transform.position, hit.point - Muzzle.transform.position, Color.blue);
             targetPoint = hit.point;
 
         }
         else
         {
-            targetPoint = transform.GetChild(0).transform.position + transform.GetChild(0).transform.forward * 1000;
+            targetPoint = Muzzle.transform.position + Muzzle.transform.forward * 1000;
         }
         
 

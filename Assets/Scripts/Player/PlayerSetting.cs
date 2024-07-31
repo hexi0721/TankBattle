@@ -30,6 +30,8 @@ public class PlayerSetting : MonoBehaviour
 
     public Animator animator; // 測試坦克功能可以disable
 
+    public GameObject turret, muzzle, shell, track_1, track_2, wheels;
+
     private void Start()
     {
         _UnderAttack = false;
@@ -58,7 +60,7 @@ public class PlayerSetting : MonoBehaviour
 
     void Update()
     {
-
+        Link();
         
 
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
@@ -130,4 +132,24 @@ public class PlayerSetting : MonoBehaviour
 
 
     // 新增補血功能
+
+    void Link()
+    {
+        // 以shell 為基準點
+        // turret
+        turret.transform.position = shell.transform.position + shell.transform.up * 1.1f;
+        turret.transform.eulerAngles = new Vector3(shell.transform.eulerAngles.x, turret.transform.eulerAngles.y, shell.transform.eulerAngles.z);
+        // muzzle
+        muzzle.transform.position = turret.transform.position + new Vector3(turret.transform.forward.x, turret.transform.forward.y, turret.transform.forward.z * 1.2f);
+        muzzle.transform.eulerAngles = new Vector3(muzzle.transform.eulerAngles.x , turret.transform.eulerAngles.y , turret.transform.eulerAngles.z);
+        // track & wheels
+        track_1.transform.position = shell.transform.position;
+        track_2.transform.position = shell.transform.position;
+        wheels.transform.position = shell.transform.position;
+        track_1.transform.eulerAngles = shell.transform.eulerAngles;
+        track_2.transform.eulerAngles = shell.transform.eulerAngles;
+        wheels.transform.eulerAngles = shell.transform.eulerAngles;
+
+
+    }
 }
