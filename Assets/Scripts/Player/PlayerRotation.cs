@@ -10,7 +10,7 @@ using static UnityEngine.InputSystem.Controls.AxisControl;
 
 public class PlayerRotation : MonoBehaviour
 {
-    // public CameraController cameraController;
+    
 
     public GameObject MainCamera;
     
@@ -24,7 +24,7 @@ public class PlayerRotation : MonoBehaviour
     Vector3 _rotation;
 
     public static Vector3 targetPoint; // Aim 中心點
-
+    
 
     private void Start()
     {
@@ -46,26 +46,18 @@ public class PlayerRotation : MonoBehaviour
     private void Update()
     {
 
-        //Debug.Log(transform.localPosition + " " + transform.position);
-        //Debug.Log(MainCamera.transform.localPosition + " " + MainCamera.transform.position);
-
-
-        Debug.DrawRay(MainCamera.transform.position , MainCamera.transform.forward * 20 , Color.black);
-
-        Vector3 v = MainCamera.transform.localPosition + MainCamera.transform.forward * 20 - transform.localPosition;
+        Vector3 v = (MainCamera.transform.position + MainCamera.transform.forward * 20) - transform.position;
         Quaternion rotation = Quaternion.LookRotation(v.normalized);
+
         // turret 左右 xz 保持不變
-        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(transform.localRotation.eulerAngles.x, rotation.eulerAngles.y, transform.localRotation.eulerAngles.z), Time.deltaTime);
-
-
+        transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(transform.rotation.eulerAngles.x, rotation.eulerAngles.y, transform.rotation.eulerAngles.z), Time.deltaTime);
+        
+        
         // muzzle 上下 yz 保持不變
         _rotation.x += Input.GetAxis("Mouse Y") * 2 * (-1);
         _rotation.x = Mathf.Clamp(_rotation.x, _clampMin, _clampMax);
-        transform.GetChild(0).transform.localRotation = Quaternion.Lerp(transform.GetChild(0).transform.localRotation , Quaternion.Euler(_rotation.x, transform.GetChild(0).transform.localRotation.eulerAngles.y, transform.GetChild(0).transform.localRotation.eulerAngles.z), 2 * Time.deltaTime);
-        
-
-
-
+        transform.GetChild(0).transform.localRotation = Quaternion.Lerp(transform.GetChild(0).transform.localRotation ,
+            Quaternion.Euler(_rotation.x, transform.GetChild(0).transform.localRotation.eulerAngles.y, transform.GetChild(0).transform.localRotation.eulerAngles.z), 2 * Time.deltaTime);
 
         RaycastHit hit = Raycast();
         

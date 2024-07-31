@@ -15,11 +15,12 @@ public class CameraController : MonoBehaviour
 {
 
     public GameObject turret; // player turret
+    //public GameObject Tank;
     //public GameObject muzzle;
     
     public GameManage gameManage;
     
-    Vector3 _rotation;
+    public static Vector3 _rotation;
     public float CamSmoothFactor;
     float _LookUpMin , _LookUpMax ;
 
@@ -38,8 +39,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-
-        _rotation = transform.eulerAngles;
+        transform.localEulerAngles = turret.transform.localEulerAngles;
 
         _LookUpMin = -10 ;
         _LookUpMax = 6;
@@ -49,6 +49,7 @@ public class CameraController : MonoBehaviour
     private void LateUpdate()
     {
         transform.position = turret.transform.position + transform.up;
+
 
         switch (!PlayerSetting.Instance.animator.enabled)
         {
@@ -92,7 +93,7 @@ public class CameraController : MonoBehaviour
                     _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
 
                     _rotation.x = Mathf.Clamp(_rotation.x, _LookUpMin, _LookUpMax);
-                    transform.localEulerAngles = _rotation;
+                    transform.eulerAngles = _rotation;
                     
 
                 }
