@@ -7,9 +7,11 @@ public class Shoot : MonoBehaviour
 {
 
     public GameObject bullet; // 子彈物件
+    public GameObject muzzle;
     public GameManage gameManage;
 
     float _ReloadTime;
+    
 
     private void Start()
     {
@@ -18,31 +20,28 @@ public class Shoot : MonoBehaviour
 
     void Update()
     {
-
         if(!gameManage.IsOpenMenu)
         {
             Shooting(); // 左鍵射擊
+            Reloading();
         }
         
-
     }
 
-    private void Shooting()
+    void Shooting()
     {
         if (PlayerSetting.Instance.BulletEnegy >= _ReloadTime && Input.GetMouseButtonDown(0))
         {
-            GameObject go = Instantiate(bullet, transform.position + transform.forward * 5 , Quaternion.Euler(transform.eulerAngles.x , transform.eulerAngles.y , transform.eulerAngles.z)) as GameObject;
+            GameObject go = Instantiate(bullet, muzzle.transform.position + muzzle.transform.forward * 5.5f , Quaternion.Euler(muzzle.transform.eulerAngles)) as GameObject;
             go.transform.LookAt(PlayerRotation.targetPoint); // 動用到 PlayerRotation 變數
 
             PlayerSetting.Instance.BulletEnegy = 0; // 裝填
 
 
         }
-
-        Reloading(); 
     }
 
-    private void Reloading()
+    void Reloading()
     {
 
         if(PlayerSetting.Instance.BulletEnegy < _ReloadTime)

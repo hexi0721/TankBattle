@@ -30,7 +30,8 @@ public class CameraController : MonoBehaviour
     public GameObject AimImage; // 放大黑幕
     public RectTransform AimC; // Aim canva
 
-    Vector2 screenPos; 
+    Vector2 screenPos;
+    Vector3 _currentVelocity;
 
     public Vector2 ScreenPos // 給PlayerRotation
     {
@@ -41,10 +42,11 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         _rotation = turret.transform.eulerAngles;
+        transform.position = turret.transform.position + turret.transform.up * 1.1f;
 
         _LookUpMin = -10 ;
         _LookUpMax = 6;
-        
+        _currentVelocity = Vector3.zero;
     }
 
     private void LateUpdate()
@@ -52,9 +54,7 @@ public class CameraController : MonoBehaviour
 
         // 自己影響自己
         transform.position = turret.transform.position + turret.transform.up * 1.1f;
-        transform.eulerAngles = shell.transform.eulerAngles;
-
-        //Debug.Log(turret.transform.up);
+        
 
         switch (!PlayerSetting.Instance.animator.enabled)
         {

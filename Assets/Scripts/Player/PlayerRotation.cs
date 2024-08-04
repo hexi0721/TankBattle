@@ -13,6 +13,7 @@ public class PlayerRotation : MonoBehaviour
     
     public GameObject MainCamera;
     public GameObject Muzzle;
+    public GameObject turret;
     
     public float speed; // 平移速度
 
@@ -25,20 +26,20 @@ public class PlayerRotation : MonoBehaviour
 
     private void Start()
     {
-        _rotation = transform.localEulerAngles;
-        
+        _rotation = turret.transform.localEulerAngles;
     }
 
  
     private void Update()
     {
-        
+
+
         // turret 左右 xz 保持不變
-        _rotation.y += Input.GetAxis("Mouse X") * 2;
-        transform.localRotation = Quaternion.Lerp(transform.localRotation,
-            Quaternion.Euler(transform.localRotation.eulerAngles.x, _rotation.y, transform.localRotation.eulerAngles.z), 2 * Time.deltaTime);
-        
-        
+        turret.transform.eulerAngles = new Vector3(turret.transform.eulerAngles.x , MainCamera.transform.eulerAngles.y, turret.transform.eulerAngles.z) ;
+
+
+
+
         // muzzle 上下 yz 保持不變
         _rotation.x += Input.GetAxis("Mouse Y") * 2 * (-1);
         _rotation.x = Mathf.Clamp(_rotation.x, _clampMin, _clampMax);
