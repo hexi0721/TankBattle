@@ -44,7 +44,7 @@ public class EnemyTank : MonoBehaviour
     }
 
     public float offset = 0.55f;
-    public Terrain terrain;
+    public Terrain terrain ;
 
     
     private void Start()
@@ -66,7 +66,7 @@ public class EnemyTank : MonoBehaviour
         _WantToMove = true;
         _NetxFrameTime = 0.5f;
 
-        terrain = GameObject.Find("MainTerrain").GetComponent<Terrain>();
+        //terrain = GameObject.Find("MainTerrain").GetComponent<Terrain>();
     }
 
     private void Update()
@@ -82,28 +82,28 @@ public class EnemyTank : MonoBehaviour
             }
             _State = "FacUnderAttack";
         }
-
+        /*
         RaycastHit hit;
         if (Physics.Raycast(transform.position  , Vector3.down, out hit, 1 << 13))
         {
-            //Drawline to show the hit point
-            Debug.DrawLine(transform.position  , hit.point, Color.red);
+            //Debug.DrawLine(transform.position  , hit.point, Color.red);
             
-
             //Get slope angle from the raycast hit normal then calcuate new pos of the object
             Quaternion newRot = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
 
-            //Apply the rotation 
             transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
 
-        }
+            terrain = GameObject.Find(hit.transform.name).GetComponent<Terrain>();
 
+            transform.position = new Vector3(transform.position.x, terrain.SampleHeight(transform.position) + offset, transform.position.z);
+        }
+        */
 
     }
     private void LateUpdate()
     {
 
-        transform.position = new Vector3(transform.position.x, terrain.SampleHeight(transform.position) + offset, transform.position.z);
+        
 
         if (_Player != null)
         {

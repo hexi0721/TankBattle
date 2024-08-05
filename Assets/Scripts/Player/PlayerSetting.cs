@@ -144,11 +144,11 @@ public class PlayerSetting : MonoBehaviour
         Debug.Log("shell.transform.localRotation  " + shell.transform.localRotation);
 
         */
-        Vector3 _currentVelocity = Vector3.zero;
+        //Vector3 _currentVelocity = Vector3.zero;
 
         // 以shell 為基準點
         // turret
-        turret.transform.position = Vector3.SmoothDamp(turret.transform.position , shell.transform.position + shell.transform.up * 1.1f ,ref _currentVelocity, 0.01f);
+        turret.transform.localPosition = shell.transform.localPosition + shell.transform.up * 1.1f ;
         //turret.transform.eulerAngles = new Vector3(shell.transform.eulerAngles.x, turret.transform.eulerAngles.y, shell.transform.eulerAngles.z);
 
         // muzzle

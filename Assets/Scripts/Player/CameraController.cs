@@ -41,7 +41,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        _rotation = turret.transform.eulerAngles;
+        _rotation = turret.transform.localEulerAngles;
         transform.position = turret.transform.position + turret.transform.up * 1.1f;
 
         _LookUpMin = -10 ;
@@ -92,14 +92,14 @@ public class CameraController : MonoBehaviour
                         GetComponent<Camera>().fieldOfView = Mathf.Lerp(transform.GetComponent<Camera>().fieldOfView, 60f, 4f * Time.deltaTime);
 
                     }
-
+                    
                     // 滑鼠移動時畫面跟著移動
                     _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
                     _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
 
                     _rotation.x = Mathf.Clamp(_rotation.x, _LookUpMin, _LookUpMax);
-                    transform.eulerAngles = _rotation;
-                    
+                    transform.localEulerAngles = _rotation;
+
 
                 }
 

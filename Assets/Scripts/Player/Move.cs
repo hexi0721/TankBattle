@@ -19,11 +19,6 @@ public class Move : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
-    {
-        
-    }
-
     private void FixedUpdate()
     {
         Vector3 angle = transform.eulerAngles;
@@ -50,8 +45,6 @@ public class Move : MonoBehaviour
                 x = 180 - angle.x;
             }
         }
-
-        Debug.Log(x);
 
 
         if (!gameManage.IsOpenMenu)

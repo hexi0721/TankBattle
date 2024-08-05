@@ -33,12 +33,9 @@ public class PlayerRotation : MonoBehaviour
     private void Update()
     {
 
-
         // turret 左右 xz 保持不變
-        turret.transform.eulerAngles = new Vector3(turret.transform.eulerAngles.x , MainCamera.transform.eulerAngles.y, turret.transform.eulerAngles.z) ;
-
-
-
+        turret.transform.localRotation = Quaternion.Lerp(turret.transform.localRotation , 
+            Quaternion.Euler(turret.transform.localRotation.eulerAngles.x, MainCamera.transform.localRotation.eulerAngles.y, turret.transform.localRotation.eulerAngles.z), speed * Time.deltaTime);
 
         // muzzle 上下 yz 保持不變
         _rotation.x += Input.GetAxis("Mouse Y") * 2 * (-1);
