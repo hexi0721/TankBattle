@@ -15,7 +15,6 @@ public class CameraController : MonoBehaviour
 {
 
     public GameObject turret;
-    public GameObject shell;
     public GameObject Muzzle;
     
     
@@ -31,7 +30,6 @@ public class CameraController : MonoBehaviour
     public RectTransform AimC; // Aim canva
 
     Vector2 screenPos;
-    Vector3 _currentVelocity;
 
     public Vector2 ScreenPos // 給PlayerRotation
     {
@@ -42,74 +40,73 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         _rotation = turret.transform.localEulerAngles;
-        transform.position = turret.transform.position + turret.transform.up * 1.1f;
 
         _LookUpMin = -10 ;
         _LookUpMax = 6;
-        _currentVelocity = Vector3.zero;
+        
     }
+
 
     private void LateUpdate()
     {
-
-        // 自己影響自己
-        transform.position = turret.transform.position + turret.transform.up * 1.1f;
-        
-
-        switch (!PlayerSetting.Instance.animator.enabled)
+        if(PlayerSetting.Instance.Hp <= 0)
         {
-            case false:
-
-                transform.forward = turret.transform.forward;
-
-            break;
-
-            case true :
-
-                if (!gameManage.IsOpenMenu)
-                {
-
-                    // 世界座標轉換視角座標
-                    screenPos = GetComponent<Camera>().WorldToViewportPoint(Muzzle.transform.position + Muzzle.transform.forward * 1000);
-                    screenPos.y = 0.5f;
-
-                    // 介於0.54 ~ 0.78 offset會在0.04 ~ 0.28
-                    if (Input.GetMouseButton(1)) // 右鍵放大
-                    {
-                        MuzzleAimImage.SetActive(true);
-                        MuzzleAimImage.transform.localPosition = new Vector3((screenPos.x * AimC.rect.width) - AimC.rect.width / 2, ((screenPos.y * AimC.rect.height) - AimC.rect.height / 2), 0);
-
-                        AimImage.transform.localScale = Vector3.Lerp(AimImage.transform.localScale, Vector3.one * 3.5f, 4f * Time.deltaTime);
-                        GetComponent<Camera>().fieldOfView = Mathf.Lerp(transform.GetComponent<Camera>().fieldOfView, 10f, 4f * Time.deltaTime);
-
-                    }
-                    else
-                    {
-                        MuzzleAimImage.SetActive(false);
-
-
-                        AimImage.transform.localScale = Vector3.Lerp(AimImage.transform.localScale, Vector3.one * 8f, 4f * Time.deltaTime);
-                        GetComponent<Camera>().fieldOfView = Mathf.Lerp(transform.GetComponent<Camera>().fieldOfView, 60f, 4f * Time.deltaTime);
-
-                    }
-                    
-                    // 滑鼠移動時畫面跟著移動
-                    _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
-                    _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
-
-                    _rotation.x = Mathf.Clamp(_rotation.x, _LookUpMin, _LookUpMax);
-                    transform.localEulerAngles = _rotation;
-
-
-                }
-
-                break;
+            transform.localPosition = new Vector3(transform.localPosition.x , 0 , transform.localPosition.z);
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y , -35f);
         }
+        else
+        {
+            transform.position = turret.transform.position + turret.transform.up * 1.1f;
+            switch (!PlayerSetting.Instance.animator.enabled)
+            {
+                case false:
+
+                    transform.forward = turret.transform.forward;
+
+                    break;
+
+                case true:
+
+                    if (!gameManage.IsOpenMenu)
+                    {
+
+                        // 世界座標轉換視角座標
+                        screenPos = GetComponent<Camera>().WorldToViewportPoint(Muzzle.transform.position + Muzzle.transform.forward * 1000);
+                        screenPos.y = 0.5f;
+
+                        // 介於0.54 ~ 0.78 offset會在0.04 ~ 0.28
+                        if (Input.GetMouseButton(1)) // 右鍵放大
+                        {
+                            MuzzleAimImage.SetActive(true);
+                            MuzzleAimImage.transform.localPosition = new Vector3((screenPos.x * AimC.rect.width) - AimC.rect.width / 2, ((screenPos.y * AimC.rect.height) - AimC.rect.height / 2), 0);
+
+                            AimImage.transform.localScale = Vector3.Lerp(AimImage.transform.localScale, Vector3.one * 3.5f, 4f * Time.deltaTime);
+                            GetComponent<Camera>().fieldOfView = Mathf.Lerp(transform.GetComponent<Camera>().fieldOfView, 10f, 4f * Time.deltaTime);
+
+                        }
+                        else
+                        {
+                            MuzzleAimImage.SetActive(false);
 
 
-        
+                            AimImage.transform.localScale = Vector3.Lerp(AimImage.transform.localScale, Vector3.one * 8f, 4f * Time.deltaTime);
+                            GetComponent<Camera>().fieldOfView = Mathf.Lerp(transform.GetComponent<Camera>().fieldOfView, 60f, 4f * Time.deltaTime);
 
-        
+                        }
+
+                        // 滑鼠移動時畫面跟著移動
+                        _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
+                        _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
+
+                        _rotation.x = Mathf.Clamp(_rotation.x, _LookUpMin, _LookUpMax);
+                        transform.localEulerAngles = _rotation;
+
+
+                    }
+
+                    break;
+            }
+        }
         
     }
 

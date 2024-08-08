@@ -45,9 +45,5 @@ public class Timer : MonoBehaviour
             Time_txt.text = "";
         }
 
-
-        
-
-
     }
 }

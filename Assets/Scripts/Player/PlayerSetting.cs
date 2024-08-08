@@ -30,7 +30,7 @@ public class PlayerSetting : MonoBehaviour
 
     public Animator animator; // 測試坦克功能可以disable
 
-    public GameObject turret , shell; //, muzzle,  track_1, track_2, wheels;
+    public GameObject turret , shell;
 
     private void Start()
     {
@@ -60,15 +60,23 @@ public class PlayerSetting : MonoBehaviour
 
     void Update()
     {
-        Link();
         
+        
+
 
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
 
         HpImage.fillAmount = Hp / 100;
         if (Hp <= 0)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject.GetComponent<Rigidbody>());
+            Destroy(gameObject.transform.GetChild(0).gameObject);
+            Destroy(gameObject.transform.GetChild(1).gameObject);
+            this.enabled = false;
+        }
+        else
+        {
+            turret.transform.position = shell.transform.position + shell.transform.up * 1.1f;
         }
 
         if(_UnderAttack)
@@ -133,37 +141,4 @@ public class PlayerSetting : MonoBehaviour
 
     // 新增補血功能
 
-    void Link()
-    {
-        /*
-        Debug.Log("shell.transform.position  " + shell.transform.position );
-        Debug.Log("shell.transform.localPosition  " + shell.transform.localPosition);
-        Debug.Log("shell.transform.eulerAngles  " + shell.transform.eulerAngles);
-        Debug.Log("shell.transform.localEulerAngles  " + shell.transform.localEulerAngles);
-        Debug.Log("shell.transform.rotation  " + shell.transform.rotation);
-        Debug.Log("shell.transform.localRotation  " + shell.transform.localRotation);
-
-        */
-        //Vector3 _currentVelocity = Vector3.zero;
-
-        // 以shell 為基準點
-        // turret
-        turret.transform.localPosition = shell.transform.localPosition + shell.transform.up * 1.1f ;
-        //turret.transform.eulerAngles = new Vector3(shell.transform.eulerAngles.x, turret.transform.eulerAngles.y, shell.transform.eulerAngles.z);
-
-        // muzzle
-        //muzzle.transform.position = turret.transform.position + new Vector3(turret.transform.forward.x, turret.transform.forward.y, turret.transform.forward.z * 1.2f);
-        //muzzle.transform.eulerAngles = new Vector3(muzzle.transform.eulerAngles.x , turret.transform.eulerAngles.y , turret.transform.eulerAngles.z);
-
-        // track & wheels
-        /*
-        track_1.transform.position = Vector3.SmoothDamp(track_1.transform.position, shell.transform.position, ref _currentVelocity, 0.01f);
-        track_2.transform.position = Vector3.SmoothDamp(track_2.transform.position, shell.transform.position, ref _currentVelocity, 0.01f);
-        wheels.transform.position = Vector3.SmoothDamp(wheels.transform.position, shell.transform.position, ref _currentVelocity, 0.01f);
-        track_1.transform.eulerAngles = shell.transform.eulerAngles;
-        track_2.transform.eulerAngles = shell.transform.eulerAngles;
-        wheels.transform.eulerAngles = shell.transform.eulerAngles;
-        */
-
-    }
 }
