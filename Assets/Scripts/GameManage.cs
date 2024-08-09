@@ -13,7 +13,7 @@ public class GameManage : MonoBehaviour
     //public GameObject MapCam; // 地圖鏡頭
     //public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
 
-    public Image OpeningBlackBg;
+    [SerializeField]  Image _blackBg;
 
     public GameObject SubMenu;
 
@@ -53,6 +53,7 @@ public class GameManage : MonoBehaviour
         MapBG.localPosition = new Vector3(-MapCanvas.rect.width / 2 , 0, 0);
         */
         _PlayerTank = GameObject.FindWithTag("Player");
+        _blackBg = GameObject.FindWithTag("BlackBg").GetComponent<Image>();
 
         StackSettings._stack = new List<GameObject>();
     }
@@ -63,27 +64,11 @@ public class GameManage : MonoBehaviour
 
         // TabKeyCode();
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
+        BlackBgFadeOut();
 
-            if(StackSettings._stack.Count != 0)
-            {
+        EscKeyCode();
+        
 
-                if(StackSettings._stack.Count == 1)
-                {
-                    IsOpenMenu = false;
-                }
-                StackSettings.PullStack();
-
-            }
-            else
-            {
-                IsOpenMenu = true;
-                StackSettings.AddStack(SubMenu);
-            }
-            
-            
-        }
         switch (IsOpenMenu)
         {
             case true:
@@ -126,9 +111,7 @@ public class GameManage : MonoBehaviour
             PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
-        // 開場把黑幕去掉
-        float BlackBgAlpha = OpeningBlackBg.color.a - (Time.deltaTime * 0.25f);
-        OpeningBlackBg.color = new Color(0, 0, 0, BlackBgAlpha);
+        
 
         
         
@@ -140,6 +123,39 @@ public class GameManage : MonoBehaviour
 
         _instance.IsOpenMenu = !_instance.IsOpenMenu;
 
+    }
+
+    void EscKeyCode()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+
+            if (StackSettings._stack.Count != 0)
+            {
+
+                if (StackSettings._stack.Count == 1)
+                {
+                    IsOpenMenu = false;
+                }
+                StackSettings.PullStack();
+
+            }
+            else
+            {
+                IsOpenMenu = true;
+                StackSettings.AddStack(SubMenu);
+            }
+
+
+        }
+    }
+
+
+    void BlackBgFadeOut()
+    {
+        // 開場把黑幕去掉
+        float BlackBgAlpha = _blackBg.color.a - (Time.deltaTime * 0.25f);
+        _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
     }
 
     /*

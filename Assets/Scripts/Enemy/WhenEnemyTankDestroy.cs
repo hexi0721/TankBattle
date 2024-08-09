@@ -5,7 +5,14 @@ using UnityEngine;
 public class WhenEnemyTankDestroy : MonoBehaviour
 {
 
-    public bool IsDestroy;
+    bool _isDestroy;
+    public bool IsDestroy
+    {
+        get => _isDestroy;
+        set => _isDestroy = value;
+    }
+
+
     public List<GameObject> TankBodyChild;
 
     float _disappearTime;
@@ -32,12 +39,10 @@ public class WhenEnemyTankDestroy : MonoBehaviour
                 
             }
 
-            //this.enabled = false;
-
             _disappearTime -= Time.deltaTime;
             if(_disappearTime < 0 )
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
 

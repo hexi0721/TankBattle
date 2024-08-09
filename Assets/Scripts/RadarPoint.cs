@@ -22,7 +22,7 @@ public class RadarPoing : MonoBehaviour
         }
         else
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
     }

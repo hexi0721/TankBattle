@@ -10,7 +10,6 @@ public class QualitySet : MonoBehaviour
 
     private TMP_Dropdown dropdown;
 
-
     private void Start()
     {
         dropdown = GetComponent<TMP_Dropdown>();
@@ -22,7 +21,6 @@ public class QualitySet : MonoBehaviour
     {
         int value = dropdown.value;
         QualitySettings.SetQualityLevel(value);
-
 
     }
 }

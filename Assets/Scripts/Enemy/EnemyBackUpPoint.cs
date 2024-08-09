@@ -5,7 +5,12 @@ using UnityEngine;
 public class EnemyBackUpPoint : MonoBehaviour
 {
 
-    public GameManage gameManage;
+    GameManage gameManage;
+
+    private void Start()
+    {
+        gameManage = GameObject.FindWithTag("GameManage").GetComponent<GameManage>();
+    }
 
 
     private void OnTriggerEnter(Collider other)
@@ -13,7 +18,7 @@ public class EnemyBackUpPoint : MonoBehaviour
         if(other.transform.CompareTag("Player"))
         {
             gameManage.BackUpTrigger = true;
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 

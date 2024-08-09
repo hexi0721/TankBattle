@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7093067382167901943}
   - component: {fileID: 5958778929170814273}
   - component: {fileID: 1955961046317441279}
-  - component: {fileID: 6395096611061684916}
   m_Layer: 12
   m_Name: turret
   m_TagString: EnemyTank
@@ -108,20 +107,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2092836026824628808, guid: 38548c4351fb4d644a50593317179b23, type: 3}
---- !u!114 &6395096611061684916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1082349920723868849}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d81e4e247b719a54e982c6815a4052b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  body: {fileID: 7628208035224881041}
-  _clamp: 0
 --- !u!1 &1788451793792189928
 GameObject:
   m_ObjectHideFlags: 0
@@ -203,11 +188,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hp: 4
   BulletEnegy: 5
-  EnemyTurretRotationScript: {fileID: 6395096611061684916}
   DisableEnemyTankActionScript: {fileID: -2847389962442484206}
+  Body: {fileID: 7628208035224881041}
+  Turret: {fileID: 1082349920723868849}
   Muzzle: {fileID: 9001248144386161083}
   BigExplode: {fileID: 2982222064502167191, guid: 65dbce4e6a116ac4180dbf810084be07, type: 3}
   DestroyMaterial: {fileID: 2100000, guid: 1de07ea7e80218e4c9bc32666dc585bc, type: 2}
+  _Player: {fileID: 0}
   _State: 
   _TargetPos: {x: 0, y: 0, z: 0}
   _LastUpdatePos: {x: 0, y: 0, z: 0}
@@ -253,7 +240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed2b96c08db3524ea59dc66bad9f026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsDestroy: 0
   TankBodyChild:
   - {fileID: 7628208035224881041}
   - {fileID: 7109104398064795677}
@@ -751,13 +737,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9001248144386161083}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.06975647, y: 0, z: 0, w: 0.9975641}
   m_LocalPosition: {x: -0.05, y: 0.05, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2095508614620198692}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -8, y: 0, z: 0}
 --- !u!33 &946349861167268208
 MeshFilter:
   m_ObjectHideFlags: 0

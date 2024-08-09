@@ -9,7 +9,7 @@ public class DisableEnemyTankAction : MonoBehaviour
 
     private GameManage gameManage;
     
-    Behaviour EnemyTankScript , EnemyShootScript ;
+    Behaviour EnemyTankScript , EnemyShootScript  ;
     private NavMeshAgent meshAgent;
     
     bool  _ExitMenu;
@@ -24,7 +24,9 @@ public class DisableEnemyTankAction : MonoBehaviour
         gameManage = GameObject.Find("GameManage").GetComponent<GameManage>();
         EnemyTankScript = GetComponent<EnemyTank>();
         EnemyShootScript = GetComponent<EnemyShoot>();
+        
         meshAgent = GetComponent<NavMeshAgent>();
+
         
         _ExitMenu = false;
     }
@@ -41,6 +43,7 @@ public class DisableEnemyTankAction : MonoBehaviour
 
             EnemyTankScript.enabled = false;
             EnemyShootScript.enabled = false;
+            
 
             _ExitMenu = true;
 
@@ -50,7 +53,7 @@ public class DisableEnemyTankAction : MonoBehaviour
 
             EnemyTankScript.enabled = true;
             EnemyShootScript.enabled = true;
-
+            
         }
         
 

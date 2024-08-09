@@ -5,7 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class SubMenu : MonoBehaviour
 {
-    public GameObject setting;
+    GameObject setting;
+
+    private void Start()
+    {
+        setting = GameObject.FindWithTag("Setting");
+        setting.SetActive(false);
+
+        gameObject.SetActive(false);
+    }
 
 
     public void ReturnGame()
@@ -32,8 +40,5 @@ public class SubMenu : MonoBehaviour
         PlayerPrefs.SetInt("SceneNum", SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene(0);
     }
-
-
-
 
 }

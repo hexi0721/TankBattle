@@ -8,6 +8,11 @@ public class EnemyFactoryCol : MonoBehaviour
     
     public EnemyFactory EnemyFactoryScript;
 
+    private void Start()
+    {
+        EnemyFactoryScript = GameObject.FindWithTag("EnemyFactory").GetComponent<EnemyFactory>();
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
@@ -19,8 +24,7 @@ public class EnemyFactoryCol : MonoBehaviour
 
             if (EnemyFactoryScript.Hp < 0)
             {
-                Destroy(this.gameObject.transform.parent.gameObject);
-                Destroy(GameObject.Find("EnemyFactory").gameObject);
+                Destroy(gameObject.transform.parent.gameObject);
             }
         }
 

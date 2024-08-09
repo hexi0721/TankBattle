@@ -4,16 +4,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
+using static UnityEngine.GraphicsBuffer;
+using static UnityEngine.InputSystem.Controls.AxisControl;
 using static UnityEngine.UI.Image;
 
 public class EnemyTank : MonoBehaviour
 {
     public float Hp;
     [HideInInspector] public float BulletEnegy;
-    public EnemyTurretRotation EnemyTurretRotationScript;
+    
     public DisableEnemyTankAction DisableEnemyTankActionScript;
     
-    public GameObject Muzzle;
+    public GameObject Body , Turret ,  Muzzle;
+    
 
     public GameObject BigExplode;
     public Material DestroyMaterial;
@@ -21,6 +24,12 @@ public class EnemyTank : MonoBehaviour
     EnemyFactory _EnemyFactoryScript;
     EnemyShoot _EnemyShootScript;
     [SerializeField] GameObject _Player;
+
+    public GameObject Player
+    {
+        get => _Player;
+    }
+
     NavMeshAgent _Agent;
     NavMeshObstacle _Obstacle;
     Rigidbody rb;
@@ -54,6 +63,8 @@ public class EnemyTank : MonoBehaviour
         _Obstacle = GetComponent<NavMeshObstacle>();
         _Obstacle.enabled = false;
         _EnemyShootScript = GetComponent<EnemyShoot>();
+        
+        DisableEnemyTankActionScript = GetComponent<DisableEnemyTankAction>();
         _EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
         rb = GetComponent<Rigidbody>();
 
@@ -103,8 +114,6 @@ public class EnemyTank : MonoBehaviour
     private void LateUpdate()
     {
 
-        
-
         if (_Player != null)
         {
             
@@ -114,7 +123,7 @@ public class EnemyTank : MonoBehaviour
                 case "Patrol": // 巡邏
 
 
-                    EnemyTurretRotationScript.PatrolStat();
+                    PatrolStat();
                     _Agent.stoppingDistance = 0f;
 
                     // 以免BUG 因此重置位置
@@ -215,7 +224,7 @@ public class EnemyTank : MonoBehaviour
                 case "EnemyFound": // 發現敵人
 
 
-                    EnemyTurretRotationScript.LookPlayer();
+                    LookPlayer();
                     _Agent.stoppingDistance = 70f;
 
                     AttackAction();
@@ -343,7 +352,7 @@ public class EnemyTank : MonoBehaviour
                             if (hit.collider.transform.CompareTag("Player")) // 找到player
                             {
                                 Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.red);
-                                EnemyTurretRotationScript.LookPlayer();
+                                LookPlayer();
                                 AttackAction();
 
                                 if (transform.position == _LastUpdatePos )
@@ -358,7 +367,7 @@ public class EnemyTank : MonoBehaviour
                             else // 未找到player
                             {
                                 Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
-                                EnemyTurretRotationScript.PatrolStat();
+                                PatrolStat();
                                 _WantToMove = true;
                                 
                             }
@@ -371,7 +380,7 @@ public class EnemyTank : MonoBehaviour
                     {
                         Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
 
-                        EnemyTurretRotationScript.PatrolStat();
+                        PatrolStat();
                         _WantToMove = true;
                         
                     }
@@ -407,7 +416,40 @@ public class EnemyTank : MonoBehaviour
 
 
     }
-    
+
+    void LookPlayer()
+    {
+        float _clampMin = -8f;
+        float _clampMax = 3f;
+        float _clamp;
+
+        Vector3 v = Player.transform.position - Turret.transform.position;
+        Quaternion rotation = Quaternion.LookRotation(v);
+
+        // Turret 左右
+        Turret.transform.rotation = Quaternion.Lerp(Turret.transform.rotation, Quaternion.Euler(Turret.transform.rotation.eulerAngles.x, rotation.eulerAngles.y, Turret.transform.rotation.eulerAngles.z), Time.deltaTime);
+
+        // Muzzle 上下
+        if (rotation.eulerAngles.x > 3.0f && rotation.eulerAngles.x < 180f)
+        {
+            _clamp = _clampMax;
+        }
+        else if (rotation.eulerAngles.x > 180f && rotation.eulerAngles.x < 352f)
+        {
+            _clamp = _clampMin;
+        }
+        else
+        {
+            _clamp = rotation.eulerAngles.x;
+        }
+        Muzzle.transform.rotation = Quaternion.Lerp(Muzzle.transform.rotation,
+            Quaternion.Euler(_clamp, Muzzle.transform.eulerAngles.y, Muzzle.transform.eulerAngles.z), 2 * Time.deltaTime);
+    }
+    void PatrolStat()
+    {
+        Turret.transform.forward = Vector3.Lerp(Turret.transform.forward, Body.transform.forward, Time.deltaTime);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
@@ -425,7 +467,7 @@ public class EnemyTank : MonoBehaviour
                 Instantiate(BigExplode, transform.position, Quaternion.identity); // 爆炸
 
                 // 行動腳本DISABLE
-                EnemyTurretRotationScript.enabled = false;
+                
                 DisableEnemyTankActionScript.enabled = false;
                 _EnemyShootScript.enabled = false;
                 Destroy(rb);
