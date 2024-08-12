@@ -28,7 +28,7 @@ public class GameManage : MonoBehaviour
 
     GameObject _PlayerTank ;
 
-    bool _backuptrigger;  
+    [SerializeField] bool _backuptrigger;  
     public bool BackUpTrigger // ¼Ä¤è´©­xÄ²µo
     {
         get => _backuptrigger;

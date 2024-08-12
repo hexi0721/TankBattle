@@ -7,12 +7,13 @@ using UnityEngine.AI;
 public class DisableEnemyTankAction : MonoBehaviour
 {
 
-    private GameManage gameManage;
+    GameManage gameManage;
     
-    Behaviour EnemyTankScript , EnemyShootScript  ;
-    private NavMeshAgent meshAgent;
+    Behaviour EnemyTankScript , WhenEnemyTankDestroyScript;
+    NavMeshAgent meshAgent;
     
     bool  _ExitMenu;
+
     public bool ExitMenu
     {
         get => _ExitMenu;
@@ -23,11 +24,9 @@ public class DisableEnemyTankAction : MonoBehaviour
     {
         gameManage = GameObject.Find("GameManage").GetComponent<GameManage>();
         EnemyTankScript = GetComponent<EnemyTank>();
-        EnemyShootScript = GetComponent<EnemyShoot>();
-        
+        WhenEnemyTankDestroyScript = GetComponent<WhenEnemyTankDestroy>();
         meshAgent = GetComponent<NavMeshAgent>();
 
-        
         _ExitMenu = false;
     }
 
@@ -40,30 +39,17 @@ public class DisableEnemyTankAction : MonoBehaviour
                 meshAgent.SetDestination(transform.position);
             }
             
-
             EnemyTankScript.enabled = false;
-            EnemyShootScript.enabled = false;
-            
-
+            WhenEnemyTankDestroyScript.enabled = false;
             _ExitMenu = true;
 
         }
         else
         {
-
             EnemyTankScript.enabled = true;
-            EnemyShootScript.enabled = true;
-            
+            WhenEnemyTankDestroyScript.enabled = true;
         }
-        
-
-
-
 
 
     }
-
-
-
-
 }

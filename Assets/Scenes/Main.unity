@@ -303,7 +303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0c91e0272dcda43823abe70dc850c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyFactoryScript: {fileID: 0}
 --- !u!4 &161286925 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7974774353189467042, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
@@ -461,7 +460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0c91e0272dcda43823abe70dc850c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyFactoryScript: {fileID: 0}
 --- !u!1001 &342080323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -917,7 +915,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0c91e0272dcda43823abe70dc850c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyFactoryScript: {fileID: 0}
 --- !u!1 &523726479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1426,7 +1423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &768928824
 Transform:
   m_ObjectHideFlags: 0
@@ -1631,7 +1628,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0c91e0272dcda43823abe70dc850c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyFactoryScript: {fileID: 0}
 --- !u!4 &919198988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4957148929804432, guid: 1f86e5db80e9a1941b2445365898cf8b, type: 3}
@@ -2869,7 +2865,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a0c91e0272dcda43823abe70dc850c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemyFactoryScript: {fileID: 0}
 --- !u!1001 &1791992468
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3477,8 +3472,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartPosAirWall: {fileID: 1811423605}
-  AimImage: {fileID: 3483387471987838589}
-  _stay: 2
 --- !u!114 &1991158499 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6714738463073601460, guid: 0fdff5328c1460440a6c9a66a7c33b4e, type: 3}
@@ -4942,7 +4935,7 @@ GameObject:
   - component: {fileID: 2643970211708536501}
   - component: {fileID: 2971973643833013877}
   m_Layer: 5
-  m_Name: 'FacHp '
+  m_Name: FacHpImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7267,6 +7260,7 @@ MonoBehaviour:
   _blackBg: {fileID: 0}
   SubMenu: {fileID: 7791808565832202548}
   _IsOpenMenu: 0
+  _backuptrigger: 0
 --- !u!1 &5509761768152566587
 GameObject:
   m_ObjectHideFlags: 0
@@ -9202,7 +9196,7 @@ Transform:
   m_GameObject: {fileID: 1152528868385096766}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 195.4, y: 40.71758, z: 208.1}
+  m_LocalPosition: {x: 195.9, y: 40.71758, z: 212.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

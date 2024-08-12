@@ -12,17 +12,16 @@ public class EnemyTank : MonoBehaviour
 {
     public float Hp;
     [HideInInspector] public float BulletEnegy;
-    
-    public DisableEnemyTankAction DisableEnemyTankActionScript;
-    
-    public GameObject Body , Turret ,  Muzzle;
-    
+    public GameObject EnemyBullet; // 子彈物件
+    float _ReloadTime;
 
+    DisableEnemyTankAction DisableEnemyTankActionScript;
+    EnemyFactory _EnemyFactoryScript;
+
+    public GameObject Body , Turret ,  Muzzle;
     public GameObject BigExplode;
     public Material DestroyMaterial;
 
-    EnemyFactory _EnemyFactoryScript;
-    EnemyShoot _EnemyShootScript;
     [SerializeField] GameObject _Player;
 
     public GameObject Player
@@ -52,6 +51,7 @@ public class EnemyTank : MonoBehaviour
         get => _WantToMove;
     }
 
+
     public float offset = 0.55f;
     public Terrain terrain ;
 
@@ -62,7 +62,7 @@ public class EnemyTank : MonoBehaviour
         _Agent = GetComponent<NavMeshAgent>();
         _Obstacle = GetComponent<NavMeshObstacle>();
         _Obstacle.enabled = false;
-        _EnemyShootScript = GetComponent<EnemyShoot>();
+        
         
         DisableEnemyTankActionScript = GetComponent<DisableEnemyTankAction>();
         _EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
@@ -73,6 +73,7 @@ public class EnemyTank : MonoBehaviour
         _OriginalPos = transform.position;
         
         _StandbyTime = 2f;
+        _ReloadTime = 5f;
         _ResetTime = 30f;
         _WantToMove = true;
         _NetxFrameTime = 0.5f;
@@ -82,17 +83,9 @@ public class EnemyTank : MonoBehaviour
 
     private void Update()
     {
-        
+        FacUnderAttack();
 
-        if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.GetMaxHp())
-        {
-            
-            if( _Player != null )
-            {
-                _TargetPos = _Player.transform.position;
-            }
-            _State = "FacUnderAttack";
-        }
+        
         /*
         RaycastHit hit;
         if (Physics.Raycast(transform.position  , Vector3.down, out hit, 1 << 13))
@@ -111,6 +104,20 @@ public class EnemyTank : MonoBehaviour
         */
 
     }
+
+    private void FacUnderAttack()
+    {
+        if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.MaxHp)
+        {
+
+            if (_Player != null)
+            {
+                _TargetPos = _Player.transform.position;
+            }
+            _State = "FacUnderAttack";
+        }
+    }
+
     private void LateUpdate()
     {
 
@@ -162,10 +169,7 @@ public class EnemyTank : MonoBehaviour
 
                                 _LastMoveTime = Time.time;
                                 _WantToMove = true;
-
-                                
                                 _TargetPos += new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-
                                 _ResetTime = 30f;
                             }
 
@@ -223,18 +227,14 @@ public class EnemyTank : MonoBehaviour
 
                 case "EnemyFound": // 發現敵人
 
-
-                    LookPlayer();
                     _Agent.stoppingDistance = 70f;
-
+                    LookPlayer();
                     AttackAction();
 
                     if (transform.position == _LastUpdatePos ) // 停止時刻
                     {
-
                         _Agent.enabled = false;
                         _Obstacle.enabled = true;
-
                     }
 
                     if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
@@ -407,11 +407,11 @@ public class EnemyTank : MonoBehaviour
 
             if (hit.collider != null && hit.collider.CompareTag("Player"))
             {
-                _EnemyShootScript.Shooting(BulletEnegy, hit.point);
+                Shooting(hit.point);
             }
         }
 
-        _EnemyShootScript.Reloading(BulletEnegy);
+        Reloading();
 
 
 
@@ -450,6 +450,30 @@ public class EnemyTank : MonoBehaviour
         Turret.transform.forward = Vector3.Lerp(Turret.transform.forward, Body.transform.forward, Time.deltaTime);
     }
 
+    void Shooting(Vector3 TargetPoint)
+    {
+        if (BulletEnegy >= _ReloadTime)
+        {
+            GameObject go = Instantiate(EnemyBullet,
+                Muzzle.transform.position + Muzzle.transform.forward * 10,
+                Quaternion.Euler(Muzzle.transform.eulerAngles.x, Muzzle.transform.eulerAngles.y, Muzzle.transform.eulerAngles.z)) as GameObject;
+            go.transform.LookAt(TargetPoint);
+
+            BulletEnegy = 0; // 裝填
+
+        }
+    }
+
+    void Reloading()
+    {
+
+        if (BulletEnegy < _ReloadTime)
+        {
+            BulletEnegy += Time.deltaTime;
+        }
+
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlayerBullet"))
@@ -469,11 +493,11 @@ public class EnemyTank : MonoBehaviour
                 // 行動腳本DISABLE
                 
                 DisableEnemyTankActionScript.enabled = false;
-                _EnemyShootScript.enabled = false;
+                
                 Destroy(rb);
-                Destroy(transform.GetChild(1).gameObject); // 將turret摧毀
+                Destroy(Turret); // 將turret摧毀
 
-                transform.GetChild(0).GetComponent<Renderer>().material = DestroyMaterial; // TankBody
+                Body.GetComponent<Renderer>().material = DestroyMaterial; // TankBody
                 
                 _Agent.enabled = false;
                 _Obstacle.enabled = false;

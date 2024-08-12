@@ -32,7 +32,7 @@ public class Timer : MonoBehaviour
 
 
         // 當兵工廠被攻擊 敵方援軍抵達時間 變為0
-        if (EnemyFactoryScript.Hp < EnemyFactoryScript.GetMaxHp() || _gameManage.BackUpTrigger == true)
+        if (EnemyFactoryScript.Hp < EnemyFactoryScript.MaxHp || _gameManage.BackUpTrigger == true)
         {
             _time = 0f;
             Timer_txt.enabled = false;

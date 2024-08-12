@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DisableEnemyFactoryInstantiate : MonoBehaviour
 {
-    private GameManage gameManage;
+    GameManage gameManage;
     Behaviour InstantiateTankScript , EnemyFactoryScript;
 
     private void Start()

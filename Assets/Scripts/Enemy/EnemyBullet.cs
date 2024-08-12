@@ -29,11 +29,8 @@ public class EnemyBullet : MonoBehaviour
 
         if (_time > 5.0f)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
-
-
-
 
     }
 
@@ -41,7 +38,6 @@ public class EnemyBullet : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Destroy(gameObject);
-
         Instantiate(Explosion, transform.position, Quaternion.identity);
 
     }

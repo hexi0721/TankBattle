@@ -74,7 +74,6 @@ public class CameraController : MonoBehaviour
                         screenPos = GetComponent<Camera>().WorldToViewportPoint(Muzzle.transform.position + Muzzle.transform.forward * 1000);
                         screenPos.y = 0.5f;
 
-                        // 介於0.54 ~ 0.78 offset會在0.04 ~ 0.28
                         if (Input.GetMouseButton(1)) // 右鍵放大
                         {
                             MuzzleAimImage.SetActive(true);

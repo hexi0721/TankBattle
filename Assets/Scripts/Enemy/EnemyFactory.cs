@@ -7,16 +7,30 @@ public class EnemyFactory : MonoBehaviour
 {
     public Image FacHp;
 
-    float _MaxHp;
-    public float Hp;
+    float _maxHp;
+    public float MaxHp
+    {
+        get => _maxHp;
+    }
+    [SerializeField] float _hp;
+    public float Hp
+    {
+        get => _hp;
+    }
+    [SerializeField] float _hpShowTime;
 
-    public float HpShowTime;
+    static EnemyFactory _instance;
+
+    private void Awake()
+    {
+        _instance = this;
+    }
 
     private void Start()
     {
-        _MaxHp = 50f;
-        Hp = 50f;
-        HpShowTime = 4f;
+        _maxHp = 50f;
+        _hp = 50f;
+        _hpShowTime = 4f;
 
         FacHp.transform.parent.gameObject.SetActive(false);
     }
@@ -26,20 +40,29 @@ public class EnemyFactory : MonoBehaviour
 
         if(FacHp.transform.parent.gameObject.activeSelf)
         {
-            HpShowTime -= Time.deltaTime;
-            if(HpShowTime <= 0)
+            _hpShowTime -= Time.deltaTime;
+            if(_hpShowTime <= 0)
             {
                 FacHp.transform.parent.gameObject.SetActive(false);
                 
             }
         }
 
-        FacHp.fillAmount = Hp / _MaxHp;
+        FacHp.fillAmount = _hp / _maxHp;
+
+        if (_hp < 0)
+        {
+            FacHp.transform.parent.gameObject.SetActive(false);
+            // Destroy(transform.parent.gameObject);
+            // ³Ó§Q
+        }
     }
 
-    public float GetMaxHp()
+    public static void UnderAttack()
     {
-        return _MaxHp;
+        _instance._hp -= Random.Range(1, 5);
+        _instance.FacHp.transform.parent.gameObject.SetActive(true);
+        _instance._hpShowTime = 4f;
     }
 
 }

@@ -7,12 +7,11 @@ using UnityEngine.UI;
 public class StartPoint : MonoBehaviour
 {
     public BoxCollider StartPosAirWall;
-    public Image AimImage;
-    [SerializeField]float _stay = 2f;
+    
+    float _stay = 2f;
 
     private void Start()
     {
-        AimImage.enabled = false;
         StartPosAirWall.enabled = false;
     }
 
@@ -23,13 +22,11 @@ public class StartPoint : MonoBehaviour
 
             StartPosAirWall.enabled = true;
             
-
             _stay -= Time.deltaTime;
             if( _stay <= 0 )
             {
                 PlayerSetting.Instance.animator.enabled = false;
-                AimImage.enabled = true;
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
     }

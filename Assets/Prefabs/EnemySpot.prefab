@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4881135055001378809}
   - component: {fileID: 737811695290901308}
   - component: {fileID: 4708081151445898904}
-  - component: {fileID: 4514099260604424503}
+  - component: {fileID: 7006698784064299522}
   m_Layer: 0
   m_Name: EnemySpot
   m_TagString: Untagged
@@ -107,7 +107,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &4514099260604424503
+--- !u!114 &7006698784064299522
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
