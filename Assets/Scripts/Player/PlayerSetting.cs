@@ -14,19 +14,18 @@ public class PlayerSetting : MonoBehaviour
     }
 
     public float Hp; // 玩家生命 綠色血條 讓GameController判斷0時結束遊戲
-    public float Hp2; // 紅色血條
-    public float BulletEnegy;
-    bool _UnderAttack;
-    float Counter; // 計算紅色血條何時動作
-    [SerializeField] float _FeedBackTime;
+    [HideInInspector] public float Hp2; // 紅色血條
+    [HideInInspector] public float BulletEnegy;
+    bool _underAttack; // 被擊中
+    float CounterTime; // 計算紅色血條何時動作
+    float _FeedBackTime;
 
     public Image HpImage;
     public Image HpImage2;
-
     public Image BulletEnegyImage;
+    
     Image ShootFeedBack;
-
-    public bool _Ishit;
+    public bool _Ishit; // 擊中敵人
 
     public Animator animator; // 測試坦克功能可以disable
 
@@ -34,13 +33,16 @@ public class PlayerSetting : MonoBehaviour
 
     private void Start()
     {
-        _UnderAttack = false;
-        Counter = 1.5f;
+
+        Hp2 = 100f;
+        _underAttack = false;
+        _Ishit = false;
+        CounterTime = 1.5f;
 
         _FeedBackTime = 0f;
         ShootFeedBack = GameObject.FindWithTag("ShootFeedBack").GetComponent<Image>();
         ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
-        _Ishit = false;
+        
 
         animator = GetComponent<Animator>();
 
@@ -61,69 +63,67 @@ public class PlayerSetting : MonoBehaviour
     void Update()
     {
         
+        BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
+        HpImage.fillAmount = Hp / 100f;
         
 
-
-        BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
-
-        HpImage.fillAmount = Hp / 100;
         if (Hp <= 0)
         {
-            Destroy(gameObject.GetComponent<Rigidbody>());
-            Destroy(gameObject.transform.GetChild(0).gameObject);
-            Destroy(gameObject.transform.GetChild(1).gameObject);
-            this.enabled = false;
+            Destroy(GetComponent<Rigidbody>());
+            Destroy(turret);
+            Destroy(shell);
+
+            GetComponent<Move>().enabled = false;
+            GetComponent<PlayerRotation>().enabled = false;
+            GetComponent<Shoot>().enabled = false;
+            GetComponent<DisableTankActionScript>().enabled = false;
+            enabled = false;
         }
         else
         {
             turret.transform.position = shell.transform.position + shell.transform.up * 1.1f;
         }
 
-        if(_UnderAttack)
+        UnderAttack();
+
+        if (_Ishit)
         {
-
-            if (Hp2 == Hp)
+            _FeedBackTime -= Time.deltaTime;
+            if (_FeedBackTime <= 0f)
             {
-                _UnderAttack = false;
+                ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
+                _Ishit = false;
             }
+        }
 
-            Counter -= Time.deltaTime;
 
-            if (Counter <= 0 && Hp2 > Hp)
+    }
+
+    void UnderAttack()
+    {
+        if (_underAttack)
+        {
+            CounterTime -= Time.deltaTime;
+
+            if (Hp2 <= Hp)
+            {
+                _underAttack = false;
+            }
+            else if (CounterTime <= 0 && Hp2 > Hp)
             {
                 Hp2 -= 1;
                 HpImage2.fillAmount = Hp2 / 100;
             }
-            
-        }
-
-        if (_Ishit)
-        {
-            _FeedBackTime = 0.1f;
-            ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 1f);
-            _Ishit = false;
-
-            
-            
-        }
-        else
-        {
-
-            if (_FeedBackTime <= 0f)
-            {
-
-                ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
-            }
-            else
-            {
-                _FeedBackTime -= Time.deltaTime;
-            }
 
         }
+    }
 
-        
 
-
+    public void Ishit()
+    {
+        _Ishit = true;
+        _FeedBackTime = 0.1f;
+        ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 1f);
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -132,13 +132,13 @@ public class PlayerSetting : MonoBehaviour
         {
 
             Hp -= Random.Range(5, 10);
-            _UnderAttack = true;
-            Counter = 1.5f;
+            _underAttack = true;
+            CounterTime = 1.5f;
 
         }
     }
 
 
-    // 新增補血功能
+    // 新增補血功能 (特效)
 
 }

@@ -17,8 +17,7 @@ public class CameraController : MonoBehaviour
     public GameObject turret;
     public GameObject Muzzle;
     
-    
-    public GameManage gameManage;
+    GameManage gameManage;
     
     Vector3 _rotation;
     public float CamSmoothFactor;
@@ -39,6 +38,8 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        gameManage = GameObject.FindWithTag("GameManage").GetComponent<GameManage>();
+
         _rotation = turret.transform.localEulerAngles;
 
         _LookUpMin = -10 ;

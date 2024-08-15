@@ -23,15 +23,13 @@ public class PlayerRotation : MonoBehaviour
 
     public static Vector3 targetPoint; // Aim 中心點
 
-    public float tmp;
-
     private void Start()
     {
         _rotation = turret.transform.localEulerAngles;
     }
 
- 
-    private void Update()
+
+    private void FixedUpdate()
     {
 
         // turret 左右 xz 保持不變
@@ -48,7 +46,6 @@ public class PlayerRotation : MonoBehaviour
         RaycastHit hit = Raycast();
 
         // 添加muzzle 加 forward 碰撞到object時的錯誤
-        
         if (hit.collider != null)
         {
             Debug.DrawRay(Muzzle.transform.position, hit.point - Muzzle.transform.position, Color.blue);

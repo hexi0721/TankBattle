@@ -19,6 +19,7 @@ TagManager:
   - BlackBg
   - Setting
   - GameManage
+  - FirstGate
   layers:
   - Default
   - TransparentFX

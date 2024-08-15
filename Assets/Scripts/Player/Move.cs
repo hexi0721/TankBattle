@@ -98,8 +98,6 @@ public class Move : MonoBehaviour
             }
 
 
-
-
             if (Input.GetKey(KeyCode.A))
             {
                 shell.transform.RotateAround(shell.transform.position, transform.up, -ph * Time.deltaTime);
@@ -111,26 +109,19 @@ public class Move : MonoBehaviour
             }
         }
 
-
-        
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.transform.tag)
         {
-
             case "Terrain":
 
                 rb.velocity -= Vector3.one * Time.fixedDeltaTime;
 
                 break;
 
-
         }
-
-
-
         
     }
 

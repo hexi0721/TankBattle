@@ -2515,7 +2515,7 @@ GameObject:
   - component: {fileID: 1456800882}
   m_Layer: 13
   m_Name: FirstGate
-  m_TagString: Untagged
+  m_TagString: FirstGate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2741,7 +2741,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef596effb4ba6c64e92c9f3144846769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Gate: {fileID: 1456800881}
 --- !u!4 &1558582251 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4957148929804432, guid: 1f86e5db80e9a1941b2445365898cf8b, type: 3}
@@ -7368,7 +7367,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turret: {fileID: 9153511177871076727}
   Muzzle: {fileID: 2929925503398521053}
-  gameManage: {fileID: 5435545640612889169}
   CamSmoothFactor: 2
   MuzzleAimImage: {fileID: 3948031411364016132}
   AimImage: {fileID: 9197043785091653701}
@@ -9725,7 +9723,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152528868385096766}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 86ff4d29672c0814f8da6bb197a1d053, type: 2}
   m_CullingMode: 0
@@ -9926,10 +9924,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73039feed0998ae4f85e432aabfdacc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 10000
+  Hp: 5
   Hp2: 100
   BulletEnegy: 2.5
-  _FeedBackTime: 0
   HpImage: {fileID: 42967709375300239}
   HpImage2: {fileID: 9027898771965945375}
   BulletEnegyImage: {fileID: 4252620284409458528}

@@ -21,8 +21,6 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         _time = 0f;
-        
-
 
     }
 
@@ -40,12 +38,8 @@ public class Bullet : MonoBehaviour
 
         if(_time >= 5.0f)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
-
-        
-
-
 
     }
 
@@ -69,7 +63,7 @@ public class Bullet : MonoBehaviour
                     Destroy(collision.transform.GetChild(0).gameObject);
                     Instantiate(Flame, collision.transform.position, Quaternion.identity);
                     Instantiate(BigExplode, collision.contacts[0].point, Quaternion.identity);
-                    PlayerSetting.Instance._Ishit = true;
+                    PlayerSetting.Instance.Ishit();
                 }
 
 
@@ -80,9 +74,8 @@ public class Bullet : MonoBehaviour
             case "EnemyTank":
             case "FactoryTank":
             case "EnemyFactory":
-                PlayerSetting.Instance._Ishit = true;
 
-
+                PlayerSetting.Instance.Ishit();
 
                 break;
 

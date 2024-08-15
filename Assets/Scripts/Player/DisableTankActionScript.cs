@@ -10,34 +10,20 @@ public class DisableTankActionScript : MonoBehaviour
     private void Update()
     {
 
-        if(PlayerSetting.Instance.Hp <= 0)
+
+        if (gameManage.IsOpenMenu || PlayerSetting.Instance.animator.enabled)
         {
             Move.enabled = false;
             Shoot.enabled = false;
             Rotation.enabled = false;
-            enabled = false;
+
         }
         else
         {
-            if (gameManage.IsOpenMenu)
-            {
-                Move.enabled = false;
-                Shoot.enabled = false;
-                Rotation.enabled = false;
-
-            }
-            else
-            {
-                Move.enabled = !PlayerSetting.Instance.animator.enabled ? true : false;
-                Shoot.enabled = !PlayerSetting.Instance.animator.enabled ? true : false;
-                Rotation.enabled = !PlayerSetting.Instance.animator.enabled ? true : false;
-            }
+            Move.enabled =  true;
+            Shoot.enabled = true;
+            Rotation.enabled = true;
         }
-
-        
-
-        
-
 
     }
 

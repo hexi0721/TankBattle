@@ -8,11 +8,12 @@ public class StartPoint : MonoBehaviour
 {
     public BoxCollider StartPosAirWall;
     
-    float _stay = 2f;
+    float _stay;
 
     private void Start()
     {
         StartPosAirWall.enabled = false;
+        _stay = 2f;
     }
 
     private void OnTriggerStay(Collider other)
