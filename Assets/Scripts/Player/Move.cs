@@ -10,12 +10,15 @@ public class Move : MonoBehaviour
     public float speed;
     public GameManage gameManage;
     public GameObject shell;
-    
+    public GameObject trackTrigger1, trackTrigger2;
+
     Rigidbody rb;
 
     float _clampMin = -5f;
     float _clampMax = 5f;
     Vector3 _rotation;
+
+
 
     private void Start()
     {
@@ -23,8 +26,20 @@ public class Move : MonoBehaviour
         _rotation = transform.eulerAngles;
     }
 
+    private void Update()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(trackTrigger1.transform.position , -trackTrigger1.transform.up , out hit , 1 << 13))
+        {
+
+        }
+    }
+
     private void FixedUpdate()
     {
+
+        
         /*
         Vector3 angle = transform.eulerAngles;
         float x = angle.x;
