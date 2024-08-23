@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.PlayerLoop;
+using static Unity.Burst.Intrinsics.X86.Avx;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.InputSystem.Controls.AxisControl;
 using static UnityEngine.UI.Image;
@@ -85,23 +86,24 @@ public class EnemyTank : MonoBehaviour
     {
         FacUnderAttack();
 
-        
-        /*
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position  , Vector3.down, out hit, 1 << 13))
+
+        RaycastHit thit;
+        if (Physics.Raycast(transform.position, Vector3.down, out thit, 1 << 13))
         {
-            //Debug.DrawLine(transform.position  , hit.point, Color.black);
-            
+            Debug.DrawLine(transform.position  , thit.point, Color.black);
+
             //Get slope angle from the raycast hit normal then calcuate new pos of the object
-            Quaternion newRot = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
 
-            transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
+            if (thit.collider.CompareTag("Terrain"))
+            {
+                Quaternion newRot = Quaternion.FromToRotation(transform.up, thit.normal) * transform.rotation;
 
-            terrain = GameObject.Find(hit.transform.name).GetComponent<Terrain>();
+                transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
 
-            transform.position = new Vector3(transform.position.x, terrain.SampleHeight(transform.position) + offset, transform.position.z);
+                transform.position = new Vector3(transform.position.x, thit.collider.GetComponent<Terrain>().SampleHeight(transform.position) + offset, transform.position.z);
+            }
+
         }
-        */
 
     }
 

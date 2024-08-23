@@ -14,103 +14,46 @@ public class Move : MonoBehaviour
 
     Rigidbody rb;
 
-    float _clampMin = -5f;
-    float _clampMax = 5f;
-    Vector3 _rotation;
-
-
-
     private void Start()
     {
+        speed = 0f;
         rb = GetComponent<Rigidbody>();
-        _rotation = transform.eulerAngles;
-    }
-
-    private void Update()
-    {
-        RaycastHit hit;
-
-        if(Physics.Raycast(trackTrigger1.transform.position , -trackTrigger1.transform.up , out hit , 1 << 13))
-        {
-
-        }
     }
 
     private void FixedUpdate()
     {
-
-        
-        /*
-        Vector3 angle = transform.eulerAngles;
-        float x = angle.x;
-        float z = angle.z;
-        if (Vector3.Dot(transform.up, Vector3.up) >= 0f)
-        {
-            if (angle.x >= 0f && angle.x <= 90f)
-            {
-                x = angle.x;
-            }
-            if (angle.x >= 270f && angle.x <= 360f)
-            {
-                x = angle.x - 360f;
-            }
-        }
-        if (Vector3.Dot(transform.up, Vector3.up) < 0f)
-        {
-            if (angle.x >= 0f && angle.x <= 90f)
-            {
-                x = 180 - angle.x;
-            }
-            if (angle.x >= 270f && angle.x <= 360f)
-            {
-                x = 180 - angle.x;
-            }
-        }
-
-        if (Vector3.Dot(transform.forward, Vector3.forward) >= 0f)
-        {
-            if (angle.z >= 0f && angle.z <= 90f)
-            {
-                z = angle.z;
-            }
-            if (angle.z >= 270f && angle.z <= 360f)
-            {
-                z = angle.z - 360f;
-            }
-        }
-        if (Vector3.Dot(transform.forward, Vector3.forward) < 0f)
-        {
-            if (angle.z >= 0f && angle.z <= 90f)
-            {
-                z = 180 - angle.z;
-            }
-            if (angle.z >= 270f && angle.z <= 360f)
-            {
-                z = 180 - angle.z;
-            }
-        }*/
-
-
-        //transform.eulerAngles = new Vector3(Mathf.Clamp(_rotation.x, _clampMin, _clampMax), transform.eulerAngles.y, Mathf.Clamp(_rotation.z, _clampMin, _clampMax));
+        rb.AddForce(Physics.gravity * 2.5f); // ­«¤O ¤U­°
 
         if (!gameManage.IsOpenMenu)
         {
-            
-            if (rb.velocity.magnitude < 10.0f)
+
+            if (Input.GetKey(KeyCode.W))
             {
-                if (Input.GetKey(KeyCode.W))
-                {
-                    rb.AddForce(speed * Time.fixedDeltaTime * shell.transform.forward);
-                    
-                }
 
-
-                if (Input.GetKey(KeyCode.S))
-                {
-                    rb.AddForce(speed * Time.fixedDeltaTime * -shell.transform.forward);
-                    
-                }
+                speed += Input.GetAxis("Vertical");
+                
             }
+
+
+            if (Input.GetKey(KeyCode.S))
+            {
+
+                speed += Input.GetAxis("Vertical");
+            }
+
+            speed = Mathf.Clamp(speed , -4f , 4f);
+
+            rb.MovePosition(rb.position + shell.transform.TransformDirection(speed * Vector3.forward * Time.fixedDeltaTime));
+
+            if (speed > 0)
+            {
+                speed -= Time.fixedDeltaTime;
+            }
+            else if (speed < 0)
+            {
+                speed += Time.fixedDeltaTime;
+            }
+            
 
 
             if (Input.GetKey(KeyCode.A))
@@ -125,7 +68,7 @@ public class Move : MonoBehaviour
         }
 
     }
-
+    /*
     private void OnCollisionEnter(Collision collision)
     {
         switch (collision.gameObject.transform.tag)
@@ -139,7 +82,7 @@ public class Move : MonoBehaviour
         }
         
     }
-
+    */
 
 
 }
