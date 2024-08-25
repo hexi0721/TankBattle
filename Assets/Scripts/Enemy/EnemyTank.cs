@@ -86,7 +86,7 @@ public class EnemyTank : MonoBehaviour
     {
         FacUnderAttack();
 
-
+        /*
         RaycastHit thit;
         if (Physics.Raycast(transform.position, Vector3.down, out thit, 1 << 13))
         {
@@ -104,7 +104,7 @@ public class EnemyTank : MonoBehaviour
             }
 
         }
-
+        */
     }
 
     private void FacUnderAttack()
