@@ -7,9 +7,25 @@ public class DisableTankActionScript : MonoBehaviour
     public GameManage gameManage;
     public Behaviour Move , Shoot , Rotation;
 
+    Vector3 _postion;
+    Quaternion _rotation;
+
+    Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.AddForce(Physics.gravity * 350); // ­«¤O ¤U­°
+    }
+
     private void Update()
     {
 
+        Debug.Log(rb.velocity);
 
         if (gameManage.IsOpenMenu || PlayerSetting.Instance.animator.enabled)
         {
@@ -17,12 +33,18 @@ public class DisableTankActionScript : MonoBehaviour
             Shoot.enabled = false;
             Rotation.enabled = false;
 
+            transform.position = _postion;
+            transform.rotation = _rotation;
+
         }
         else
         {
             Move.enabled =  true;
             Shoot.enabled = true;
             Rotation.enabled = true;
+
+            _postion = transform.position;
+            _rotation = transform.rotation;
         }
 
     }

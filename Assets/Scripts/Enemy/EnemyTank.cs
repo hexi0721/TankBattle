@@ -86,7 +86,7 @@ public class EnemyTank : MonoBehaviour
     {
         FacUnderAttack();
 
-        /*
+        
         RaycastHit thit;
         if (Physics.Raycast(transform.position, Vector3.down, out thit, 1 << 13))
         {
@@ -98,13 +98,14 @@ public class EnemyTank : MonoBehaviour
             {
                 Quaternion newRot = Quaternion.FromToRotation(transform.up, thit.normal) * transform.rotation;
 
-                transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
+                //transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
+                transform.rotation = newRot;
 
                 transform.position = new Vector3(transform.position.x, thit.collider.GetComponent<Terrain>().SampleHeight(transform.position) + offset, transform.position.z);
             }
 
         }
-        */
+        
     }
 
     private void FacUnderAttack()
