@@ -1424,7 +1424,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7420528195481554126, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_UseGravity
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7420528195481554126, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_Constraints
@@ -1436,7 +1436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7420528195481554126, guid: 5f3d07d75c5cb02478bb3154bf64bc0d, type: 3}
       propertyPath: m_ExcludeLayers.m_Bits
-      value: 8192
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7239,7 +7239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!64 &1820946801
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -7321,8 +7321,8 @@ Transform:
   m_GameObject: {fileID: 1820946800}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 112.90254, y: 39.99878, z: 163.60672}
-  m_LocalScale: {x: 35.924206, y: 19.78, z: 42.305927}
+  m_LocalPosition: {x: 119.1412, y: 50, z: 189.6149}
+  m_LocalScale: {x: 25.4859, y: 19.78, z: 39.592667}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -10637,7 +10637,7 @@ GameObject:
   - component: {fileID: 5191129444089576094}
   m_Layer: 10
   m_Name: muzzle
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15087,7 +15087,7 @@ MonoBehaviour:
   shell: {fileID: 8047879173167058078}
   trackTrigger1: {fileID: 4729293255581504391}
   trackTrigger2: {fileID: 4081608232743594284}
-  tmp: 100
+  tmp: 8
   _canForward: 0
   _canBackward: 0
 --- !u!114 &8957279267720316434
@@ -15317,7 +15317,7 @@ GameObject:
   - component: {fileID: 8154287582620195586}
   m_Layer: 10
   m_Name: turret
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

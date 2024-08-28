@@ -25,8 +25,6 @@ public class DisableTankActionScript : MonoBehaviour
     private void Update()
     {
 
-        Debug.Log(rb.velocity);
-
         if (gameManage.IsOpenMenu || PlayerSetting.Instance.animator.enabled)
         {
             Move.enabled = false;

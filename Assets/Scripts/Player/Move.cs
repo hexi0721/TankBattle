@@ -15,7 +15,7 @@ public class Move : MonoBehaviour
     Rigidbody rb;
 
     public float tmp;
-    [SerializeField] bool _canForward, _canBackward;
+    [SerializeField] bool _canForward, _canBackward ;
 
     private void Start()
     {
@@ -29,26 +29,26 @@ public class Move : MonoBehaviour
     {
 
         RaycastHit hit; 
-        if(Physics.Raycast(shell.transform.position , shell.transform.forward , out hit, 8f ,  1 << 14))
+        if(Physics.Raycast(shell.transform.position , shell.transform.forward , out hit, 4 ,  1 << 14 | 1 << 11 | 1 << 7))
         {
             if (hit.collider != null) 
             {
                 _canForward = false;
             }
-            Debug.DrawRay(shell.transform.position , shell.transform.forward * 8f, Color.cyan );
+            Debug.DrawRay(shell.transform.position , shell.transform.forward * 4f, Color.cyan );
         }
         else
         {
             _canForward = true;
         }
 
-        if (Physics.Raycast(shell.transform.position, -shell.transform.forward, out hit, 8f, 1 << 14))
+        if (Physics.Raycast(shell.transform.position, -shell.transform.forward, out hit, 4, 1 << 14))
         {
             if (hit.collider != null)
             {
                 _canBackward = false;
             }
-            Debug.DrawRay(shell.transform.position, -shell.transform.forward * 8f, Color.cyan);
+            Debug.DrawRay(shell.transform.position, -shell.transform.forward * 4f, Color.cyan);
         }
         else
         {
@@ -58,19 +58,12 @@ public class Move : MonoBehaviour
 
         if (!gameManage.IsOpenMenu)
         {
-
-            if (speed > 0)
-            {
-                speed -= Time.fixedDeltaTime * 5f;
-            }
-            else if (speed < 0)
-            {
-                speed += Time.fixedDeltaTime * 5f;
-            }
+            speed = Mathf.Lerp(speed, 0, Time.fixedDeltaTime * 5f);
+            
 
             if (Input.GetKey(KeyCode.W) && _canForward)
             {
-
+                
                 speed += Input.GetAxis("Vertical");
                 
             }
@@ -78,7 +71,7 @@ public class Move : MonoBehaviour
 
             if (Input.GetKey(KeyCode.S) && _canBackward)
             {
-
+                
                 speed += Input.GetAxis("Vertical");
             }
 

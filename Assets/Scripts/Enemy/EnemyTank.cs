@@ -13,6 +13,7 @@ public class EnemyTank : MonoBehaviour
 {
     public float Hp;
     [HideInInspector] public float BulletEnegy;
+    float _accuracy;
     public GameObject EnemyBullet; // 子彈物件
     float _ReloadTime;
 
@@ -55,7 +56,6 @@ public class EnemyTank : MonoBehaviour
 
     public float offset = 0.55f;
     public Terrain terrain ;
-
     
     private void Start()
     {
@@ -76,6 +76,7 @@ public class EnemyTank : MonoBehaviour
         _StandbyTime = 2f;
         _ReloadTime = 5f;
         _ResetTime = 30f;
+        _accuracy = 0.5f; // 不能為1
         _WantToMove = true;
         _NetxFrameTime = 0.5f;
 
@@ -198,7 +199,7 @@ public class EnemyTank : MonoBehaviour
 
                     
 
-                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
                         
                         if (hit.collider != null)
@@ -206,7 +207,7 @@ public class EnemyTank : MonoBehaviour
                             
                             if (hit.collider.transform.CompareTag("Player"))
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.red);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.red);
                                 _TargetPos = _Player.transform.position;
                                 _LastMoveTime = Time.time;
                                 _State = "EnemyFound";
@@ -215,7 +216,7 @@ public class EnemyTank : MonoBehaviour
                             }
                             else if (!hit.collider.transform.CompareTag("Player"))
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
                             }
 
 
@@ -223,7 +224,7 @@ public class EnemyTank : MonoBehaviour
                     }
                     else if (hit.collider == null)
                     {
-                        Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                        Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
                     }
 
                     break;
@@ -240,7 +241,7 @@ public class EnemyTank : MonoBehaviour
                         _Obstacle.enabled = true;
                     }
 
-                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
                         
                         if (hit.collider != null) // 沒有找到player
@@ -248,7 +249,7 @@ public class EnemyTank : MonoBehaviour
                             
                             if (!hit.collider.transform.CompareTag("Player"))
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
                                 _TargetPos = _Player.transform.position;
                                 _LastMoveTime = Time.time;
                                 _WantToMove = true;
@@ -258,14 +259,14 @@ public class EnemyTank : MonoBehaviour
                             }
                             else if (hit.collider.transform.CompareTag("Player"))
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.red);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.red);
                             }
                         }
                         
                     }
                     else if (hit.collider == null) // 沒有找到player
                     {
-                        Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                        Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
                         _TargetPos = _Player.transform.position;
                         _LastMoveTime = Time.time;
                         _WantToMove = true;
@@ -298,14 +299,14 @@ public class EnemyTank : MonoBehaviour
                     }
                     
 
-                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
                         if (hit.collider != null)
                         {
                             
                             if (hit.collider.transform.CompareTag("Player"))
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.red);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.red);
                                 _TargetPos = _Player.transform.position;
                                 _LastMoveTime = Time.time;
                                 
@@ -315,7 +316,7 @@ public class EnemyTank : MonoBehaviour
                             }
                             else if (!hit.collider.transform.CompareTag("Player"))
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
                             }
 
                         }
@@ -346,7 +347,7 @@ public class EnemyTank : MonoBehaviour
                         _LastMoveTime = Time.time;
                     }
 
-                    if (Physics.Raycast(transform.position, _Player.transform.position - transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))  // 找尋player
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))  // 找尋player
                     {
                         
                         if (hit.collider != null) 
@@ -354,7 +355,7 @@ public class EnemyTank : MonoBehaviour
                             
                             if (hit.collider.transform.CompareTag("Player")) // 找到player
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.red);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.red);
                                 LookPlayer();
                                 AttackAction();
 
@@ -369,7 +370,7 @@ public class EnemyTank : MonoBehaviour
                             }
                             else // 未找到player
                             {
-                                Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                                Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
                                 PatrolStat();
                                 _WantToMove = true;
                                 
@@ -381,7 +382,7 @@ public class EnemyTank : MonoBehaviour
                     }
                     else if (hit.collider == null ) // 未找到player
                     {
-                        Debug.DrawRay(transform.position, _Player.transform.position - transform.position, Color.white);
+                        Debug.DrawRay(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, Color.white);
 
                         PatrolStat();
                         _WantToMove = true;
@@ -457,6 +458,13 @@ public class EnemyTank : MonoBehaviour
     {
         if (BulletEnegy >= _ReloadTime)
         {
+
+            // 命中準確度修正  x : 3 ~ -3  | y : 2 ~ -2 
+
+            float x = Random.Range(-3, 4);
+            float y = Random.Range(-2, 3);
+            TargetPoint = new Vector3(TargetPoint.x + x , TargetPoint.y + y , TargetPoint.z);
+
             GameObject go = Instantiate(EnemyBullet,
                 Muzzle.transform.position + Muzzle.transform.forward * 10,
                 Quaternion.Euler(Muzzle.transform.eulerAngles.x, Muzzle.transform.eulerAngles.y, Muzzle.transform.eulerAngles.z)) as GameObject;
