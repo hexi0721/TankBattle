@@ -13,7 +13,7 @@ public class EnemyTank : MonoBehaviour
 {
     public float Hp;
     [HideInInspector] public float BulletEnegy;
-    float _accuracy;
+    
     public GameObject EnemyBullet; // 子彈物件
     float _ReloadTime;
 
@@ -54,9 +54,6 @@ public class EnemyTank : MonoBehaviour
     }
 
 
-    public float offset = 0.55f;
-    public Terrain terrain ;
-    
     private void Start()
     {
         _Player = GameObject.Find("PlayerTank").transform.GetChild(1).gameObject;
@@ -76,37 +73,17 @@ public class EnemyTank : MonoBehaviour
         _StandbyTime = 2f;
         _ReloadTime = 5f;
         _ResetTime = 30f;
-        _accuracy = 0.5f; // 不能為1
+        
         _WantToMove = true;
         _NetxFrameTime = 0.5f;
 
-        //terrain = GameObject.Find("MainTerrain").GetComponent<Terrain>();
+        
     }
 
     private void Update()
     {
         FacUnderAttack();
 
-        
-        RaycastHit thit;
-        if (Physics.Raycast(transform.position, Vector3.down, out thit, 1 << 13))
-        {
-            Debug.DrawLine(transform.position  , thit.point, Color.black);
-
-            //Get slope angle from the raycast hit normal then calcuate new pos of the object
-
-            if (thit.collider.CompareTag("Terrain"))
-            {
-                Quaternion newRot = Quaternion.FromToRotation(transform.up, thit.normal) * transform.rotation;
-
-                //transform.rotation = Quaternion.Lerp(transform.rotation, newRot, Time.deltaTime - 2f);
-                transform.rotation = newRot;
-
-                transform.position = new Vector3(transform.position.x, thit.collider.GetComponent<Terrain>().SampleHeight(transform.position) + offset, transform.position.z);
-            }
-
-        }
-        
     }
 
     private void FacUnderAttack()
@@ -160,7 +137,7 @@ public class EnemyTank : MonoBehaviour
                     else
                     {
                         
-                        if (transform.position.x == _TargetPos.x && transform.position.z == _TargetPos.z && _WantToMove == false) // 停止時刻
+                        if (transform.position.x >= _TargetPos.x - 1 && transform.position.x <= _TargetPos.x+1 && transform.position.z >= _TargetPos.z - 1 && transform.position.z <= _TargetPos.z + 1 && _WantToMove == false) // 停止時刻
                         {
                             
                             _Agent.enabled = false;
@@ -174,7 +151,7 @@ public class EnemyTank : MonoBehaviour
                                 _LastMoveTime = Time.time;
                                 _WantToMove = true;
                                 _TargetPos += new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-                                _ResetTime = 30f;
+                                _ResetTime = 15f;
                             }
 
                         }
@@ -199,7 +176,7 @@ public class EnemyTank : MonoBehaviour
 
                     
 
-                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
                         
                         if (hit.collider != null)
@@ -241,7 +218,7 @@ public class EnemyTank : MonoBehaviour
                         _Obstacle.enabled = true;
                     }
 
-                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
                         
                         if (hit.collider != null) // 沒有找到player
@@ -299,7 +276,7 @@ public class EnemyTank : MonoBehaviour
                     }
                     
 
-                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
                     {
                         if (hit.collider != null)
                         {
@@ -347,7 +324,7 @@ public class EnemyTank : MonoBehaviour
                         _LastMoveTime = Time.time;
                     }
 
-                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 70f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))  // 找尋player
+                    if (Physics.Raycast(Muzzle.transform.position, _Player.transform.position - Muzzle.transform.position, out hit, 100f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))  // 找尋player
                     {
                         
                         if (hit.collider != null) 
@@ -406,7 +383,7 @@ public class EnemyTank : MonoBehaviour
     {
         
         RaycastHit hit;
-        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit, 80f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
+        if (Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, out hit, 120f, 1 << 3 | 1 << 7 | 1 << 10 | 1 << 13))
         {
 
             if (hit.collider != null && hit.collider.CompareTag("Player"))
@@ -461,8 +438,8 @@ public class EnemyTank : MonoBehaviour
 
             // 命中準確度修正  x : 3 ~ -3  | y : 2 ~ -2 
 
-            float x = Random.Range(-3, 4);
-            float y = Random.Range(-2, 3);
+            float x = Random.Range(-3f, 4f);
+            float y = Random.Range(-2f, 3f);
             TargetPoint = new Vector3(TargetPoint.x + x , TargetPoint.y + y , TargetPoint.z);
 
             GameObject go = Instantiate(EnemyBullet,

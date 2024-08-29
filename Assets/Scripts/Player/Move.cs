@@ -5,17 +5,12 @@ using UnityEngine;
 public class Move : MonoBehaviour
 {
 
-    [SerializeField] float ph;
-
-    public float speed;
+    [SerializeField] float ph , speed;
+    [SerializeField] bool _canForward, _canBackward;
     public GameManage gameManage;
     public GameObject shell;
-    public GameObject trackTrigger1, trackTrigger2;
-
+    
     Rigidbody rb;
-
-    public float tmp;
-    [SerializeField] bool _canForward, _canBackward ;
 
     private void Start()
     {
@@ -25,17 +20,15 @@ public class Move : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-
-        RaycastHit hit; 
-        if(Physics.Raycast(shell.transform.position , shell.transform.forward , out hit, 4 ,  1 << 14 | 1 << 11 | 1 << 7))
+        RaycastHit hit;
+        if (Physics.Raycast(shell.transform.position, shell.transform.forward, out hit, 4, 1 << 14 | 1 << 11 | 1 << 7))
         {
-            if (hit.collider != null) 
+            if (hit.collider != null)
             {
                 _canForward = false;
             }
-            Debug.DrawRay(shell.transform.position , shell.transform.forward * 4f, Color.cyan );
         }
         else
         {
@@ -48,31 +41,26 @@ public class Move : MonoBehaviour
             {
                 _canBackward = false;
             }
-            Debug.DrawRay(shell.transform.position, -shell.transform.forward * 4f, Color.cyan);
         }
         else
         {
             _canBackward = true;
         }
+    }
 
+    private void FixedUpdate()
+    {
 
         if (!gameManage.IsOpenMenu)
         {
             speed = Mathf.Lerp(speed, 0, Time.fixedDeltaTime * 5f);
             
 
-            if (Input.GetKey(KeyCode.W) && _canForward)
+            if (Input.GetKey(KeyCode.W) && _canForward || Input.GetKey(KeyCode.S) && _canBackward)
             {
                 
                 speed += Input.GetAxis("Vertical");
                 
-            }
-
-
-            if (Input.GetKey(KeyCode.S) && _canBackward)
-            {
-                
-                speed += Input.GetAxis("Vertical");
             }
 
             speed = Mathf.Clamp(speed , -4f , 4f);

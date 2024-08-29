@@ -20,7 +20,7 @@ public class CameraController : MonoBehaviour
     GameManage gameManage;
     
     Vector3 _rotation;
-    public float CamSmoothFactor;
+    [SerializeField] float CamSmoothFactor;
     float _LookUpMin , _LookUpMax ;
 
     // ºË·Ç¹Ï¤ù
@@ -44,7 +44,7 @@ public class CameraController : MonoBehaviour
 
         _LookUpMin = -10 ;
         _LookUpMax = 6;
-        
+        CamSmoothFactor = 2f;
     }
 
 

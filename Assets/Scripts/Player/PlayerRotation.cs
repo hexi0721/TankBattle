@@ -22,6 +22,7 @@ public class PlayerRotation : MonoBehaviour
     Vector3 _rotation;
 
     public static Vector3 targetPoint; // Aim 中心點
+    public float tmp;
 
     private void Start()
     {
@@ -45,8 +46,8 @@ public class PlayerRotation : MonoBehaviour
         
         RaycastHit hit = Raycast();
 
-        // 添加muzzle 加 forward 碰撞到object時的錯誤
-        if (hit.collider != null)
+        
+        if (hit.collider != null && !Physics.Raycast(Muzzle.transform.position, Muzzle.transform.forward, 4.85f, ~(1 << 14)))
         {
             Debug.DrawRay(Muzzle.transform.position, hit.point - Muzzle.transform.position, Color.blue);
             targetPoint = hit.point;

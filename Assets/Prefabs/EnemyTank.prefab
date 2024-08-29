@@ -185,7 +185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9596c5c87f95578419fdd86b6285fc30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 4
+  Hp: 6
   BulletEnegy: 5
   EnemyBullet: {fileID: 2919987416683246573, guid: 3345924a02c1a974dbcbbbfee011b019, type: 3}
   Body: {fileID: 7628208035224881041}
@@ -200,8 +200,6 @@ MonoBehaviour:
   _StandbyTime: 0
   _ResetTime: 0
   _WantToMove: 0
-  offset: 0.59
-  terrain: {fileID: 0}
 --- !u!114 &-2847389962442484206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +244,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 5
-  m_BaseOffset: 0
+  m_BaseOffset: 0.7
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!208 &-676027510588801185
