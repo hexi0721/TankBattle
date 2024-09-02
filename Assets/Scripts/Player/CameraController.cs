@@ -1,14 +1,5 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using static Unity.Burst.Intrinsics.X86.Avx;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.InputSystem.Controls.AxisControl;
+using UnityEngine.UI;
 
 
 public class CameraController : MonoBehaviour
@@ -23,14 +14,16 @@ public class CameraController : MonoBehaviour
     [SerializeField] float CamSmoothFactor;
     float _LookUpMin , _LookUpMax ;
 
-    // ºË·Ç¹Ï¤ù
-    public GameObject MuzzleAimImage; // ·Ç¤ß
-    public GameObject AimImage; // ©ñ¤j¶Â¹õ
+    
+    public GameObject MuzzleAimImage; 
+    public GameObject AimImage; 
     public RectTransform AimC; // Aim canva
+    [SerializeField] Image _blackBg;
+
 
     Vector2 screenPos;
 
-    public Vector2 ScreenPos // µ¹PlayerRotation
+    public Vector2 ScreenPos 
     {
         get => screenPos;
 
@@ -39,6 +32,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         gameManage = GameObject.FindWithTag("GameManage").GetComponent<GameManage>();
+        _blackBg = GameObject.FindWithTag("BlackBg").GetComponent<Image>();
 
         _rotation = turret.transform.localEulerAngles;
 
@@ -54,9 +48,11 @@ public class CameraController : MonoBehaviour
         {
             transform.localPosition = new Vector3(transform.localPosition.x , 0 , transform.localPosition.z);
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y , -35f);
+            BlackBgFadeIn();
         }
         else
         {
+            BlackBgFadeOut();
             transform.position = turret.transform.position + turret.transform.up * 1.1f;
             switch (!PlayerSetting.Instance.animator.enabled)
             {
@@ -71,11 +67,11 @@ public class CameraController : MonoBehaviour
                     if (!gameManage.IsOpenMenu)
                     {
 
-                        // ¥@¬É®y¼ÐÂà´«µø¨¤®y¼Ð
+                        
                         screenPos = GetComponent<Camera>().WorldToViewportPoint(Muzzle.transform.position + Muzzle.transform.forward * 1000);
                         screenPos.y = 0.5f;
 
-                        if (Input.GetMouseButton(1)) // ¥kÁä©ñ¤j
+                        if (Input.GetMouseButton(1)) 
                         {
                             MuzzleAimImage.SetActive(true);
                             MuzzleAimImage.transform.localPosition = new Vector3((screenPos.x * AimC.rect.width) - AimC.rect.width / 2, ((screenPos.y * AimC.rect.height) - AimC.rect.height / 2), 0);
@@ -94,7 +90,7 @@ public class CameraController : MonoBehaviour
 
                         }
 
-                        // ·Æ¹«²¾°Ê®Éµe­±¸òµÛ²¾°Ê
+                        
                         _rotation.x += Input.GetAxis("Mouse Y") * CamSmoothFactor * (-1);
                         _rotation.y += Input.GetAxis("Mouse X") * CamSmoothFactor;
 
@@ -108,6 +104,20 @@ public class CameraController : MonoBehaviour
             }
         }
         
+    }
+
+    void BlackBgFadeOut()
+    {
+        // é–‹å ´æŠŠé»‘å¹•åŽ»æŽ‰
+        float BlackBgAlpha = _blackBg.color.a - (Time.deltaTime * 0.25f);
+        _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
+    }
+
+    void BlackBgFadeIn()
+    {
+        // æ­»äº¡é»‘å¹•
+        float BlackBgAlpha = _blackBg.color.a + (Time.deltaTime * 0.25f);
+        _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
     }
 
 }

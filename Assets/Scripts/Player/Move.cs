@@ -20,6 +20,7 @@ public class Move : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
+    
     private void Update()
     {
         RaycastHit hit;
