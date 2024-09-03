@@ -13126,6 +13126,8 @@ MonoBehaviour:
   MuzzleAimImage: {fileID: 3948031411364016132}
   AimImage: {fileID: 9197043785091653701}
   AimC: {fileID: 3959904539809068992}
+  _blackBg: {fileID: 0}
+  boolBlackBg: 0
 --- !u!224 &5544806323133759395
 RectTransform:
   m_ObjectHideFlags: 0

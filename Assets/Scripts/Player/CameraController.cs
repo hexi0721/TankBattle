@@ -1,3 +1,5 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,7 +21,8 @@ public class CameraController : MonoBehaviour
     public GameObject AimImage; 
     public RectTransform AimC; // Aim canva
     [SerializeField] Image _blackBg;
-
+    float BlackBgAlpha;
+    [SerializeField] bool boolBlackBg;
 
     Vector2 screenPos;
 
@@ -33,6 +36,8 @@ public class CameraController : MonoBehaviour
     {
         gameManage = GameObject.FindWithTag("GameManage").GetComponent<GameManage>();
         _blackBg = GameObject.FindWithTag("BlackBg").GetComponent<Image>();
+        BlackBgAlpha = _blackBg.color.a;
+        boolBlackBg = false;
 
         _rotation = turret.transform.localEulerAngles;
 
@@ -41,18 +46,28 @@ public class CameraController : MonoBehaviour
         CamSmoothFactor = 2f;
     }
 
+    private void Update()
+    {
+        BlackBgInOut(); // 黑幕
+
+        
+    }
+
+
 
     private void LateUpdate()
     {
         if(PlayerSetting.Instance.Hp <= 0)
         {
+            boolBlackBg = true;
             transform.localPosition = new Vector3(transform.localPosition.x , 0 , transform.localPosition.z);
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y , -35f);
-            BlackBgFadeIn();
+            
         }
         else
         {
-            BlackBgFadeOut();
+            boolBlackBg = false;
+
             transform.position = turret.transform.position + turret.transform.up * 1.1f;
             switch (!PlayerSetting.Instance.animator.enabled)
             {
@@ -103,20 +118,22 @@ public class CameraController : MonoBehaviour
                     break;
             }
         }
+
+        
         
     }
 
-    void BlackBgFadeOut()
+    private void BlackBgInOut()
     {
-        // 開場把黑幕去掉
-        float BlackBgAlpha = _blackBg.color.a - (Time.deltaTime * 0.25f);
-        _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
-    }
-
-    void BlackBgFadeIn()
-    {
-        // 死亡黑幕
-        float BlackBgAlpha = _blackBg.color.a + (Time.deltaTime * 0.25f);
+        if (boolBlackBg)
+        {
+            BlackBgAlpha += Time.deltaTime * 0.25f;
+        }
+        else
+        {
+            BlackBgAlpha -= Time.deltaTime * 0.25f;
+        }
+        BlackBgAlpha = Mathf.Clamp(BlackBgAlpha, 0f, 1f);
         _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
     }
 
