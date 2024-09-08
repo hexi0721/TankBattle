@@ -14,6 +14,7 @@ public class GameManage : MonoBehaviour
     //public RectTransform MapBG , MapCanvas; // 地圖bg , MapCanvas 
 
     [SerializeField] Image _blackBg;
+    float BlackBgAlpha;
 
     public GameObject SubMenu;
 
@@ -54,19 +55,17 @@ public class GameManage : MonoBehaviour
         */
         _PlayerTank = GameObject.FindWithTag("Player");
         _blackBg = GameObject.FindWithTag("BlackBg").GetComponent<Image>();
+        BlackBgAlpha = _blackBg.color.a;
 
         StackSettings._stack = new List<GameObject>();
     }
 
     private void Update()
     {
-
+        BlackBgInOut(); // 黑幕
 
         // TabKeyCode();
 
-
-        // BlackBgFadeOut();
-        
         EscKeyCode();
         
 
@@ -151,15 +150,25 @@ public class GameManage : MonoBehaviour
         }
     }
 
-
-    void BlackBgFadeOut()
+    private void BlackBgInOut()
     {
-        // 開場把黑幕去掉
-        float BlackBgAlpha = _blackBg.color.a - (Time.deltaTime * 0.25f);
+        if (CameraController.boolBlackBg)
+        {
+            BlackBgAlpha += Time.deltaTime * 0.25f;
+            if (BlackBgAlpha >= 1f)
+            {
+                SceneManager.LoadScene("Defeat");
+            }
+        }
+        else
+        {
+            BlackBgAlpha -= Time.deltaTime * 0.25f;
+        }
+        BlackBgAlpha = Mathf.Clamp(BlackBgAlpha, 0f, 1f);
         _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
-    }
 
-    
+        
+    }
 
     /*
     private void TabKeyCode()
@@ -191,5 +200,5 @@ public class GameManage : MonoBehaviour
         }
     }
     */
-    
+
 }

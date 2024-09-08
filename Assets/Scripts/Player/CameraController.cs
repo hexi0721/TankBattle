@@ -20,9 +20,9 @@ public class CameraController : MonoBehaviour
     public GameObject MuzzleAimImage; 
     public GameObject AimImage; 
     public RectTransform AimC; // Aim canva
-    [SerializeField] Image _blackBg;
-    float BlackBgAlpha;
-    [SerializeField] bool boolBlackBg;
+    
+    
+    [SerializeField] public static bool boolBlackBg;
 
     Vector2 screenPos;
 
@@ -35,8 +35,7 @@ public class CameraController : MonoBehaviour
     private void Start()
     {
         gameManage = GameObject.FindWithTag("GameManage").GetComponent<GameManage>();
-        _blackBg = GameObject.FindWithTag("BlackBg").GetComponent<Image>();
-        BlackBgAlpha = _blackBg.color.a;
+        
         boolBlackBg = false;
 
         _rotation = turret.transform.localEulerAngles;
@@ -46,19 +45,17 @@ public class CameraController : MonoBehaviour
         CamSmoothFactor = 2f;
     }
 
-    private void Update()
-    {
-        BlackBgInOut(); // 黑幕
-
-        
-    }
-
-
 
     private void LateUpdate()
     {
         if(PlayerSetting.Instance.Hp <= 0)
         {
+
+            MuzzleAimImage.SetActive(false);
+            AimImage.transform.localScale = Vector3.one * 8f;
+            GetComponent<Camera>().fieldOfView = 60f;
+
+
             boolBlackBg = true;
             transform.localPosition = new Vector3(transform.localPosition.x , 0 , transform.localPosition.z);
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y , -35f);
@@ -123,18 +120,6 @@ public class CameraController : MonoBehaviour
         
     }
 
-    private void BlackBgInOut()
-    {
-        if (boolBlackBg)
-        {
-            BlackBgAlpha += Time.deltaTime * 0.25f;
-        }
-        else
-        {
-            BlackBgAlpha -= Time.deltaTime * 0.25f;
-        }
-        BlackBgAlpha = Mathf.Clamp(BlackBgAlpha, 0f, 1f);
-        _blackBg.color = new Color(0, 0, 0, BlackBgAlpha);
-    }
+
 
 }
