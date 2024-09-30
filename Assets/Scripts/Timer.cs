@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour
     {
         _gameManage = GetComponent<GameManage>();
         Timer_txt = GameObject.FindWithTag("Timer").GetComponent<TMP_Text>();
-        _time = 300;
+        _time = 120;
         EnemyFactoryScript = GameObject.Find("EnemyFactory").GetComponent<EnemyFactory>();
     }
 

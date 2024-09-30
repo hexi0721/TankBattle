@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class EnemyFactory : MonoBehaviour
@@ -54,7 +55,7 @@ public class EnemyFactory : MonoBehaviour
         {
             FacHp.transform.parent.gameObject.SetActive(false);
             // Destroy(transform.parent.gameObject);
-            // ³Ó§Q
+            SceneManager.LoadScene("Story");
         }
     }
 

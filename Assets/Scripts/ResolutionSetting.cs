@@ -64,7 +64,12 @@ public class ResolutionSetting : MonoBehaviour
     void Get()
     {
         
-        resolutionDropdown.value = PlayerPrefs.GetInt("currentResolutionIndex");
-        resolutionDropdown.RefreshShownValue();
+        if(PlayerPrefs.HasKey("currentResolutionIndex"))
+        {
+            resolutionDropdown.value = PlayerPrefs.GetInt("currentResolutionIndex");
+            resolutionDropdown.RefreshShownValue();
+        }
+
+        
     }
 }

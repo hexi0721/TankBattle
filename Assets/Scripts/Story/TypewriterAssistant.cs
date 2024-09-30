@@ -10,6 +10,9 @@ public class TypewriterAssistant : MonoBehaviour
     private void Start()
     {
 
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
         // 普通版
         /* 
         Typewriter1.Add("與友軍順利突破包圍網後，你與小隊成員在原地稍作休整，不過根據出去偵查的成員回來匯報，於東方山脈上發現有座敵軍坦克工廠。\r\n\r\n", () => { Debug.Log("CallBack1"); });
