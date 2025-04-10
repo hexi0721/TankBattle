@@ -1,13 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.PlayerLoop;
-using static Unity.Burst.Intrinsics.X86.Avx;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.InputSystem.Controls.AxisControl;
-using static UnityEngine.UI.Image;
+
 
 public class EnemyTank : MonoBehaviour
 {
@@ -90,11 +83,6 @@ public class EnemyTank : MonoBehaviour
     {
         if (_EnemyFactoryScript.Hp < _EnemyFactoryScript.MaxHp)
         {
-
-            if (_Player != null)
-            {
-                _TargetPos = _Player.transform.position;
-            }
             _State = "FacUnderAttack";
         }
     }
@@ -304,6 +292,7 @@ public class EnemyTank : MonoBehaviour
 
                 case "FacUnderAttack": // 兵工廠遭受攻擊
 
+                    _TargetPos = _Player.transform.position;
                     _Agent.stoppingDistance = 70f;
 
                     if (_WantToMove)
@@ -435,11 +424,10 @@ public class EnemyTank : MonoBehaviour
     {
         if (BulletEnegy >= _ReloadTime)
         {
-
-            // 命中準確度修正  x : 3 ~ -3  | y : 2 ~ -2 
-
-            float x = Random.Range(-3f, 4f);
-            float y = Random.Range(-2f, 3f);
+            float xRange = 2f;
+            float yRange = 1f;
+            float x = Random.Range(-xRange, xRange);
+            float y = Random.Range(-yRange, yRange);
             TargetPoint = new Vector3(TargetPoint.x + x , TargetPoint.y + y , TargetPoint.z);
 
             GameObject go = Instantiate(EnemyBullet,

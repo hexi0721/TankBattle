@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.04424096, g: 0.043166738, b: 0.04119394, a: 1}
+  m_IndirectSpecularColor: {r: 0.04432384, g: 0.04324826, b: 0.041284505, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15558,7 +15558,7 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1152528868385096766}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 86ff4d29672c0814f8da6bb197a1d053, type: 2}
   m_CullingMode: 0
@@ -15759,12 +15759,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73039feed0998ae4f85e432aabfdacc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Hp: 10000
+  Hp: 100
   Hp2: 100
   BulletEnegy: 2.5
   HpImage: {fileID: 42967709375300239}
   HpImage2: {fileID: 9027898771965945375}
   BulletEnegyImage: {fileID: 4252620284409458528}
+  ShootFeedBack: {fileID: 3539768084309919971}
   _Ishit: 0
   animator: {fileID: 8797210031237370594}
   turret: {fileID: 9153511177871076727}

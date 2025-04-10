@@ -13,9 +13,10 @@ public class PlayerSetting : MonoBehaviour
 
     }
 
+    private float maxHp;
     public float Hp; // 玩家生命 綠色血條 讓GameController判斷0時結束遊戲
-    [HideInInspector] public float Hp2; // 紅色血條
-    [HideInInspector] public float BulletEnegy;
+    public float Hp2; // 紅色血條
+    public float BulletEnegy;
     bool _underAttack; // 被擊中
     float CounterTime; // 計算紅色血條何時動作
     float _FeedBackTime;
@@ -24,34 +25,26 @@ public class PlayerSetting : MonoBehaviour
     public Image HpImage2;
     public Image BulletEnegyImage;
     
-    Image ShootFeedBack;
+    [SerializeField] Image ShootFeedBack;
     public bool _Ishit; // 擊中敵人
 
-    public Animator animator; // 測試坦克功能可以disable
+    public Animator animator;
 
     public GameObject turret , shell;
 
     private void Start()
     {
-
-        Hp2 = 100f;
+        maxHp = 100f;
+        Hp = maxHp;
+        Hp2 = maxHp;
         _underAttack = false;
         _Ishit = false;
         CounterTime = 1.5f;
 
         _FeedBackTime = 0f;
-        ShootFeedBack = GameObject.FindWithTag("ShootFeedBack").GetComponent<Image>();
+        
         ShootFeedBack.color = new Color(ShootFeedBack.color.r, ShootFeedBack.color.g, ShootFeedBack.color.b, 0f);
-        
 
-        animator = GetComponent<Animator>();
-
-        
-        // 測試坦克功能可以disable
-        //animator.enabled = true;
-        //transform.position = new Vector3(126.49f, 40.597f , 319.73f);
-        //
-        
     }
 
     private void Awake()
@@ -65,7 +58,9 @@ public class PlayerSetting : MonoBehaviour
         
         BulletEnegyImage.fillAmount = BulletEnegy / 2.5f;
         HpImage.fillAmount = Hp / 100f;
-        
+
+        float healAmount = 0.1f * Time.deltaTime; // 每次補血的量
+        Heal(healAmount);
 
         if (Hp <= 0)
         {
@@ -107,14 +102,20 @@ public class PlayerSetting : MonoBehaviour
 
             if (Hp2 <= Hp)
             {
+                Hp2 = Hp;
                 _underAttack = false;
             }
-            else if (CounterTime <= 0 && Hp2 > Hp)
+            else if (CounterTime <= 0)
             {
-                Hp2 -= 1;
+                float decreaseSpeed = 4f;
+                Hp2 -= decreaseSpeed * Time.deltaTime;
                 HpImage2.fillAmount = Hp2 / 100;
             }
 
+        }
+        else
+        {
+            Hp2 = Hp;
         }
     }
 
@@ -131,14 +132,27 @@ public class PlayerSetting : MonoBehaviour
         if (collision.gameObject.CompareTag("EnemyBullet"))
         {
 
-            Hp -= Random.Range(5, 10);
+            Hp -= Random.Range(1, 5);
             _underAttack = true;
             CounterTime = 1.5f;
 
         }
     }
 
+    private void Heal(float healAmount)
+    {
+        int hpMax = 100;
 
-    // 新增補血功能 (特效)
+        if(Hp >= hpMax)
+        {
+            Hp = 100f;
+        }
+        else
+        {
+            Hp += healAmount;
+        }
+
+            
+    }
 
 }

@@ -1,12 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UIElements;
-using static UnityEngine.GraphicsBuffer;
-using static UnityEngine.InputSystem.Controls.AxisControl;
+
 
 public class PlayerRotation : MonoBehaviour
 {
@@ -22,7 +15,6 @@ public class PlayerRotation : MonoBehaviour
     Vector3 _rotation;
 
     public static Vector3 targetPoint; // Aim ¤¤¤ßÂI
-    public float tmp;
 
     private void Start()
     {

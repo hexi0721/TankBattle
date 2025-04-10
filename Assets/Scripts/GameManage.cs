@@ -111,10 +111,6 @@ public class GameManage : MonoBehaviour
             PlayerSetting.Instance.HpImage2.fillAmount = PlayerSetting.Instance.Hp2 / 100;
         }
 
-        
-
-        
-        
 
     }
 
